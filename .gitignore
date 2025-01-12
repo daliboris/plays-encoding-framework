@@ -1,0 +1,13 @@
+
+# directories with temporary files
+_debug
+_temp
+
+# editor settings and directories
+.vscode
+.vs
+*.code-workspace
+
+# local files with local settings
+*local*
+			
