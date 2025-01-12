@@ -1,0 +1,9 @@
+[submodule "src/includes/xdoc-xpl-lib"]
+	path = src/includes/xdoc-xpl-lib
+	url = git@github.com:daliboris/xdoc-xpl-lib.git
+[submodule "src/includes/docx-xpc-lib"]
+	path = src/includes/docx-xpc-lib
+	url = git@github.com:daliboris/docx-xpc-lib.git
+[submodule "src/includes/log-xpc-lib"]
+	path = src/includes/log-xpc-lib
+	url = git@github.com:daliboris/log-xpc-lib.git
