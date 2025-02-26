@@ -75,7 +75,7 @@ _temp
 </p:if>
 		
 	</p:declare-step>
-
+	
 	<!-- STEP -->
 	<p:declare-step type="xps:download-morgana">
 		<p:input port="source" sequence="true">
@@ -85,7 +85,7 @@ _temp
 		<!-- VARIABLES -->
 		<p:variable name="version" select="'1.5'" />
 		<p:variable name="file-name" select="'MorganaXProc-IIIse-' || $version || '.zip'" />		
-<!--		<p:variable name="file-name" select="'winmerge-2.16.38-x64-exe' || '.zip'" />		-->
+		<!--		<p:variable name="file-name" select="'winmerge-2.16.38-x64-exe' || '.zip'" />		-->
 		
 		<p:file-info href="../morgana/{$file-name}" fail-on-error="false" />
 		<p:variable name="file-exists" select="exists(/c:file)"  />
@@ -96,16 +96,49 @@ _temp
 		</p:if>
 		
 		<p:load href="../morgana/{$file-name}" />
-<!--		<p:archive-manifest message="{$file-name}: {p:document-property(/, 'content-type')}"/>-->
+		<!--		<p:archive-manifest message="{$file-name}: {p:document-property(/, 'content-type')}"/>-->
 		
 		<p:unarchive relative-to="{p:document-property(/, 'base-uri')}" exclude-filter="^__MACOSX/" message="MorganaXProc-IIIse-{$version}.zip: {p:document-property(/, 'content-type')}" />
 		<p:for-each>
 			<p:store href="{p:document-property(/, 'base-uri')}" />
 		</p:for-each>
-
+		
 		<p:sink />
-
+		
 		<p:directory-list path="../morgana" max-depth="unbounded" />
+	</p:declare-step>
+	
+	
+	<!-- STEP -->
+	<p:declare-step type="xps:download-saxon">
+		<p:input port="source" sequence="true">
+			<p:empty />
+		</p:input>
+		<p:output port="result" sequence="true" />
+		<!-- VARIABLES -->
+		
+		<p:variable name="version" select="'12-5'" />
+		<p:variable name="file-name" select="'SaxonHE' || $version || 'J.zip'" />		
+		
+		<p:file-info href="../_temp/saxon/{$file-name}" fail-on-error="false" />
+		<p:variable name="file-exists" select="exists(/c:file)"  />
+		
+		<p:if test="not($file-exists)" message="File {$file-name} exists: {$file-exists}">
+			<p:http-request href="https://github.com/Saxonica/Saxon-HE/releases/download/SaxonHE{$version}/{$file-name}" message="Downloading SaxonHE" />
+			<p:store href="..//_temp/saxon/{$file-name}" />			
+		</p:if>
+		
+		<p:load href="..//_temp/saxon/{$file-name}" />
+		<!--		<p:archive-manifest message="{$file-name}: {p:document-property(/, 'content-type')}"/>-->
+		
+		<p:unarchive relative-to="{p:document-property(/, 'base-uri')}" message="{$file-name}: {p:document-property(/, 'content-type')}" />
+		<p:for-each>
+			<p:store href="{p:document-property(/, 'base-uri')}" />
+		</p:for-each>
+		
+		<p:sink />
+		
+		<p:directory-list path="../_temp/saxon" max-depth="unbounded" />
 	</p:declare-step>
 
 	<!-- VARIABLES -->
@@ -121,7 +154,7 @@ _temp
 	<xps:download-morgana />
 	<p:directory-list path="../" max-depth="unbounded" />
 -->
-
+	<xps:download-saxon />
 
 	
 	
