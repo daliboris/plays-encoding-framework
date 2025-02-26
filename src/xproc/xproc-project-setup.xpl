@@ -50,7 +50,6 @@
 	</p:declare-step>
 
 	<!-- STEP -->
-	
 	<p:declare-step type="xps:create-gitignore">
 	<p:file-info href="../../.gitignore" fail-on-error="false" />
 	<p:variable name="file-exists" select="exists(/c:file)"  />
@@ -77,6 +76,38 @@ _temp
 		
 	</p:declare-step>
 
+	<!-- STEP -->
+	<p:declare-step type="xps:download-morgana">
+		<p:input port="source" sequence="true">
+			<p:empty />
+		</p:input>
+		<p:output port="result" sequence="true" />
+		<!-- VARIABLES -->
+		<p:variable name="version" select="'1.5'" />
+		<p:variable name="file-name" select="'MorganaXProc-IIIse-' || $version || '.zip'" />		
+<!--		<p:variable name="file-name" select="'winmerge-2.16.38-x64-exe' || '.zip'" />		-->
+		
+		<p:file-info href="../morgana/{$file-name}" fail-on-error="false" />
+		<p:variable name="file-exists" select="exists(/c:file)"  />
+		
+		<p:if test="not($file-exists)" message="File {$file-name} exists: {$file-exists}">
+			<p:http-request href="https://sourceforge.net/projects/morganaxproc-iiise/files/MorganaXProc-IIIse-{$version}/{$file-name}/download" message="Downloading Morgana IIIse" />
+			<p:store href="../morgana/{$file-name}" />			
+		</p:if>
+		
+		<p:load href="../morgana/{$file-name}" />
+<!--		<p:archive-manifest message="{$file-name}: {p:document-property(/, 'content-type')}"/>-->
+		
+		<p:unarchive relative-to="{p:document-property(/, 'base-uri')}" exclude-filter="^__MACOSX/" message="MorganaXProc-IIIse-{$version}.zip: {p:document-property(/, 'content-type')}" />
+		<p:for-each>
+			<p:store href="{p:document-property(/, 'base-uri')}" />
+		</p:for-each>
+
+		<p:sink />
+
+		<p:directory-list path="../morgana" max-depth="unbounded" />
+	</p:declare-step>
+
 	<!-- VARIABLES -->
 	<p:variable name="debug" select="$debug-path || '' ne ''" />
 	<p:variable name="debug-path-uri" select="resolve-uri($debug-path, $base-uri)" />
@@ -84,11 +115,15 @@ _temp
 
 	<!-- PIPELINE BODY -->
 	
-
+<!-- 
 	<xps:create-directories />
 	<xps:create-gitignore />
-	
+	<xps:download-morgana />
 	<p:directory-list path="../" max-depth="unbounded" />
+-->
+
+
+	
 	
 
 </p:declare-step>
