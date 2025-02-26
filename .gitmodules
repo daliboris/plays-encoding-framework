@@ -1,6 +1,6 @@
-[submodule "src/includes/xdoc-xpl-lib"]
-	path = src/includes/xdoc-xpl-lib
-	url = git@github.com:daliboris/xdoc-xpl-lib.git
+[submodule "src/includes/xdoc-xpc-lib"]
+	path = src/includes/xdoc-xpc-lib
+	url = git@github.com:daliboris/xdoc-xpc-lib.git
 [submodule "src/includes/docx-xpc-lib"]
 	path = src/includes/docx-xpc-lib
 	url = git@github.com:daliboris/docx-xpc-lib.git
