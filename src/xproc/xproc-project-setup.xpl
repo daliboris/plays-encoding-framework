@@ -125,10 +125,10 @@ _temp
 		
 		<p:if test="not($file-exists)" message="File {$file-name} exists: {$file-exists}">
 			<p:http-request href="https://github.com/Saxonica/Saxon-HE/releases/download/SaxonHE{$version}/{$file-name}" message="Downloading SaxonHE" />
-			<p:store href="..//_temp/saxon/{$file-name}" />			
+			<p:store href="../_temp/saxon/{$file-name}" />			
 		</p:if>
 		
-		<p:load href="..//_temp/saxon/{$file-name}" />
+		<p:load href="../_temp/saxon/{$file-name}" />
 		<!--		<p:archive-manifest message="{$file-name}: {p:document-property(/, 'content-type')}"/>-->
 		
 		<p:unarchive relative-to="{p:document-property(/, 'base-uri')}" message="{$file-name}: {p:document-property(/, 'content-type')}" />
@@ -139,6 +139,43 @@ _temp
 		<p:sink />
 		
 		<p:directory-list path="../_temp/saxon" max-depth="unbounded" />
+	</p:declare-step>
+
+	
+	<!-- STEP -->
+	<p:declare-step type="xps:download-schemas">
+
+		<!-- OUTPUT PORTS -->
+		<p:output port="result" sequence="true" />
+		
+		<xps:download-file file-name="dracor-schema-v1.0.0-beta.4.rng" url="https://github.com/dracor-org/dracor-schema/releases/download/v1.0.0-beta.4/dracor-schema-v1.0.0-beta.4.rng" target-directory="../schema/rng" />
+		<xps:download-file file-name="dracor-schema-v1.0.0-beta.4.sch" url="https://github.com/dracor-org/dracor-schema/releases/download/v1.0.0-beta.4/dracor-schema-v1.0.0-beta.4.sch" target-directory="../schema/schematron" />
+		<p:directory-list path="../schema" max-depth="unbounded" />
+	</p:declare-step>
+
+	<!-- STEP -->
+	<p:declare-step type="xps:download-file" visibility="private">
+		<p:input port="source" sequence="true">
+			<p:empty />
+		</p:input>
+		
+		<!-- OUTPUT PORTS -->
+		<p:output port="result" sequence="true" />
+		
+		<!-- OPTIONS -->		
+		<p:option name="file-name" as="xs:string" />
+		<p:option name="url" as="xs:anyURI" />
+		<p:option name="target-directory" as="xs:string" />
+
+		<p:file-info href="{$target-directory}/{$file-name}" fail-on-error="false" />
+		<p:variable name="file-exists" select="exists(/c:file)"  />
+		
+		<p:if test="not($file-exists)" message="File {$file-name} exists: {$file-exists}">
+			<p:http-request href="{$url}" message="Downloading {$file-name}" />
+			<p:store href="{$target-directory}/{$file-name}" />			
+		</p:if>
+		
+		
 	</p:declare-step>
 
 	<!-- VARIABLES -->
@@ -152,9 +189,10 @@ _temp
 	<xps:create-directories />
 	<xps:create-gitignore />
 	<xps:download-morgana />
+	<xps:download-saxon />
 	<p:directory-list path="../" max-depth="unbounded" />
 -->
-	<xps:download-saxon />
+	<xps:download-schemas />
 
 	
 	
