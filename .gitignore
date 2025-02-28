@@ -3,6 +3,12 @@
 _debug
 _temp
 
+# directories with generated files
+output
+
+# directories with input files
+input
+
 # editor settings and directories
 .vscode
 .vs
