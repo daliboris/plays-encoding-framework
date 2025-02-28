@@ -7,3 +7,6 @@
 [submodule "src/includes/log-xpc-lib"]
 	path = src/includes/log-xpc-lib
 	url = git@github.com:daliboris/log-xpc-lib.git
+[submodule "src/includes/file-system-xpc-lib"]
+	path = src/includes/file-system-xpc-lib
+	url = git@github.com:daliboris/file-system-xpc-lib.git
