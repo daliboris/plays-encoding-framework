@@ -147,6 +147,49 @@ _temp
 		<p:directory-list path="../_temp/saxon" max-depth="unbounded" />
 	</p:declare-step>
 
+	<!-- STEP -->
+	<p:declare-step type="xps:download-schemas">
+		
+		<!-- OUTPUT PORTS -->
+		<p:output port="result" sequence="true" />
+		
+		<xps:download-file file-name="dracor-schema-v1.0.0-beta.4.rng" url="https://github.com/dracor-org/dracor-schema/releases/download/v1.0.0-beta.4/dracor-schema-v1.0.0-beta.4.rng" target-directory="../schema/rng" />
+		<xps:download-file file-name="dracor-schema-v1.0.0-beta.4.sch" url="https://github.com/dracor-org/dracor-schema/releases/download/v1.0.0-beta.4/dracor-schema-v1.0.0-beta.4.sch" target-directory="../schema/schematron" />
+		<xps:download-file file-name="dracor-schema-v1.0.0-beta.4.sch" url="https://github.com/dracor-org/dracor-schema/releases/download/v1.0.0-beta.4/dracor-schema-v1.0.0-beta.4.sch" target-directory="../schema/schematron" />
+		<xps:download-file file-name="hub.rng" url="https://raw.githubusercontent.com/le-tex/Hub/refs/heads/master/hub.rng" target-directory="../schema/rng" />
+		<xps:download-file file-name="cssa-publisher-extensions.rng" url="https://raw.githubusercontent.com/le-tex/CSSa/6ea9e14d9ffe551f7bbdd8fe1e9db5830e28f85e/cssa-publisher-extensions.rng" target-directory="../schema/rng/css" />
+		<xps:download-file file-name="cssa-rules.rng" url="https://raw.githubusercontent.com/le-tex/CSSa/6ea9e14d9ffe551f7bbdd8fe1e9db5830e28f85e/cssa-rules.rng" target-directory="../schema/rng/css" />
+		<xps:download-file file-name="css.rng" url="https://raw.githubusercontent.com/le-tex/CSSa/6ea9e14d9ffe551f7bbdd8fe1e9db5830e28f85e/css.rng" target-directory="../schema/rng/css" />
+		<xps:download-file file-name="docbook.rng" url="https://raw.githubusercontent.com/le-tex/Hub/refs/heads/master/dbk/docbook.rng" target-directory="../schema/rng/dbk" />
+		<p:directory-list path="../schema" max-depth="unbounded" />
+	</p:declare-step>
+	
+	<!-- STEP -->
+	<p:declare-step type="xps:download-file" visibility="private">
+		<p:input port="source" sequence="true">
+			<p:empty />
+		</p:input>
+		
+		<!-- OUTPUT PORTS -->
+		<p:output port="result" sequence="true" />
+		
+		<!-- OPTIONS -->		
+		<p:option name="file-name" as="xs:string" />
+		<p:option name="url" as="xs:anyURI" />
+		<p:option name="target-directory" as="xs:string" />
+		
+		<p:file-info href="{$target-directory}/{$file-name}" fail-on-error="false" />
+		<p:variable name="file-exists" select="exists(/c:file)"  />
+		
+		<p:if test="not($file-exists)" message="File {$file-name} exists: {$file-exists}">
+			<p:http-request href="{$url}" message="Downloading {$file-name}" />
+			<p:store href="{$target-directory}/{$file-name}" />			
+		</p:if>
+		
+		
+	</p:declare-step>
+	
+
 	<!-- VARIABLES -->
 	<p:variable name="debug" select="$debug-path || '' ne ''" />
 	<p:variable name="debug-path-uri" select="resolve-uri($debug-path, $base-uri)" />
@@ -161,8 +204,8 @@ _temp
 	<xps:download-saxon />
 	<p:directory-list path="../" max-depth="unbounded" />
 -->
-	<xps:create-directories />
-	<p:directory-list path="../" max-depth="unbounded" />
+	<xps:download-schemas />
+	<!--<p:directory-list path="../" max-depth="unbounded" />-->
 	
 	
 	
