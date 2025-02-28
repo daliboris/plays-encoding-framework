@@ -309,6 +309,7 @@
   <p:option name="debug-path" select="()" as="xs:string?" />
   <p:option name="base-uri" as="xs:anyURI" select="static-base-uri()"/>
   <p:option name="data-file-path" as="xs:string?" />
+  <p:option name="input-directory-path" as="xs:string?" />
   <p:option name="output-directory-path" as="xs:string?" />
   
   <!-- VARIABLES -->
