@@ -23,9 +23,10 @@
  <p:output port="result" primary="true" />
  
  <!-- OPTIONS -->
+<!-- <p:option name="debug-path" select="()" as="xs:string?" />-->
  <p:option name="debug-path" select="'../_debug'" as="xs:string?" />
  <p:option name="base-uri" as="xs:anyURI" select="static-base-uri()"/>
- <p:option name="data-file-path" as="xs:string?" select="'../data/angelus-02-data.xml'" />
+ <p:option name="data-file-path" as="xs:string?" select="'../data/local.angelus-02-data.xml'" />
  <p:option name="output-directory-path" as="xs:string?" select="'../output'" />
  <p:option name="output-file-name" as="xs:string?" select="'angelus'"  />
  
@@ -80,15 +81,14 @@
   </xevt:tei-to-evt>
   <xevt:validate-hierarchies 
     output-directory-path="{$output-directory-path}/validation"
-    output-file-name="{$output-file-name}"
+    output-file-name="{$output-file-name}.html"
     debug-path="{$debug-path}" 
     base-uri="{$base-uri}">
    <p:with-input pipe="@tei" />
   </xevt:validate-hierarchies>
   
-  <xevt:zip output-directory-path="{$data-file-path}" debug-path="{$debug-path}" base-uri="{$base-uri}">
-   <p:with-input pipe="@tei" />
-  </xevt:zip>
+  <xevt:zip input-directory-path="{$output-directory-path}/evt" output-directory-path="{$output-directory-path}/zip" debug-path="{$debug-path}" base-uri="{$base-uri}" />
+  
  
  
  </p:declare-step>
