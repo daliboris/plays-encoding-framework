@@ -28,6 +28,11 @@
 		<p:file-mkdir href="../../doc" />
 		<p:file-mkdir href="../../run" />
 		
+		<p:file-mkdir href="../../input/text/docx" />
+		<p:file-mkdir href="../../input/text/hub" />
+		<p:file-mkdir href="../../input/text/tei" />
+		<p:file-mkdir href="../../output" />
+		
 		
 		<p:file-mkdir href="../_debug" />
 		<p:file-mkdir href="../_temp" />
@@ -42,6 +47,7 @@
 		
 		<p:file-mkdir href="../input/text/docx" />
 		<p:file-mkdir href="../input/text/xml" />
+		<p:file-mkdir href="../input/text/hub" />
 		<p:file-mkdir href="../output/text/tei" />
 		
 		<p:file-mkdir href="../xslt" />
@@ -152,10 +158,12 @@ _temp
 	<xps:create-directories />
 	<xps:create-gitignore />
 	<xps:download-morgana />
+	<xps:download-saxon />
 	<p:directory-list path="../" max-depth="unbounded" />
 -->
-	<xps:download-saxon />
-
+	<xps:create-directories />
+	<p:directory-list path="../" max-depth="unbounded" />
+	
 	
 	
 
