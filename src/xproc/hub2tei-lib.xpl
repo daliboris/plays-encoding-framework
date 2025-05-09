@@ -17,10 +17,8 @@
  
  <p:import href="../includes/file-system-xpc-lib/src/xproc/file-system-xpc-lib.xpl" />
  <p:import href="../includes/log-xpc-lib/src/xproc/log-xpc-lib.xpl" />
- <p:import href="pef-xpc-lib-base.xpl" />
- <p:import href="evt-play-lib.xpl" />
  <p:import href="tei-play-lib.xpl" />
- <!--<p:import href="common-lib.xpl" />-->
+
  
  <p:documentation>
   <xhtml:section>
@@ -29,7 +27,8 @@
   </xhtml:section>
  </p:documentation>
  
- <p:declare-step type="xh2t:input-processing" name="input-rocessing">
+ <!-- STEP -->
+ <p:declare-step type="xh2t:input-processing" name="input-processing">
   <p:documentation>
    <xhtml:section>
     <xhtml:h2></xhtml:h2>
@@ -96,7 +95,15 @@
   
  </p:declare-step>
  
+ <!-- STEP -->
  <p:declare-step type="xh2t:tei-conversion" name="tei-conversion">
+  
+  <p:documentation>
+   <xhtml:section>
+    <xhtml:h2></xhtml:h2>
+    <xhtml:p></xhtml:p>
+   </xhtml:section>
+  </p:documentation>
   
   <!-- INPUT PORTS -->
   <p:input  port="source" primary="true" />
@@ -382,7 +389,15 @@
     
  </p:declare-step>
  
+ <!-- STEP -->
  <p:declare-step type="xh2t:section-to-tei" name="section-to-tei">
+  
+  <p:documentation>
+   <xhtml:section>
+    <xhtml:h2></xhtml:h2>
+    <xhtml:p></xhtml:p>
+   </xhtml:section>
+  </p:documentation>
   
   <!-- INPUT PORTS -->
   <p:input  port="source" primary="true" />
