@@ -2,8 +2,7 @@
  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
  xmlns:xh2t="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/hub2tei"
  xmlns:xpef="https://www.daliboris.cz/ns/xproc/plays-encoding-framework"
- xmlns:xevt="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/evt"
- xmlns:xdc="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/dracor"
+ xmlns:xtei="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/tei"
  xmlns:xpl="https://www.daliboris.cz/ns/xproc/pipeline"
  xmlns:xlog="https://www.daliboris.cz/ns/xproc/logging/1.0"
  xmlns:xhtml="http://www.w3.org/1999/xhtml"
@@ -12,8 +11,6 @@
  <p:import href="../src/includes/log-xpc-lib/src/xproc/log-xpc-lib.xpl" />
  <p:import href="../src/xproc/pef-xpc-lib-base.xpl" />
  <p:import href="../src/xproc/hub2tei-lib.xpl" />
- <p:import href="../src/xproc/evt-play-lib.xpl" />
- <p:import href="../src/xproc/dracor-lib.xpl" />
  
  <!-- INPUT PORTS -->
  <p:input  port="source" primary="true" href="../input/text/hub/local.nepomuk-02.xml" />
@@ -66,30 +63,11 @@
   
   <!-- PIPELINE BODY -->
   <xh2t:input-processing data-file-path="{$data-file-path}"  debug-path="{$debug-path}" base-uri="{$base-uri}" />
-  <xh2t:tei-conversion data-file-path="{$data-file-path}" debug-path="{$debug-path}" base-uri="{$base-uri}" name="tei" />
-  
-  <xdc:tei-to-dracor data-file-path="{$data-file-path}" debug-path="{$debug-path}" base-uri="{$base-uri}">
-   <p:with-input pipe="@tei" />
-  </xdc:tei-to-dracor>
-  
-  <xevt:tei-to-evt 
-    output-directory-path="{$output-directory-path}/evt" 
-    data-file-path="{$data-file-path}" 
-    debug-path="{$debug-path}" 
-    base-uri="{$base-uri}" name="evt">
-   <p:with-input pipe="@tei" />
-  </xevt:tei-to-evt>
-  <xevt:validate-hierarchies 
-    output-directory-path="{$output-directory-path}/validation"
-    output-file-name="{$output-file-name}.html"
-    debug-path="{$debug-path}" 
-    base-uri="{$base-uri}">
-   <p:with-input pipe="@tei" />
-  </xevt:validate-hierarchies>
-  
-  <xevt:zip input-directory-path="{$output-directory-path}/evt" output-directory-path="{$output-directory-path}/zip" debug-path="{$debug-path}" base-uri="{$base-uri}" />
-  
- 
+  <xh2t:tei-conversion data-file-path="{$data-file-path}" debug-path="{$debug-path}" base-uri="{$base-uri}" />
+  <xtei:postprocessing data-file-path="{$data-file-path}" 
+   output-directory-path="{$output-directory-path}"
+   output-file-name="{$output-file-name}"
+   debug-path="{$debug-path}" base-uri="{$base-uri}" />
  
  </p:declare-step>
  
