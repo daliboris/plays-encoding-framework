@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<teiCorpus xmlns="http://www.tei-c.org/ns/1.0">
+   <teiHeader>
+      <fileDesc>
+         <titleStmt>
+            <title>Corpus of teiHeaders for Neo-Latin Drama Corpus</title>
+         </titleStmt>
+         <publicationStmt>
+            <p>Publication Information</p>
+         </publicationStmt>
+         <sourceDesc>
+            <p>Information about the source</p>
+         </sourceDesc>
+      </fileDesc>
+   </teiHeader>
+   <TEI xml:id="rochotius-comoedia">
+      <teiHeader>
+         <fileDesc>
+            <titleStmt>
+               <title>Josephiados comoedia</title>
+               <author>
+                  <ref type="GND"
+                     target="http://d-nb.info/gnd/115362835">Rochotius, Andreas</ref>
+               </author>
+            </titleStmt>
+            <editionStmt>
+               <edition>Elektronická edice</edition>
+               <respStmt>
+                  <resp>Editor:</resp>
+                  <name xml:id="Majda">Magdaléna Jacková</name>
+               </respStmt>
+               <respStmt>
+                  <resp>Kódování TEI:</resp>
+                  <name>Jana Synovcová Borovičková</name>
+                  <name>Boris Lehečka</name>
+               </respStmt>
+               <funder>Edice vznikla v rámci projektu GAČR č. 22-03909S <hi rend="italic">Latin Biblical Drama in Czech Lands (16th cetntury)</hi>
+               </funder>
+            </editionStmt>
+            <publicationStmt>
+               <publisher>
+                  <ref target="https://ucl.cas.cz/">Ústav pro českou literaturu Akademie věd České republiky, v. v. i.</ref>
+               </publisher>
+               <publisher>
+                  <ref target="https://hiu.cas.cz/">Historický ústav Akademie věd České republiky, v. v. i.</ref>
+               </publisher>
+               <pubPlace>Praha</pubPlace>
+               <date>2024</date>
+               <availability status="free">
+                  <licence>
+                     <ab>CC BY-NC-SA 4.0</ab>
+                     <ref target="https://creativecommons.org/licenses/by-nc-sa/4.0/">License</ref>
+                  </licence>
+               </availability>
+            </publicationStmt>
+            <sourceDesc>
+               <bibl type="digitalSource">
+                  <name>Theatrum Neolatinum Repository</name>
+                  <idno type="URL">http://theatrum-neolatinum.cz/</idno>
+                  <availability status="free">
+                     <licence>
+                        <ab>CC BY-NC-SA 4.0</ab>
+                        <ref target="https://creativecommons.org/licenses/by-nc-sa/4.0/">License</ref>
+                     </licence>
+                  </availability>
+               </bibl>
+               <listPerson>
+                  <head>List of persons</head>
+                  <person></person>
+               </listPerson>
+               <listWit>
+                  <witness xml:id="IC">
+                  </witness>
+               </listWit>
+            </sourceDesc>
+         </fileDesc>
+         <profileDesc>
+            <textClass>
+               <keywords scheme="http://textgrid.info/namespaces/metadata/core/2010#genre">
+                  <term>drama</term>
+               </keywords>
+            </textClass>
+         </profileDesc>
+      </teiHeader>
+      <text>
+         <body>
+            <div>
+               <p><!-- ... --></p>
+            </div>
+         </body>
+      </text>
+   </TEI>
+   <TEI xml:id="rochotius-gedeon">
+      <teiHeader>
+         <fileDesc>
+            <titleStmt>
+               <title>Gedeon comaedia nova</title>
+               <author>
+                  <ref type="GND"
+                     target="http://d-nb.info/gnd/115362835">Rochotius, Andreas</ref>
+               </author>
+            </titleStmt>
+            <editionStmt>
+               <edition>Elektronická edice</edition>
+               <respStmt>
+                  <resp>Editor:</resp>
+                  <name xml:id="Majda">Magdaléna Jacková</name>
+               </respStmt>
+               <respStmt>
+                  <resp>Kódování TEI:</resp>
+                  <name>Jana Synovcová Borovičková</name>
+                  <name>Boris Lehečka</name>
+               </respStmt>
+               <funder>Edice vznikla v rámci projektu GAČR č. 22-03909S <hi rend="italic">Latin Biblical Drama in Czech Lands (16th cetntury)</hi>
+               </funder>
+            </editionStmt>
+            <publicationStmt>
+               <publisher>
+                  <ref target="https://ucl.cas.cz/">Ústav pro českou literaturu Akademie věd České republiky, v. v. i.</ref>
+               </publisher>
+               <publisher>
+                  <ref target="https://hiu.cas.cz/">Historický ústav Akademie věd České republiky, v. v. i.</ref>
+               </publisher>
+               <pubPlace>Praha</pubPlace>
+               <date>2024</date>
+               <availability status="free">
+                  <licence>
+                     <ab>CC BY-NC-SA 4.0</ab>
+                     <ref target="https://creativecommons.org/licenses/by-nc-sa/4.0/">License</ref>
+                  </licence>
+               </availability>
+            </publicationStmt>
+            <sourceDesc>
+               <bibl type="digitalSource">
+                  <name>Theatrum Neolatinum Repository</name>
+                  <idno type="URL">http://theatrum-neolatinum.cz/</idno>
+                  <availability status="free">
+                     <licence>
+                        <ab>CC BY-NC-SA 4.0</ab>
+                        <ref target="https://creativecommons.org/licenses/by-nc-sa/4.0/">License</ref>
+                     </licence>
+                  </availability>
+               </bibl>
+               <listPerson>
+                  <head>List of persons</head>
+                  <person></person>
+               </listPerson>
+               <listWit>
+                  <witness xml:id="IC">
+                  </witness>
+               </listWit>
+            </sourceDesc>
+         </fileDesc>
+         <profileDesc>
+            <textClass>
+               <keywords scheme="http://textgrid.info/namespaces/metadata/core/2010#genre">
+                  <term>drama</term>
+               </keywords>
+            </textClass>
+         </profileDesc>
+      </teiHeader>
+      <text>
+         <body>
+            <div>
+               <p><!-- ... --></p>
+            </div>
+         </body>
+      </text>
+   </TEI>
+   <!-- More TEI Documents -->
+</teiCorpus>

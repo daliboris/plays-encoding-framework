@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xpefjt:job-ticket xmlns:xpefjt="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/job-ticket">
+ <!-- rochotius-comoedia-xml-to-tei.xsl + rochotius-xml-to-tei-teiHeaders.xsl -->
+ <xpefjt:scenario name="rochotius" input-file-mask="Rochotius-.*\.docx">
+  <xpefjt:step name="xd2t:input-processing" />
+  <xpefjt:step name="xd2t:input-processing-rochotius" />
+  <xpefjt:step name="xd2t:tei-postprocessing-rochotius" />
+ </xpefjt:scenario>
+</xpefjt:job-ticket>
