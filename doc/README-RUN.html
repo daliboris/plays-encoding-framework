@@ -1,0 +1,1781 @@
+<!DOCTYPE html>
+<html xmlns="https://www.daliboris.cz/ns/xproc/analysis">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <title>XProc Analysis Report</title>
+      <style>
+      details {
+      border: 1px solid #aaa;
+      border-radius: 4px;
+      padding: 0.5em 0.5em 0;
+      }
+      
+      summary {
+      margin: -0.5em -0.5em 0;
+      padding: 0.5em;
+      }
+      
+      details[open] {
+      padding: 0.5em;
+      }
+      
+      details[open] summary {
+      border-bottom: 1px solid #aaa;
+      margin-bottom: 0.5em;
+      }
+      /* table */
+      table {
+      border-collapse: collapse;
+      }
+      
+      /* table columns */
+      col:nth-of-type(even) { 
+      background: #F2F2F2; 
+      }
+      
+      /* table rows */
+      tr.call {
+      border-top: 1pt solid black;
+      }
+      tr.call td.step {
+      font-weight: bold;
+      }
+      tr.disabled {
+      color: silver;
+      }
+      tr.parameter {
+      border-bottom: 1pt solid silver;
+      }
+      tr:hover {
+      background-color: yellow;
+      }
+      
+      /* table cells */
+      th, td {
+      padding: .5em;
+      }
+      
+      .container {
+      display: grid;
+      grid-template-columns: 3fr 1fr;
+      gap: 15px 10px;
+      justify-content: stretch;
+      }
+      .details > .heading {
+      /*
+      display: grid;
+      grid-template-columns: 3fr 1fr;
+      gap: 15px;
+      justify-content: stretch;
+      */
+      display: flex;
+      justify-content: space-between;
+      }
+      .heading > fieldset {
+      place-self: center stretch;
+      }
+      .semver {
+      font-size: 90%;
+      color: brown;
+      }
+      .semver::before {
+      content: '(version: '
+      }
+      .semver::after {
+      content: ')'
+      }
+      @media print {
+        details {
+        border: 1px solid white;
+        }
+        details[open] summary {
+        border-bottom: 1px solid white;
+        }
+        .container {
+        display: grid;
+        grid-template-columns: 1fr;
+        }
+        nav.overview {
+        display: block;
+        }
+      }
+    </style>
+   </head>
+   <body>
+      <div class="container">
+         <main class="details">
+            <div class="heading">
+               <h2>Steps details</h2>
+               <fieldset>
+                  <legend>Expand</legend>
+                  <input type="checkbox"
+                         id="expand-files"
+                         name="files">
+                  </input>
+                  <label for="expand-files">Files</label>
+                  <input type="checkbox"
+                         id="expand-documentation"
+                         name="documentation">
+                  </input>
+                  <label for="expand-documentation">Documentation</label>
+                  <input type="checkbox"
+                         id="expand-steps"
+                         name="steps">
+                  </input>
+                  <label for="expand-steps">Steps</label>
+                  <input type="checkbox"
+                         id="expand-all"
+                         name="all">
+                  </input>
+                  <label for="expand-all">All</label>
+               </fieldset>
+            </div>
+            <details class="file">
+               <summary>
+                  <strong>docx2tei.xpl</strong>
+               </summary>
+               <details class="step"
+                        id="d79e3"
+                        open>
+                  <summary>
+                     <strong>default</strong> (docx2tei)</summary>
+                  <div class="prolog">
+                     <details class="documentation">
+                        <summary>
+                           <strong>Documentation</strong> (0)          
+        </summary>
+                        <section xmlns="http://www.w3.org/1999/xhtml"
+                                 xmlns:xpef="https://www.daliboris.cz/ns/xproc/plays-encoding-framework"
+                                 xmlns:xlog="https://www.daliboris.cz/ns/xproc/logging/1.0"
+                                 xmlns:xpl="https://www.daliboris.cz/ns/xproc/pipeline"
+                                 xmlns:xd2t="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/docx2tei"
+                                 xmlns:xtei="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/tei"
+                                 xmlns:xpefjt="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/job-ticket">
+                           <h1>
+                           </h1>
+                           <p>
+                           </p>
+                        </section>
+                     </details>
+                     <details class="namespaces">
+                        <summary>
+                           <strong>Namespaces</strong>  (11)</summary>
+                        <table>
+                           <colgroup>
+                              <col>
+                              </col>
+                              <col>
+                              </col>
+                              <col>
+                              </col>
+                           </colgroup>
+                           <thead>
+                              <tr>
+                                 <th>#</th>
+                                 <th>prefix</th>
+                                 <th>string</th>
+                              </tr>
+                           </thead>
+                           <tr>
+                              <td>1</td>
+                              <td>c</td>
+                              <td>http://www.w3.org/ns/xproc-step</td>
+                           </tr>
+                           <tr>
+                              <td>2</td>
+                              <td>p</td>
+                              <td>http://www.w3.org/ns/xproc</td>
+                           </tr>
+                           <tr>
+                              <td>3</td>
+                              <td>xd2t</td>
+                              <td>https://www.daliboris.cz/ns/xproc/plays-encoding-framework/docx2tei</td>
+                           </tr>
+                           <tr>
+                              <td>4</td>
+                              <td>xhtml</td>
+                              <td>http://www.w3.org/1999/xhtml</td>
+                           </tr>
+                           <tr>
+                              <td>5</td>
+                              <td>xlog</td>
+                              <td>https://www.daliboris.cz/ns/xproc/logging/1.0</td>
+                           </tr>
+                           <tr>
+                              <td>6</td>
+                              <td>xpef</td>
+                              <td>https://www.daliboris.cz/ns/xproc/plays-encoding-framework</td>
+                           </tr>
+                           <tr>
+                              <td>7</td>
+                              <td>xpefjt</td>
+                              <td>https://www.daliboris.cz/ns/xproc/plays-encoding-framework/job-ticket</td>
+                           </tr>
+                           <tr>
+                              <td>8</td>
+                              <td>xpl</td>
+                              <td>https://www.daliboris.cz/ns/xproc/pipeline</td>
+                           </tr>
+                           <tr>
+                              <td>9</td>
+                              <td>xs</td>
+                              <td>http://www.w3.org/2001/XMLSchema</td>
+                           </tr>
+                           <tr>
+                              <td>10</td>
+                              <td>xtei</td>
+                              <td>https://www.daliboris.cz/ns/xproc/plays-encoding-framework/tei</td>
+                           </tr>
+                           <tr>
+                              <td>11</td>
+                              <td>xml</td>
+                              <td>http://www.w3.org/XML/1998/namespace</td>
+                           </tr>
+                        </table>
+                     </details>
+                     <details class="imports">
+                        <summary>
+                           <strong>Imports</strong>  (4)</summary>
+                        <ol>
+                           <li>../src/includes/log-xpc-lib/src/xproc/log-xpc-lib.xpl</li>
+                           <li>../src/xproc/docx2tei-lib.xpl</li>
+                           <li>../src/xproc/rochotius/docx2tei-rochotius-lib.xpl</li>
+                           <li>../src/xproc/tei-play-lib.xpl</li>
+                        </ol>
+                     </details>
+                     <details class="options">
+                        <summary>
+                           <strong>Options</strong>  (6)</summary>
+                        <table>
+                           <colgroup>
+                              <col>
+                              </col>
+                              <col>
+                              </col>
+                              <col>
+                              </col>
+                           </colgroup>
+                           <thead>
+                              <tr>
+                                 <th>#</th>
+                                 <th>name</th>
+                                 <th>properties</th>
+                              </tr>
+                           </thead>
+                           <tr>
+                              <td>1</td>
+                              <td>debug-path</td>
+                              <td>name = debug-path | select = '../_debug' | as = xs:string?</td>
+                           </tr>
+                           <tr>
+                              <td>2</td>
+                              <td>base-uri</td>
+                              <td>name = base-uri | as = xs:anyURI | select = static-base-uri()</td>
+                           </tr>
+                           <tr>
+                              <td>3</td>
+                              <td>data-directory-path</td>
+                              <td>name = data-directory-path | as = xs:anyURI | select = '../data'</td>
+                           </tr>
+                           <tr>
+                              <td>4</td>
+                              <td>data-file-path</td>
+                              <td>name = data-file-path | as = xs:string | select = '../data/local.rochotius-comoedia-data.xml'</td>
+                           </tr>
+                           <tr>
+                              <td>5</td>
+                              <td>output-directory-path</td>
+                              <td>name = output-directory-path | as = xs:string? | select = '../_output'</td>
+                           </tr>
+                           <tr>
+                              <td>6</td>
+                              <td>output-file-name</td>
+                              <td>name = output-file-name | as = xs:string? | select = 'rochotius-comoedia'</td>
+                           </tr>
+                        </table>
+                     </details>
+                     <details class="ports">
+                        <summary>
+                           <strong>Ports</strong> (3)</summary>
+                        <table>
+                           <colgroup>
+                              <col>
+                              </col>
+                              <col>
+                              </col>
+                              <col>
+                              </col>
+                              <col>
+                              </col>
+                           </colgroup>
+                           <thead>
+                              <tr>
+                                 <th>#</th>
+                                 <th>direction</th>
+                                 <th>value</th>
+                                 <th>primary</th>
+                              </tr>
+                           </thead>
+                           <tr>
+                              <td>1</td>
+                              <td>input</td>
+                              <td>
+                                 <strong>source</strong>
+                              </td>
+                              <td>true</td>
+                           </tr>
+                           <tr>
+                              <td>2</td>
+                              <td>input</td>
+                              <td>job-ticket</td>
+                              <td>false</td>
+                           </tr>
+                           <tr>
+                              <td>1</td>
+                              <td>output</td>
+                              <td>
+                                 <strong>result</strong>
+                              </td>
+                              <td>true</td>
+                           </tr>
+                        </table>
+                     </details>
+                  </div>
+                  <details class="body">
+                     <summary>
+                        <strong>Steps</strong> (0 + 18)</summary>
+                     <table class="steps">
+                        <colgroup>
+                           <col>
+                           </col>
+                           <col>
+                           </col>
+                           <col>
+                           </col>
+                           <col>
+                           </col>
+                           <col>
+                           </col>
+                        </colgroup>
+                        <thead>
+                           <tr>
+                              <th>#</th>
+                              <th>step</th>
+                              <th>name</th>
+                              <th>parameter</th>
+                              <th>value</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr class="call">
+                              <td>1</td>
+                              <td class="step">p:variable</td>
+                              <td>debug</td>
+                              <td>select</td>
+                              <td>$debug-path || '' ne ''</td>
+                           </tr>
+                           <tr class="call">
+                              <td>2</td>
+                              <td class="step">p:variable</td>
+                              <td>debug-path-uri</td>
+                              <td>select</td>
+                              <td>resolve-uri($debug-path, $base-uri)</td>
+                           </tr>
+                           <tr class="call">
+                              <td>3</td>
+                              <td class="step">p:variable</td>
+                              <td>steps</td>
+                              <td>select</td>
+                              <td>/xpefjt:job-ticket/xpefjt:scenario/xpefjt:step</td>
+                           </tr>
+                           <tr class="parameter">
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>pipe</td>
+                              <td>job-ticket@docx2tei</td>
+                           </tr>
+                           <tr class="call">
+                              <td>4</td>
+                              <td class="step">p:variable</td>
+                              <td>text-id</td>
+                              <td>select</td>
+                              <td>/data/@id</td>
+                           </tr>
+                           <tr class="parameter">
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>href</td>
+                              <td>{$data-file-path}</td>
+                           </tr>
+                           <tr class="call">
+                              <td>5</td>
+                              <td class="step">p:variable</td>
+                              <td>source-debug-path</td>
+                              <td>select</td>
+                              <td>if(empty($debug-path)) then () else $debug-path ||  '/' || $text-id</td>
+                           </tr>
+                           <tr class="call">
+                              <td>6</td>
+                              <td class="step">p:choose</td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                           </tr>
+                           <tr class="call">
+                              <td>6.1</td>
+                              <td class="step">p:when</td>
+                              <td>
+                              </td>
+                              <td>test</td>
+                              <td>$steps[@name='xd2t:input-processing']</td>
+                           </tr>
+                           <tr class="call">
+                              <td>7</td>
+                              <td class="step">p:choose</td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                           </tr>
+                           <tr class="call">
+                              <td>7.1</td>
+                              <td class="step">p:when</td>
+                              <td>
+                              </td>
+                              <td>test</td>
+                              <td>$steps[@name='xd2t:input-processing-rochotius']</td>
+                           </tr>
+                           <tr class="call">
+                              <td>8</td>
+                              <td class="step">p:choose</td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                           </tr>
+                           <tr class="call">
+                              <td>8.1</td>
+                              <td class="step">p:when</td>
+                              <td>
+                              </td>
+                              <td>test</td>
+                              <td>$steps[@name='xd2t:tei-postprocessing-rochotius']</td>
+                           </tr>
+                           <tr class="call">
+                              <td>9</td>
+                              <td class="step">p:identity</td>
+                              <td>tei</td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                           </tr>
+                           <tr class="call">
+                              <td>10</td>
+                              <td class="step">xlog:store</td>
+                              <td>
+                              </td>
+                              <td>output-directory</td>
+                              <td>{$output-directory-path}/{$text-id}/tei</td>
+                           </tr>
+                           <tr class="parameter">
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>base-uri</td>
+                              <td>{$base-uri}</td>
+                           </tr>
+                           <tr class="parameter">
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>debug</td>
+                              <td>true</td>
+                           </tr>
+                           <tr class="parameter">
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>file-name</td>
+                              <td>{$output-file-name}.xml</td>
+                           </tr>
+                           <tr class="call">
+                              <td>11</td>
+                              <td class="step">xtei:convert</td>
+                              <td>
+                              </td>
+                              <td>output-directory-path</td>
+                              <td>{$output-directory-path}</td>
+                           </tr>
+                           <tr class="parameter">
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>base-uri</td>
+                              <td>{$base-uri}</td>
+                           </tr>
+                           <tr class="parameter">
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>data-file-path</td>
+                              <td>{$data-file-path}</td>
+                           </tr>
+                           <tr class="parameter">
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>debug-path</td>
+                              <td>{$debug-path}</td>
+                           </tr>
+                           <tr class="parameter">
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>output-file-name</td>
+                              <td>{$output-file-name}</td>
+                           </tr>
+                           <tr class="parameter">
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>target</td>
+                              <td>DraCor</td>
+                           </tr>
+                           <tr class="port">
+                              <td>
+                              </td>
+                              <td>[port]</td>
+                              <td>source</td>
+                              <td>pipe</td>
+                              <td>result@tei</td>
+                           </tr>
+                           <tr class="call">
+                              <td>12</td>
+                              <td class="step">xlog:store</td>
+                              <td>
+                              </td>
+                              <td>output-directory</td>
+                              <td>{$output-directory-path}/{$text-id}/dracor</td>
+                           </tr>
+                           <tr class="parameter">
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>base-uri</td>
+                              <td>{$base-uri}</td>
+                           </tr>
+                           <tr class="parameter">
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>debug</td>
+                              <td>true</td>
+                           </tr>
+                           <tr class="parameter">
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>file-name</td>
+                              <td>{$output-file-name}.xml</td>
+                           </tr>
+                           <tr class="call">
+                              <td>13</td>
+                              <td class="step">xtei:convert</td>
+                              <td>
+                              </td>
+                              <td>output-directory-path</td>
+                              <td>{$output-directory-path}</td>
+                           </tr>
+                           <tr class="parameter">
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>base-uri</td>
+                              <td>{$base-uri}</td>
+                           </tr>
+                           <tr class="parameter">
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>data-file-path</td>
+                              <td>{$data-file-path}</td>
+                           </tr>
+                           <tr class="parameter">
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>debug-path</td>
+                              <td>{$debug-path}</td>
+                           </tr>
+                           <tr class="parameter">
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>output-file-name</td>
+                              <td>{$output-file-name}</td>
+                           </tr>
+                           <tr class="parameter">
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>target</td>
+                              <td>text</td>
+                           </tr>
+                           <tr class="port">
+                              <td>
+                              </td>
+                              <td>[port]</td>
+                              <td>source</td>
+                              <td>pipe</td>
+                              <td>result@tei</td>
+                           </tr>
+                           <tr class="call">
+                              <td>14</td>
+                              <td class="step">xlog:store</td>
+                              <td>
+                              </td>
+                              <td>output-directory</td>
+                              <td>{$output-directory-path}/{$text-id}/text</td>
+                           </tr>
+                           <tr class="parameter">
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>base-uri</td>
+                              <td>{$base-uri}</td>
+                           </tr>
+                           <tr class="parameter">
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>debug</td>
+                              <td>true</td>
+                           </tr>
+                           <tr class="parameter">
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>file-name</td>
+                              <td>{$output-file-name}-tei.xml</td>
+                           </tr>
+                           <tr class="call">
+                              <td>15</td>
+                              <td class="step">xd2t:convert</td>
+                              <td>
+                              </td>
+                              <td>target</td>
+                              <td>text</td>
+                           </tr>
+                           <tr class="parameter">
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>base-uri</td>
+                              <td>{$base-uri}</td>
+                           </tr>
+                           <tr class="parameter">
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>debug-path</td>
+                              <td>{$debug-path}</td>
+                           </tr>
+                           <tr class="port">
+                              <td>
+                              </td>
+                              <td>[port]</td>
+                              <td>source</td>
+                              <td>pipe</td>
+                              <td>source@docx2tei</td>
+                           </tr>
+                           <tr class="call">
+                              <td>16</td>
+                              <td class="step">xlog:store</td>
+                              <td>
+                              </td>
+                              <td>output-directory</td>
+                              <td>{$output-directory-path}/{$text-id}/text</td>
+                           </tr>
+                           <tr class="parameter">
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>base-uri</td>
+                              <td>{$base-uri}</td>
+                           </tr>
+                           <tr class="parameter">
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>debug</td>
+                              <td>true</td>
+                           </tr>
+                           <tr class="parameter">
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>file-name</td>
+                              <td>{$output-file-name}-docx.xml</td>
+                           </tr>
+                           <tr class="call">
+                              <td>17</td>
+                              <td class="step">xd2t:tei-conversion</td>
+                              <td>tei</td>
+                              <td>debug-path</td>
+                              <td>{$debug-path}</td>
+                           </tr>
+                           <tr class="parameter">
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>base-uri</td>
+                              <td>{$base-uri}</td>
+                           </tr>
+                           <tr class="parameter">
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>data-file-path</td>
+                              <td>{$data-file-path}</td>
+                           </tr>
+                           <tr class="parameter">
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>p:use-when</td>
+                              <td>false()</td>
+                           </tr>
+                           <tr class="call">
+                              <td>18</td>
+                              <td class="step">p:identity</td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                           </tr>
+                           <tr class="port">
+                              <td>
+                              </td>
+                              <td>[port]</td>
+                              <td>source</td>
+                              <td>pipe</td>
+                              <td>report</td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </details>
+               </details>
+            </details>
+            <details class="file">
+               <summary>
+                  <strong>docx2text.xpl</strong>
+               </summary>
+               <details class="step"
+                        id="d79e141"
+                        open>
+                  <summary>
+                     <strong>default</strong>
+                  </summary>
+                  <div class="prolog">
+                     <details class="documentation">
+                        <summary>
+                           <strong>Documentation</strong> (0)          
+        </summary>
+                        <section xmlns="http://www.w3.org/1999/xhtml"
+                                 xmlns:xpef="https://www.daliboris.cz/ns/xproc/plays-encoding-framework"
+                                 xmlns:xlog="https://www.daliboris.cz/ns/xproc/logging/1.0"
+                                 xmlns:xd2t="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/docx2tei">
+                           <h2>
+                           </h2>
+                           <p>
+                           </p>
+                        </section>
+                     </details>
+                     <details class="namespaces">
+                        <summary>
+                           <strong>Namespaces</strong>  (7)</summary>
+                        <table>
+                           <colgroup>
+                              <col>
+                              </col>
+                              <col>
+                              </col>
+                              <col>
+                              </col>
+                           </colgroup>
+                           <thead>
+                              <tr>
+                                 <th>#</th>
+                                 <th>prefix</th>
+                                 <th>string</th>
+                              </tr>
+                           </thead>
+                           <tr>
+                              <td>1</td>
+                              <td>p</td>
+                              <td>http://www.w3.org/ns/xproc</td>
+                           </tr>
+                           <tr>
+                              <td>2</td>
+                              <td>xd2t</td>
+                              <td>https://www.daliboris.cz/ns/xproc/plays-encoding-framework/docx2tei</td>
+                           </tr>
+                           <tr>
+                              <td>3</td>
+                              <td>xhtml</td>
+                              <td>http://www.w3.org/1999/xhtml</td>
+                           </tr>
+                           <tr>
+                              <td>4</td>
+                              <td>xlog</td>
+                              <td>https://www.daliboris.cz/ns/xproc/logging/1.0</td>
+                           </tr>
+                           <tr>
+                              <td>5</td>
+                              <td>xpef</td>
+                              <td>https://www.daliboris.cz/ns/xproc/plays-encoding-framework</td>
+                           </tr>
+                           <tr>
+                              <td>6</td>
+                              <td>xs</td>
+                              <td>http://www.w3.org/2001/XMLSchema</td>
+                           </tr>
+                           <tr>
+                              <td>7</td>
+                              <td>xml</td>
+                              <td>http://www.w3.org/XML/1998/namespace</td>
+                           </tr>
+                        </table>
+                     </details>
+                     <details class="imports">
+                        <summary>
+                           <strong>Imports</strong>  (2)</summary>
+                        <ol>
+                           <li>../src/includes/log-xpc-lib/src/xproc/log-xpc-lib.xpl</li>
+                           <li>../src/xproc/docx2tei-lib.xpl</li>
+                        </ol>
+                     </details>
+                     <details class="options">
+                        <summary>
+                           <strong>Options</strong>  (4)</summary>
+                        <table>
+                           <colgroup>
+                              <col>
+                              </col>
+                              <col>
+                              </col>
+                              <col>
+                              </col>
+                           </colgroup>
+                           <thead>
+                              <tr>
+                                 <th>#</th>
+                                 <th>name</th>
+                                 <th>properties</th>
+                              </tr>
+                           </thead>
+                           <tr>
+                              <td>1</td>
+                              <td>debug-path</td>
+                              <td>name = debug-path | select = '../_debug' | as = xs:string?</td>
+                           </tr>
+                           <tr>
+                              <td>2</td>
+                              <td>base-uri</td>
+                              <td>name = base-uri | as = xs:anyURI | select = static-base-uri()</td>
+                           </tr>
+                           <tr>
+                              <td>3</td>
+                              <td>output-directory-path</td>
+                              <td>name = output-directory-path | as = xs:string? | select = '../_output'</td>
+                           </tr>
+                           <tr>
+                              <td>4</td>
+                              <td>output-file-name</td>
+                              <td>name = output-file-name | as = xs:string? | select = 'rochotius-comoedia'</td>
+                           </tr>
+                        </table>
+                     </details>
+                     <details class="ports">
+                        <summary>
+                           <strong>Ports</strong> (2)</summary>
+                        <table>
+                           <colgroup>
+                              <col>
+                              </col>
+                              <col>
+                              </col>
+                              <col>
+                              </col>
+                              <col>
+                              </col>
+                           </colgroup>
+                           <thead>
+                              <tr>
+                                 <th>#</th>
+                                 <th>direction</th>
+                                 <th>value</th>
+                                 <th>primary</th>
+                              </tr>
+                           </thead>
+                           <tr>
+                              <td>1</td>
+                              <td>input</td>
+                              <td>
+                                 <strong>source</strong>
+                              </td>
+                              <td>true</td>
+                           </tr>
+                           <tr>
+                              <td>1</td>
+                              <td>output</td>
+                              <td>
+                                 <strong>result</strong>
+                              </td>
+                              <td>true</td>
+                           </tr>
+                        </table>
+                     </details>
+                  </div>
+                  <details class="body">
+                     <summary>
+                        <strong>Steps</strong> (0 + 4)</summary>
+                     <table class="steps">
+                        <colgroup>
+                           <col>
+                           </col>
+                           <col>
+                           </col>
+                           <col>
+                           </col>
+                           <col>
+                           </col>
+                           <col>
+                           </col>
+                        </colgroup>
+                        <thead>
+                           <tr>
+                              <th>#</th>
+                              <th>step</th>
+                              <th>name</th>
+                              <th>parameter</th>
+                              <th>value</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr class="call">
+                              <td>1</td>
+                              <td class="step">p:variable</td>
+                              <td>debug</td>
+                              <td>select</td>
+                              <td>$debug-path || '' ne ''</td>
+                           </tr>
+                           <tr class="call">
+                              <td>2</td>
+                              <td class="step">p:variable</td>
+                              <td>debug-path-uri</td>
+                              <td>select</td>
+                              <td>resolve-uri($debug-path, $base-uri)</td>
+                           </tr>
+                           <tr class="call">
+                              <td>3</td>
+                              <td class="step">xd2t:convert</td>
+                              <td>
+                              </td>
+                              <td>target</td>
+                              <td>text</td>
+                           </tr>
+                           <tr class="parameter">
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>base-uri</td>
+                              <td>{$base-uri}</td>
+                           </tr>
+                           <tr class="parameter">
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>debug-path</td>
+                              <td>{$debug-path}</td>
+                           </tr>
+                           <tr class="call">
+                              <td>4</td>
+                              <td class="step">xlog:store</td>
+                              <td>
+                              </td>
+                              <td>output-directory</td>
+                              <td>{$output-directory-path}/{$output-file-name}/text</td>
+                           </tr>
+                           <tr class="parameter">
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>base-uri</td>
+                              <td>{$base-uri}</td>
+                           </tr>
+                           <tr class="parameter">
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>debug</td>
+                              <td>true</td>
+                           </tr>
+                           <tr class="parameter">
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>file-name</td>
+                              <td>{$output-file-name}-docx.xml</td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </details>
+               </details>
+            </details>
+            <details class="file">
+               <summary>
+                  <strong>hub2tei.xpl</strong>
+               </summary>
+               <details class="step"
+                        id="d79e189"
+                        open>
+                  <summary>
+                     <strong>default</strong>
+                  </summary>
+                  <div class="prolog">
+                     <details class="documentation">
+                        <summary>
+                           <strong>Documentation</strong> (0)          
+        </summary>
+                        <section xmlns="http://www.w3.org/1999/xhtml"
+                                 xmlns:xpef="https://www.daliboris.cz/ns/xproc/plays-encoding-framework"
+                                 xmlns:xlog="https://www.daliboris.cz/ns/xproc/logging/1.0"
+                                 xmlns:xpl="https://www.daliboris.cz/ns/xproc/pipeline"
+                                 xmlns:xtei="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/tei"
+                                 xmlns:xh2t="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/hub2tei">
+                           <h1>
+                           </h1>
+                           <p>
+                           </p>
+                        </section>
+                     </details>
+                     <details class="namespaces">
+                        <summary>
+                           <strong>Namespaces</strong>  (9)</summary>
+                        <table>
+                           <colgroup>
+                              <col>
+                              </col>
+                              <col>
+                              </col>
+                              <col>
+                              </col>
+                           </colgroup>
+                           <thead>
+                              <tr>
+                                 <th>#</th>
+                                 <th>prefix</th>
+                                 <th>string</th>
+                              </tr>
+                           </thead>
+                           <tr>
+                              <td>1</td>
+                              <td>p</td>
+                              <td>http://www.w3.org/ns/xproc</td>
+                           </tr>
+                           <tr>
+                              <td>2</td>
+                              <td>xh2t</td>
+                              <td>https://www.daliboris.cz/ns/xproc/plays-encoding-framework/hub2tei</td>
+                           </tr>
+                           <tr>
+                              <td>3</td>
+                              <td>xhtml</td>
+                              <td>http://www.w3.org/1999/xhtml</td>
+                           </tr>
+                           <tr>
+                              <td>4</td>
+                              <td>xlog</td>
+                              <td>https://www.daliboris.cz/ns/xproc/logging/1.0</td>
+                           </tr>
+                           <tr>
+                              <td>5</td>
+                              <td>xpef</td>
+                              <td>https://www.daliboris.cz/ns/xproc/plays-encoding-framework</td>
+                           </tr>
+                           <tr>
+                              <td>6</td>
+                              <td>xpl</td>
+                              <td>https://www.daliboris.cz/ns/xproc/pipeline</td>
+                           </tr>
+                           <tr>
+                              <td>7</td>
+                              <td>xs</td>
+                              <td>http://www.w3.org/2001/XMLSchema</td>
+                           </tr>
+                           <tr>
+                              <td>8</td>
+                              <td>xtei</td>
+                              <td>https://www.daliboris.cz/ns/xproc/plays-encoding-framework/tei</td>
+                           </tr>
+                           <tr>
+                              <td>9</td>
+                              <td>xml</td>
+                              <td>http://www.w3.org/XML/1998/namespace</td>
+                           </tr>
+                        </table>
+                     </details>
+                     <details class="imports">
+                        <summary>
+                           <strong>Imports</strong>  (3)</summary>
+                        <ol>
+                           <li>../src/includes/log-xpc-lib/src/xproc/log-xpc-lib.xpl</li>
+                           <li>../src/xproc/pef-xpc-lib-base.xpl</li>
+                           <li>../src/xproc/hub2tei-lib.xpl</li>
+                        </ol>
+                     </details>
+                     <details class="options">
+                        <summary>
+                           <strong>Options</strong>  (5)</summary>
+                        <table>
+                           <colgroup>
+                              <col>
+                              </col>
+                              <col>
+                              </col>
+                              <col>
+                              </col>
+                           </colgroup>
+                           <thead>
+                              <tr>
+                                 <th>#</th>
+                                 <th>name</th>
+                                 <th>properties</th>
+                              </tr>
+                           </thead>
+                           <tr>
+                              <td>1</td>
+                              <td>debug-path</td>
+                              <td>name = debug-path | select = '../_debug' | as = xs:string?</td>
+                           </tr>
+                           <tr>
+                              <td>2</td>
+                              <td>base-uri</td>
+                              <td>name = base-uri | as = xs:anyURI | select = static-base-uri()</td>
+                           </tr>
+                           <tr>
+                              <td>3</td>
+                              <td>data-file-path</td>
+                              <td>name = data-file-path | as = xs:string? | select = '../data/local.angelus-02-data.xml'</td>
+                           </tr>
+                           <tr>
+                              <td>4</td>
+                              <td>output-directory-path</td>
+                              <td>name = output-directory-path | as = xs:string? | select = '../output'</td>
+                           </tr>
+                           <tr>
+                              <td>5</td>
+                              <td>output-file-name</td>
+                              <td>name = output-file-name | as = xs:string? | select = 'angelus'</td>
+                           </tr>
+                        </table>
+                     </details>
+                     <details class="ports">
+                        <summary>
+                           <strong>Ports</strong> (2)</summary>
+                        <table>
+                           <colgroup>
+                              <col>
+                              </col>
+                              <col>
+                              </col>
+                              <col>
+                              </col>
+                              <col>
+                              </col>
+                           </colgroup>
+                           <thead>
+                              <tr>
+                                 <th>#</th>
+                                 <th>direction</th>
+                                 <th>value</th>
+                                 <th>primary</th>
+                              </tr>
+                           </thead>
+                           <tr>
+                              <td>1</td>
+                              <td>input</td>
+                              <td>
+                                 <strong>source</strong>
+                              </td>
+                              <td>true</td>
+                           </tr>
+                           <tr>
+                              <td>1</td>
+                              <td>output</td>
+                              <td>
+                                 <strong>result</strong>
+                              </td>
+                              <td>true</td>
+                           </tr>
+                        </table>
+                     </details>
+                  </div>
+                  <details class="body">
+                     <summary>
+                        <strong>Steps</strong> (1 + 4)</summary>
+                     <details class="step"
+                              id="d79e223">
+                        <summary>
+                           <strong>xh2t:process</strong>
+                        </summary>
+                        <div class="prolog">
+                           <details class="documentation">
+                              <summary>
+                                 <strong>Documentation</strong> (0)          
+        </summary>
+                              <section xmlns="http://www.w3.org/1999/xhtml"
+                                       xmlns:xpef="https://www.daliboris.cz/ns/xproc/plays-encoding-framework"
+                                       xmlns:xlog="https://www.daliboris.cz/ns/xproc/logging/1.0"
+                                       xmlns:xpl="https://www.daliboris.cz/ns/xproc/pipeline"
+                                       xmlns:xtei="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/tei"
+                                       xmlns:xh2t="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/hub2tei">
+                                 <h2>
+                                 </h2>
+                                 <p>
+                                 </p>
+                              </section>
+                           </details>
+                           <details class="options">
+                              <summary>
+                                 <strong>Options</strong>  (5)</summary>
+                              <table>
+                                 <colgroup>
+                                    <col>
+                                    </col>
+                                    <col>
+                                    </col>
+                                    <col>
+                                    </col>
+                                 </colgroup>
+                                 <thead>
+                                    <tr>
+                                       <th>#</th>
+                                       <th>name</th>
+                                       <th>properties</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td>1</td>
+                                    <td>debug-path</td>
+                                    <td>name = debug-path | select = () | as = xs:string?</td>
+                                 </tr>
+                                 <tr>
+                                    <td>2</td>
+                                    <td>base-uri</td>
+                                    <td>name = base-uri | as = xs:anyURI | select = static-base-uri()</td>
+                                 </tr>
+                                 <tr>
+                                    <td>3</td>
+                                    <td>data-file-path</td>
+                                    <td>name = data-file-path | as = xs:string?</td>
+                                 </tr>
+                                 <tr>
+                                    <td>4</td>
+                                    <td>output-directory-path</td>
+                                    <td>name = output-directory-path | as = xs:string?</td>
+                                 </tr>
+                                 <tr>
+                                    <td>5</td>
+                                    <td>output-file-name</td>
+                                    <td>name = output-file-name | as = xs:string?</td>
+                                 </tr>
+                              </table>
+                           </details>
+                           <details class="ports">
+                              <summary>
+                                 <strong>Ports</strong> (2)</summary>
+                              <table>
+                                 <colgroup>
+                                    <col>
+                                    </col>
+                                    <col>
+                                    </col>
+                                    <col>
+                                    </col>
+                                    <col>
+                                    </col>
+                                 </colgroup>
+                                 <thead>
+                                    <tr>
+                                       <th>#</th>
+                                       <th>direction</th>
+                                       <th>value</th>
+                                       <th>primary</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td>1</td>
+                                    <td>input</td>
+                                    <td>
+                                       <strong>source</strong>
+                                    </td>
+                                    <td>true</td>
+                                 </tr>
+                                 <tr>
+                                    <td>1</td>
+                                    <td>output</td>
+                                    <td>
+                                       <strong>result</strong>
+                                    </td>
+                                    <td>true</td>
+                                 </tr>
+                              </table>
+                           </details>
+                        </div>
+                        <details class="body">
+                           <summary>
+                              <strong>Steps</strong> (0 + 5)</summary>
+                           <details class="documentation">
+                              <summary>
+                                 <strong>Documentation</strong> (0)          
+        </summary>
+                              <section xmlns="http://www.w3.org/1999/xhtml"
+                                       xmlns:xpef="https://www.daliboris.cz/ns/xproc/plays-encoding-framework"
+                                       xmlns:xlog="https://www.daliboris.cz/ns/xproc/logging/1.0"
+                                       xmlns:xpl="https://www.daliboris.cz/ns/xproc/pipeline"
+                                       xmlns:xtei="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/tei"
+                                       xmlns:xh2t="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/hub2tei">
+                                 <h2>
+                                 </h2>
+                                 <p>
+                                 </p>
+                              </section>
+                           </details>
+                           <table class="steps">
+                              <colgroup>
+                                 <col>
+                                 </col>
+                                 <col>
+                                 </col>
+                                 <col>
+                                 </col>
+                                 <col>
+                                 </col>
+                                 <col>
+                                 </col>
+                              </colgroup>
+                              <thead>
+                                 <tr>
+                                    <th>#</th>
+                                    <th>step</th>
+                                    <th>name</th>
+                                    <th>parameter</th>
+                                    <th>value</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 <tr class="call">
+                                    <td>1</td>
+                                    <td class="step">p:variable</td>
+                                    <td>debug</td>
+                                    <td>select</td>
+                                    <td>$debug-path || '' ne ''</td>
+                                 </tr>
+                                 <tr class="call">
+                                    <td>2</td>
+                                    <td class="step">p:variable</td>
+                                    <td>debug-path-uri</td>
+                                    <td>select</td>
+                                    <td>resolve-uri($debug-path, $base-uri)</td>
+                                 </tr>
+                                 <tr class="call">
+                                    <td>3</td>
+                                    <td class="step">xh2t:input-processing</td>
+                                    <td>
+                                    </td>
+                                    <td>data-file-path</td>
+                                    <td>{$data-file-path}</td>
+                                 </tr>
+                                 <tr class="parameter">
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>base-uri</td>
+                                    <td>{$base-uri}</td>
+                                 </tr>
+                                 <tr class="parameter">
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>debug-path</td>
+                                    <td>{$debug-path}</td>
+                                 </tr>
+                                 <tr class="call">
+                                    <td>4</td>
+                                    <td class="step">xh2t:tei-conversion</td>
+                                    <td>
+                                    </td>
+                                    <td>data-file-path</td>
+                                    <td>{$data-file-path}</td>
+                                 </tr>
+                                 <tr class="parameter">
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>base-uri</td>
+                                    <td>{$base-uri}</td>
+                                 </tr>
+                                 <tr class="parameter">
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>debug-path</td>
+                                    <td>{$debug-path}</td>
+                                 </tr>
+                                 <tr class="call">
+                                    <td>5</td>
+                                    <td class="step">xtei:postprocessing</td>
+                                    <td>
+                                    </td>
+                                    <td>data-file-path</td>
+                                    <td>{$data-file-path}</td>
+                                 </tr>
+                                 <tr class="parameter">
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>base-uri</td>
+                                    <td>{$base-uri}</td>
+                                 </tr>
+                                 <tr class="parameter">
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>debug-path</td>
+                                    <td>{$debug-path}</td>
+                                 </tr>
+                                 <tr class="parameter">
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>output-directory-path</td>
+                                    <td>{$output-directory-path}</td>
+                                 </tr>
+                                 <tr class="parameter">
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>output-file-name</td>
+                                    <td>{$output-file-name}</td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </details>
+                     </details>
+                     <table class="steps">
+                        <colgroup>
+                           <col>
+                           </col>
+                           <col>
+                           </col>
+                           <col>
+                           </col>
+                           <col>
+                           </col>
+                           <col>
+                           </col>
+                        </colgroup>
+                        <thead>
+                           <tr>
+                              <th>#</th>
+                              <th>step</th>
+                              <th>name</th>
+                              <th>parameter</th>
+                              <th>value</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr class="call">
+                              <td>1</td>
+                              <td class="step">p:variable</td>
+                              <td>debug</td>
+                              <td>select</td>
+                              <td>$debug-path || '' ne ''</td>
+                           </tr>
+                           <tr class="call">
+                              <td>2</td>
+                              <td class="step">p:variable</td>
+                              <td>debug-path-uri</td>
+                              <td>select</td>
+                              <td>resolve-uri($debug-path, $base-uri)</td>
+                           </tr>
+                           <tr class="call">
+                              <td>3</td>
+                              <td class="step">xh2t:process</td>
+                              <td>
+                              </td>
+                              <td>data-file-path</td>
+                              <td>{$data-file-path}</td>
+                           </tr>
+                           <tr class="parameter">
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>base-uri</td>
+                              <td>{$base-uri}</td>
+                           </tr>
+                           <tr class="parameter">
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>debug-path</td>
+                              <td>{$debug-path}</td>
+                           </tr>
+                           <tr class="parameter">
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>output-directory-path</td>
+                              <td>{$output-directory-path}</td>
+                           </tr>
+                           <tr class="parameter">
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>output-file-name</td>
+                              <td>{$output-file-name}</td>
+                           </tr>
+                           <tr class="call">
+                              <td>4</td>
+                              <td class="step">p:identity</td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                              <td>
+                              </td>
+                           </tr>
+                           <tr class="port">
+                              <td>
+                              </td>
+                              <td>[port]</td>
+                              <td>anonymous</td>
+                              <td>select</td>
+                              <td>base-uri(/)</td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </details>
+               </details>
+            </details>
+         </main>
+         <nav class="overview">
+            <h2>List of steps</h2>
+            <ol>
+               <li>
+                  <a href="#d79e3">default</a> (docx2tei.xpl)</li>
+               <li>
+                  <a href="#d79e141">default</a> (docx2text.xpl)</li>
+               <li>
+                  <a href="#d79e189">default</a> (hub2tei.xpl)</li>
+               <li>
+                  <a href="#d79e223">xh2t:process</a>
+               </li>
+            </ol>
+         </nav>
+      </div>
+      <script>
+      
+      
+            function collapseOrExpandItems(expandSelector, itemsSelector, mainExpand) {
+              const expand = document.querySelector(expandSelector);
+              const items = document.querySelectorAll(itemsSelector);
+              
+              expand.addEventListener("click", (e) => {
+              if(expand.checked && !mainExpand.checked) {
+                mainExpand.click();
+              }
+              items.forEach((item) => {
+                if(!expand.checked) 
+                  {item.removeAttribute('open')}
+                else
+                  {item.setAttribute('open', 'open')}
+              });
+            });
+            };
+            
+            const expandFiles = document.querySelector("#expand-files");
+            const expandAll = document.querySelector('#expand-all');
+            
+            const items = document.querySelectorAll("details");
+            expandAll.addEventListener("click", (e) => {
+              
+              items.forEach((item) => {
+                if(!expandAll.checked) 
+                  {item.removeAttribute('open')}
+                else
+                  {item.setAttribute('open', 'open')}
+              });
+            });
+            
+            collapseOrExpandItems("#expand-files", "details.file", expandFiles);
+            collapseOrExpandItems("#expand-steps", "details.body", expandFiles);
+            collapseOrExpandItems("#expand-documentation", "details.documentation", expandFiles);
+
+            
+            
+    </script>
+   </body>
+</html>
