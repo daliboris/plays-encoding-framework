@@ -2,4 +2,5 @@
 <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
     <rewriteURI uriStartString="http://www.le-tex.de/resource/schema/hub/1.2/" rewritePrefix="./"/>
     <rewriteURI uriStartString="http://www.le-tex.de/resource/schema/hub/1.1/" rewritePrefix="./"/>
+    <systemSuffix systemIdSuffix="schema.rng" uri="dracor-schema-v1.0.0-beta.4.rng"/>
 </catalog>
