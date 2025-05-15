@@ -21,6 +21,9 @@
 	<!-- OPTIONS -->
 	<p:option name="debug-path" select="()" as="xs:string?" />
 	<p:option name="base-uri" as="xs:anyURI" select="static-base-uri()"/>
+	
+	<p:option name="saxon-version" as="xs:string" select="'12.3'" />
+	<p:option name="morgana-version" as="xs:string" select="'1.6.4'" />
 
 	<!-- STEP -->
 	<p:declare-step type="xps:create-directories">
@@ -88,8 +91,11 @@ _temp
 			<p:empty />
 		</p:input>
 		<p:output port="result" sequence="true" />
+		
+		<!-- OPTIONS -->
+		<p:option name="version" as="xs:string" required="true"  />
+		
 		<!-- VARIABLES -->
-		<p:variable name="version" select="'1.5'" />
 		<p:variable name="file-name" select="'MorganaXProc-IIIse-' || $version || '.zip'" />		
 		<!--		<p:variable name="file-name" select="'winmerge-2.16.38-x64-exe' || '.zip'" />		-->
 		
@@ -114,6 +120,15 @@ _temp
 		<p:directory-list path="../morgana" max-depth="unbounded" />
 	</p:declare-step>
 	
+	<!-- STEP -->
+	<p:declare-step type="xps:setup-morgana">
+		
+		<p:option name="saxon-version" as="xs:string" required="true" />
+		<p:option name="morgana-version" as="xs:string" required="true" />
+		
+		<p:file-copy href="../_temp/saxon/saxon-he-{$saxon-version}.jar" target="../morgana/MorganaXProc-IIIse-{$morgana-version}/MorganaXProc-IIIse_lib/saxon-he-{$saxon-version}.jar" />
+		<p:file-copy href="../_temp/saxon/saxon-he-xqj-{$saxon-version}.jar" target="../morgana/MorganaXProc-IIIse-{$morgana-version}/MorganaXProc-IIIse_lib/saxon-he-xqj-{$saxon-version}.jar" />
+	</p:declare-step>
 	
 	<!-- STEP -->
 	<p:declare-step type="xps:download-saxon">
@@ -121,16 +136,20 @@ _temp
 			<p:empty />
 		</p:input>
 		<p:output port="result" sequence="true" />
-		<!-- VARIABLES -->
 		
-		<p:variable name="version" select="'12-5'" />
+		<!-- OPTIONS -->
+		<p:option name="version" as="xs:string" required="true"  />
+		
+		<!-- VARIABLES -->
+		<p:variable name="url-version" select="replace($version, '\.', '-')" />
 		<p:variable name="file-name" select="'SaxonHE' || $version || 'J.zip'" />		
+		<p:variable name="url-file-name" select="'SaxonHE' || $url-version || 'J.zip'" />		
 		
 		<p:file-info href="../_temp/saxon/{$file-name}" fail-on-error="false" />
 		<p:variable name="file-exists" select="exists(/c:file)"  />
 		
 		<p:if test="not($file-exists)" message="File {$file-name} exists: {$file-exists}">
-			<p:http-request href="https://github.com/Saxonica/Saxon-HE/releases/download/SaxonHE{$version}/{$file-name}" message="Downloading SaxonHE" />
+			<p:http-request href="https://github.com/Saxonica/Saxon-HE/releases/download/SaxonHE{$url-version}/{$url-file-name}" message="Downloading SaxonHE" />
 			<p:store href="..//_temp/saxon/{$file-name}" />			
 		</p:if>
 		
@@ -197,14 +216,16 @@ _temp
 
 	<!-- PIPELINE BODY -->
 	
-<!-- 
+ 
 	<xps:create-directories />
-	<xps:create-gitignore />
-	<xps:download-morgana />
-	<xps:download-saxon />
+	<!--<xps:create-gitignore />-->
+	<xps:download-morgana version="{$morgana-version}" />
+	<xps:download-saxon version="{$saxon-version}" />
+	<xps:setup-morgana  morgana-version="{$morgana-version}" saxon-version="{$saxon-version}" />
 	<p:directory-list path="../" max-depth="unbounded" />
--->
-	<xps:download-schemas />
+
+	<!--<xps:download-schemas />-->
+	
 	<!--<p:directory-list path="../" max-depth="unbounded" />-->
 	
 	
