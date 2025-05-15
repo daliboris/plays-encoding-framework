@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cc:xml-calabash xmlns:cc="https://xmlcalabash.com/ns/configuration"
+ version="1.0"
+ console-output-encoding="utf-8"
+ >
+ <cc:mimetype content-type="application/vnd.openxmlformats-officedocument.wordprocessingml.document" extensions="docx"/> 
+</cc:xml-calabash>
+
