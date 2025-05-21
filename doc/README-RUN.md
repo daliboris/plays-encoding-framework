@@ -1,6 +1,122 @@
 # XProc Analysis Report
 
-## docx2tei.xpl
+## docx2dracor.xpl
+#### **default** (docx2dracor)
+#### Documentation (0)
+    
+##### 
+
+#### Namespaces (13)
+    
+| prefix | string |
+| --- | --- |
+| c | http://www.w3.org/ns/xproc-step |
+| dxfs | https://www.daliboris.cz/ns/xproc/file-system |
+| fs | https://www.daliboris.cz/ns/file-system |
+| p | http://www.w3.org/ns/xproc |
+| xd2dc | https://www.daliboris.cz/ns/xproc/plays-encoding-framework/docx2dracor |
+| xhtml | http://www.w3.org/1999/xhtml |
+| xlog | https://www.daliboris.cz/ns/xproc/logging/1.0 |
+| xpef | https://www.daliboris.cz/ns/xproc/plays-encoding-framework |
+| xpefjt | https://www.daliboris.cz/ns/xproc/plays-encoding-framework/job-ticket |
+| xpl | https://www.daliboris.cz/ns/xproc/pipeline |
+| xs | http://www.w3.org/2001/XMLSchema |
+| xtei | https://www.daliboris.cz/ns/xproc/plays-encoding-framework/tei |
+| xml | http://www.w3.org/XML/1998/namespace |
+
+#### Imports (3)
+    
+- ../src/includes/log-xpc-lib/src/xproc/log-xpc-lib.xpl
+- ../src/xproc/docx2dracor-lib.xpl
+- ../src/xproc/tei-play-lib.xpl
+
+#### Options (7)
+      
+| name | properties |
+| --- | --- |
+| debug-path | name = debug-path \| select = '../_debug' \| as = xs:string? |
+| base-uri | name = base-uri \| as = xs:anyURI \| select = static-base-uri() |
+| data-directory-path | name = data-directory-path \| as = xs:anyURI \| select = '../data' |
+| data-file-path | name = data-file-path \| as = xs:string \| select = '../data/local.gnapheus-acolastus-data.xml' |
+| innput-directory-path | name = innput-directory-path \| select = '../src/input/text/docx/dracor' \| as = xs:string? |
+| output-directory-path | name = output-directory-path \| as = xs:string? \| select = '../_output' |
+| output-file-name | name = output-file-name \| as = xs:string? \| select = () |
+
+#### Ports (3)
+    
+| direction | value | primary |
+| --- | --- | ---| 
+| input | **source** | true |
+| input | job-ticket | false |
+| output | **result** | true |
+
+### Steps  (0 + 18)
+      
+
+
+| position | step | name | parameter | value | 
+| --- | --- | --- | --- | --- | 
+| 1 | p:variable | debug |   |   | 
+|   |   |   | select | $debug-path \|\| '' ne '' | 
+| 2 | p:variable | debug-path-uri |   |   | 
+|   |   |   | select | resolve-uri($debug-path, $base-uri) | 
+| 3 | p:variable | steps |   |   | 
+|   |   |   | pipe | job-ticket@docx2dracor | 
+|   |   |   | select | /xpefjt:job-ticket/xpefjt:scenario/xpefjt:step | 
+| 4 | dxfs:document-file-info | info |   |   | 
+| 5 | p:variable | file-stem |   |   | 
+|   |   |   | pipe | report@info | 
+|   |   |   | select | /fs:file/@stem | 
+| 6 | p:variable | output-file-name |   |   | 
+|   |   |   | select | if(empty($output-file-name)) then $file-stem else $output-file-name | 
+| 7 | p:variable | text-id |   |   | 
+|   |   |   | href | {$data-file-path} | 
+|   |   |   | select | /data/@id | 
+| 8 | p:variable | source-debug-path |   |   | 
+|   |   |   | select | if(empty($debug-path)) then () else $debug-path \|\|  '/' \|\| $text-id | 
+| 9 | p:choose |  |   |   | 
+| 1 | p:when |  |   |   | 
+|   |   |   | test | $steps[@name='xd2dc:input-processing'] | 
+| 10 | p:choose |  |   |   | 
+| 1 | p:when |  |   |   | 
+|   |   |   | test | $steps[@name='xd2dc:tei-processing'] | 
+| 11 | p:choose |  |   |   | 
+| 1 | p:when |  |   |   | 
+|   |   |   | test | $steps[@name='xd2dc:tei-postprocessing'] | 
+| 12 | p:identity | tei |   |   | 
+| 13 | xlog:store |  |   |   | 
+|   |   |   | base-uri | {$base-uri} | 
+|   |   |   | debug | true | 
+|   |   |   | file-name | {$output-file-name}.xml | 
+|   |   |   | output-directory | {$output-directory-path}/{$text-id}/tei | 
+| 14 | xtei:convert |  |   |   | 
+|   |   |   | base-uri | {$base-uri} | 
+|   |   |   | data-file-path | {$data-file-path} | 
+|   |   |   | debug-path | {$debug-path} | 
+|   |   |   | output-directory-path | {$output-directory-path} | 
+|   |   |   | output-file-name | {$output-file-name} | 
+|   |   |   | pipe | result@tei | 
+|   |   |   | target | text | 
+| 15 | xlog:store |  |   |   | 
+|   |   |   | base-uri | {$base-uri} | 
+|   |   |   | debug | true | 
+|   |   |   | file-name | {$output-file-name}-tei.xml | 
+|   |   |   | output-directory | {$output-directory-path}/{$text-id}/text | 
+| 16 | xd2dc:convert |  |   |   | 
+|   |   |   | base-uri | {$base-uri} | 
+|   |   |   | debug-path | {$debug-path} | 
+|   |   |   | pipe | source@docx2dracor | 
+|   |   |   | target | text | 
+| 17 | xlog:store |  |   |   | 
+|   |   |   | base-uri | {$base-uri} | 
+|   |   |   | debug | true | 
+|   |   |   | file-name | {$output-file-name}-docx.xml | 
+|   |   |   | output-directory | {$output-directory-path}/{$text-id}/text | 
+| 18 | p:identity |  |   |   | 
+|   |   |   | pipe | report | 
+
+
+## docx2tei.xpl
 #### **default** (docx2tei)
 #### Documentation (0)
     

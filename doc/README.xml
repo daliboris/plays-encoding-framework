@@ -113,6 +113,1316 @@
          </body>
       </library>
    </analysis>
+   <analysis file-name="docx2dracor-lib.xpl"
+             path="file:///V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xproc/docx2dracor-lib.xpl"
+             xmlns="https://www.daliboris.cz/ns/xproc/analysis"
+             xmlns:xhtml="http://www.w3.org/1999/xhtml">
+      <library>
+         <prolog>
+            <documentation length="0">
+               <xhtml:section xmlns:xpef="https://www.daliboris.cz/ns/xproc/plays-encoding-framework"
+                              xmlns:css="http://www.w3.org/1996/css"
+                              xmlns:xxml="https://www.daliboris.cz/ns/xproc/xml"
+                              xmlns:xd2dc="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/docx2dracor"
+                              xmlns:fs="https://www.daliboris.cz/ns/file-system"
+                              xmlns:dxfs="https://www.daliboris.cz/ns/xproc/file-system"
+                              xmlns:xevt="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/evt"
+                              xmlns:hub="http://docbook.org/ns/docbook"
+                              xmlns:xlog="https://www.daliboris.cz/ns/xproc/logging/1.0"
+                              xmlns:xpl="https://www.daliboris.cz/ns/xproc/pipeline"
+                              xmlns:xtei="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/tei"
+                              xmlns:tei="http://www.tei-c.org/ns/1.0">
+                  <xhtml:h1/>
+                  <xhtml:p/>
+               </xhtml:section>
+            </documentation>
+            <namespaces>
+               <namespace prefix="css"
+                          value="http://www.w3.org/1996/css"/>
+               <namespace prefix="dxfs"
+                          value="https://www.daliboris.cz/ns/xproc/file-system"/>
+               <namespace prefix="fs"
+                          value="https://www.daliboris.cz/ns/file-system"/>
+               <namespace prefix="hub"
+                          value="http://docbook.org/ns/docbook"/>
+               <namespace prefix="p"
+                          value="http://www.w3.org/ns/xproc"/>
+               <namespace prefix="tei"
+                          value="http://www.tei-c.org/ns/1.0"/>
+               <namespace prefix="xd2dc"
+                          value="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/docx2dracor"/>
+               <namespace prefix="xevt"
+                          value="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/evt"/>
+               <namespace prefix="xhtml"
+                          value="http://www.w3.org/1999/xhtml"/>
+               <namespace prefix="xlog"
+                          value="https://www.daliboris.cz/ns/xproc/logging/1.0"/>
+               <namespace prefix="xpef"
+                          value="https://www.daliboris.cz/ns/xproc/plays-encoding-framework"/>
+               <namespace prefix="xpl"
+                          value="https://www.daliboris.cz/ns/xproc/pipeline"/>
+               <namespace prefix="xs"
+                          value="http://www.w3.org/2001/XMLSchema"/>
+               <namespace prefix="xtei"
+                          value="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/tei"/>
+               <namespace prefix="xxml"
+                          value="https://www.daliboris.cz/ns/xproc/xml"/>
+               <namespace prefix="xml"
+                          value="http://www.w3.org/XML/1998/namespace"/>
+            </namespaces>
+            <imports/>
+         </prolog>
+         <body>
+            <documentation length="0">
+               <xhtml:section xmlns:xpef="https://www.daliboris.cz/ns/xproc/plays-encoding-framework"
+                              xmlns:css="http://www.w3.org/1996/css"
+                              xmlns:xxml="https://www.daliboris.cz/ns/xproc/xml"
+                              xmlns:xd2dc="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/docx2dracor"
+                              xmlns:fs="https://www.daliboris.cz/ns/file-system"
+                              xmlns:dxfs="https://www.daliboris.cz/ns/xproc/file-system"
+                              xmlns:xevt="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/evt"
+                              xmlns:hub="http://docbook.org/ns/docbook"
+                              xmlns:xlog="https://www.daliboris.cz/ns/xproc/logging/1.0"
+                              xmlns:xpl="https://www.daliboris.cz/ns/xproc/pipeline"
+                              xmlns:xtei="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/tei"
+                              xmlns:tei="http://www.tei-c.org/ns/1.0">
+                  <xhtml:h1/>
+                  <xhtml:p/>
+               </xhtml:section>
+            </documentation>
+            <step type="xd2dc:input-processing"
+                  name="input-processing">
+               <prolog>
+                  <documentation length="0">
+                     <xhtml:section xmlns:xpef="https://www.daliboris.cz/ns/xproc/plays-encoding-framework"
+                                    xmlns:css="http://www.w3.org/1996/css"
+                                    xmlns:xxml="https://www.daliboris.cz/ns/xproc/xml"
+                                    xmlns:xd2dc="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/docx2dracor"
+                                    xmlns:fs="https://www.daliboris.cz/ns/file-system"
+                                    xmlns:dxfs="https://www.daliboris.cz/ns/xproc/file-system"
+                                    xmlns:xevt="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/evt"
+                                    xmlns:hub="http://docbook.org/ns/docbook"
+                                    xmlns:xlog="https://www.daliboris.cz/ns/xproc/logging/1.0"
+                                    xmlns:xpl="https://www.daliboris.cz/ns/xproc/pipeline"
+                                    xmlns:xtei="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/tei"
+                                    xmlns:tei="http://www.tei-c.org/ns/1.0">
+                        <xhtml:h2/>
+                        <xhtml:p/>
+                     </xhtml:section>
+                  </documentation>
+                  <namespaces>
+                     <namespace prefix="css"
+                                value="http://www.w3.org/1996/css"/>
+                     <namespace prefix="dxfs"
+                                value="https://www.daliboris.cz/ns/xproc/file-system"/>
+                     <namespace prefix="fs"
+                                value="https://www.daliboris.cz/ns/file-system"/>
+                     <namespace prefix="hub"
+                                value="http://docbook.org/ns/docbook"/>
+                     <namespace prefix="p"
+                                value="http://www.w3.org/ns/xproc"/>
+                     <namespace prefix="tei"
+                                value="http://www.tei-c.org/ns/1.0"/>
+                     <namespace prefix="xd2dc"
+                                value="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/docx2dracor"/>
+                     <namespace prefix="xevt"
+                                value="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/evt"/>
+                     <namespace prefix="xhtml"
+                                value="http://www.w3.org/1999/xhtml"/>
+                     <namespace prefix="xlog"
+                                value="https://www.daliboris.cz/ns/xproc/logging/1.0"/>
+                     <namespace prefix="xpef"
+                                value="https://www.daliboris.cz/ns/xproc/plays-encoding-framework"/>
+                     <namespace prefix="xpl"
+                                value="https://www.daliboris.cz/ns/xproc/pipeline"/>
+                     <namespace prefix="xs"
+                                value="http://www.w3.org/2001/XMLSchema"/>
+                     <namespace prefix="xtei"
+                                value="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/tei"/>
+                     <namespace prefix="xxml"
+                                value="https://www.daliboris.cz/ns/xproc/xml"/>
+                     <namespace prefix="xml"
+                                value="http://www.w3.org/XML/1998/namespace"/>
+                  </namespaces>
+                  <options>
+                     <option name="debug-path"
+                             select="()"
+                             as="xs:string?"/>
+                     <option name="base-uri"
+                             as="xs:anyURI"
+                             select="static-base-uri()"/>
+                     <option name="data-directory-path"
+                             as="xs:anyURI?"
+                             required="false"/>
+                     <option name="data-file-path"
+                             as="xs:string?"/>
+                  </options>
+                  <ports>
+                     <input port="source"
+                            primary="true"/>
+                     <output port="result"
+                             primary="true"/>
+                  </ports>
+               </prolog>
+               <body>
+                  <documentation length="0">
+                     <xhtml:section xmlns:xpef="https://www.daliboris.cz/ns/xproc/plays-encoding-framework"
+                                    xmlns:css="http://www.w3.org/1996/css"
+                                    xmlns:xxml="https://www.daliboris.cz/ns/xproc/xml"
+                                    xmlns:xd2dc="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/docx2dracor"
+                                    xmlns:fs="https://www.daliboris.cz/ns/file-system"
+                                    xmlns:dxfs="https://www.daliboris.cz/ns/xproc/file-system"
+                                    xmlns:xevt="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/evt"
+                                    xmlns:hub="http://docbook.org/ns/docbook"
+                                    xmlns:xlog="https://www.daliboris.cz/ns/xproc/logging/1.0"
+                                    xmlns:xpl="https://www.daliboris.cz/ns/xproc/pipeline"
+                                    xmlns:xtei="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/tei"
+                                    xmlns:tei="http://www.tei-c.org/ns/1.0">
+                        <xhtml:h2/>
+                        <xhtml:p/>
+                     </xhtml:section>
+                  </documentation>
+                  <call step="p:variable"
+                        name="debug">
+                     <parameter name="select"
+                                value="$debug-path || '' ne ''"/>
+                  </call>
+                  <call step="p:variable"
+                        name="debug-path-uri">
+                     <parameter name="select"
+                                value="resolve-uri($debug-path, $base-uri)"/>
+                  </call>
+                  <call step="dxfs:document-file-info"
+                        name="info"/>
+                  <call step="p:variable"
+                        name="file">
+                     <parameter name="select"
+                                value="/fs:file"/>
+                     <parameter name="pipe"
+                                value="report@info"/>
+                  </call>
+                  <call step="p:variable"
+                        name="data-file-path-uri">
+                     <parameter name="select"
+                                value="resolve-uri($data-file-path, $base-uri)"/>
+                  </call>
+                  <call step="p:variable"
+                        name="log-output-directory">
+                     <parameter name="select"
+                                value="if(empty($debug-path)) then () else $debug-path || '/docx2tei/' || $file/@stem"/>
+                  </call>
+                  <call step="p:variable"
+                        name="log-file-name">
+                     <parameter name="select"
+                                value="$file/@stem || '.xml'"/>
+                  </call>
+                  <call step="xpef:input-processing">
+                     <parameter name="debug-path"
+                                value="{$debug-path}"/>
+                     <parameter name="base-uri"
+                                value="{$base-uri}"/>
+                  </call>
+                  <call step="xlog:store">
+                     <parameter name="output-directory"
+                                value="{$log-output-directory}"/>
+                     <parameter name="base-uri"
+                                value="{$base-uri}"/>
+                     <parameter name="file-name"
+                                value="{$log-file-name}"/>
+                     <parameter name="debug"
+                                value="{$debug}"/>
+                     <parameter name="step"
+                                value="1"/>
+                  </call>
+                  <call step="p:xslt">
+                     <port name="stylesheet">
+                        <parameter name="href"
+                                   value="../xslt/docx2dracor/xml/fix-dracor-inside-default.xsl"
+                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/docx2dracor/xml/fix-dracor-inside-default.xsl"/>
+                     </port>
+                  </call>
+                  <call step="xlog:store">
+                     <parameter name="output-directory"
+                                value="{$log-output-directory}"/>
+                     <parameter name="base-uri"
+                                value="{$base-uri}"/>
+                     <parameter name="file-name"
+                                value="{$log-file-name}"/>
+                     <parameter name="debug"
+                                value="{$debug}"/>
+                     <parameter name="step"
+                                value="2"/>
+                  </call>
+                  <call step="p:xslt">
+                     <port name="stylesheet">
+                        <parameter name="href"
+                                   value="../xslt/docx2dracor/xml/fix-tab-at-end.xsl"
+                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/docx2dracor/xml/fix-tab-at-end.xsl"/>
+                     </port>
+                  </call>
+                  <call step="xlog:store">
+                     <parameter name="output-directory"
+                                value="{$log-output-directory}"/>
+                     <parameter name="base-uri"
+                                value="{$base-uri}"/>
+                     <parameter name="file-name"
+                                value="{$log-file-name}"/>
+                     <parameter name="debug"
+                                value="{$debug}"/>
+                     <parameter name="step"
+                                value="5"/>
+                  </call>
+                  <call step="p:xslt">
+                     <port name="stylesheet">
+                        <parameter name="href"
+                                   value="../xslt/docx2dracor/xml/fix-tab-as-space.xsl"
+                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/docx2dracor/xml/fix-tab-as-space.xsl"/>
+                     </port>
+                  </call>
+                  <call step="xlog:store">
+                     <parameter name="output-directory"
+                                value="{$log-output-directory}"/>
+                     <parameter name="base-uri"
+                                value="{$base-uri}"/>
+                     <parameter name="file-name"
+                                value="{$log-file-name}"/>
+                     <parameter name="debug"
+                                value="{$debug}"/>
+                     <parameter name="step"
+                                value="6"/>
+                  </call>
+                  <call step="p:xslt">
+                     <port name="stylesheet">
+                        <parameter name="href"
+                                   value="../xslt/common/character-maps.xsl"
+                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/common/character-maps.xsl"/>
+                     </port>
+                  </call>
+                  <call step="p:file-create-tempfile">
+                     <parameter name="delete-on-exit"
+                                value="true"/>
+                     <parameter name="suffix"
+                                value=".xml"/>
+                  </call>
+                  <call step="p:variable"
+                        name="href-tempfile-uri">
+                     <parameter name="select"
+                                value="string(.)"/>
+                  </call>
+                  <call step="p:store">
+                     <parameter name="href"
+                                value="{$href-tempfile-uri}"/>
+                     <port name="anonymous">
+                        <parameter name="pipe"
+                                   value="result@character-maps"/>
+                     </port>
+                  </call>
+                  <call step="p:load">
+                     <parameter name="href"
+                                value="{$href-tempfile-uri}"/>
+                  </call>
+                  <call step="xlog:store">
+                     <parameter name="output-directory"
+                                value="{$log-output-directory}"/>
+                     <parameter name="base-uri"
+                                value="{$base-uri}"/>
+                     <parameter name="file-name"
+                                value="{$log-file-name}"/>
+                     <parameter name="debug"
+                                value="{$debug}"/>
+                     <parameter name="step"
+                                value="10"/>
+                  </call>
+                  <call step="p:xslt">
+                     <port name="stylesheet">
+                        <parameter name="href"
+                                   value="../xslt/docx2tei/xml/xml-combine-elements-after-ooxml-conversion.xsl"
+                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/docx2tei/xml/xml-combine-elements-after-ooxml-conversion.xsl"/>
+                     </port>
+                     <parameter name="parameters"
+                                value="map {'phase' : 1 }"/>
+                  </call>
+                  <call step="xlog:store">
+                     <parameter name="output-directory"
+                                value="{$log-output-directory}"/>
+                     <parameter name="base-uri"
+                                value="{$base-uri}"/>
+                     <parameter name="file-name"
+                                value="{$log-file-name}"/>
+                     <parameter name="debug"
+                                value="{$debug}"/>
+                     <parameter name="step"
+                                value="15"/>
+                  </call>
+                  <call step="p:xslt">
+                     <port name="stylesheet">
+                        <parameter name="href"
+                                   value="../xslt/docx2tei/xml/xml-combine-elements-after-ooxml-conversion.xsl"
+                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/docx2tei/xml/xml-combine-elements-after-ooxml-conversion.xsl"/>
+                     </port>
+                     <parameter name="parameters"
+                                value="map {'phase' : 2 }"/>
+                  </call>
+                  <call step="xlog:store">
+                     <parameter name="output-directory"
+                                value="{$log-output-directory}"/>
+                     <parameter name="base-uri"
+                                value="{$base-uri}"/>
+                     <parameter name="file-name"
+                                value="{$log-file-name}"/>
+                     <parameter name="debug"
+                                value="{$debug}"/>
+                     <parameter name="step"
+                                value="20"/>
+                  </call>
+                  <call step="p:xslt">
+                     <port name="stylesheet">
+                        <parameter name="href"
+                                   value="../xslt/docx2tei/xml/xml-clean-element-names.xsl"
+                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/docx2tei/xml/xml-clean-element-names.xsl"/>
+                     </port>
+                  </call>
+                  <call step="xlog:store">
+                     <parameter name="output-directory"
+                                value="{$log-output-directory}"/>
+                     <parameter name="base-uri"
+                                value="{$base-uri}"/>
+                     <parameter name="file-name"
+                                value="{$log-file-name}"/>
+                     <parameter name="debug"
+                                value="{$debug}"/>
+                     <parameter name="step"
+                                value="25"/>
+                  </call>
+                  <call step="p:xslt">
+                     <port name="stylesheet">
+                        <parameter name="href"
+                                   value="../xslt/docx2tei/xml/xml-fix-element-combinations.xsl"
+                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/docx2tei/xml/xml-fix-element-combinations.xsl"/>
+                     </port>
+                  </call>
+                  <call step="xlog:store">
+                     <parameter name="output-directory"
+                                value="{$log-output-directory}"/>
+                     <parameter name="base-uri"
+                                value="{$base-uri}"/>
+                     <parameter name="file-name"
+                                value="{$log-file-name}"/>
+                     <parameter name="debug"
+                                value="{$debug}"/>
+                     <parameter name="step"
+                                value="30"/>
+                  </call>
+                  <call step="p:xslt">
+                     <port name="stylesheet">
+                        <parameter name="href"
+                                   value="../xslt/docx2tei/xml/xml-group-elements-to-div.xsl"
+                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/docx2tei/xml/xml-group-elements-to-div.xsl"/>
+                     </port>
+                  </call>
+                  <call step="xlog:store">
+                     <parameter name="output-directory"
+                                value="{$log-output-directory}"/>
+                     <parameter name="base-uri"
+                                value="{$base-uri}"/>
+                     <parameter name="file-name"
+                                value="{$log-file-name}"/>
+                     <parameter name="debug"
+                                value="{$debug}"/>
+                     <parameter name="step"
+                                value="35"/>
+                  </call>
+                  <call step="p:variable"
+                        name="sections">
+                     <parameter name="select"
+                                value="count(//div/DraCor-additions[matches(normalize-space(), '^/(.+)_start/$')])"/>
+                  </call>
+                  <call step="xd2dc:apply-xslt">
+                     <parameter name="repeat"
+                                value="{$sections}"/>
+                     <port name="stylesheet">
+                        <parameter name="href"
+                                   value="../xslt/docx2tei/xml/xml-group-div-start-to-end.xsl"
+                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/docx2tei/xml/xml-group-div-start-to-end.xsl"/>
+                     </port>
+                  </call>
+                  <call step="xlog:store">
+                     <parameter name="output-directory"
+                                value="{$log-output-directory}"/>
+                     <parameter name="base-uri"
+                                value="{$base-uri}"/>
+                     <parameter name="file-name"
+                                value="{$log-file-name}"/>
+                     <parameter name="debug"
+                                value="{$debug}"/>
+                     <parameter name="step"
+                                value="40"/>
+                  </call>
+                  <call step="xd2dc:apply-xslt">
+                     <parameter name="repeat"
+                                value="2"/>
+                     <port name="stylesheet">
+                        <parameter name="href"
+                                   value="../xslt/docx2tei/xml/xml-group-elements-to-div.xsl"
+                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/docx2tei/xml/xml-group-elements-to-div.xsl"/>
+                     </port>
+                  </call>
+                  <call step="xlog:store">
+                     <parameter name="output-directory"
+                                value="{$log-output-directory}"/>
+                     <parameter name="base-uri"
+                                value="{$base-uri}"/>
+                     <parameter name="file-name"
+                                value="{$log-file-name}"/>
+                     <parameter name="debug"
+                                value="{$debug}"/>
+                     <parameter name="step"
+                                value="45"/>
+                  </call>
+                  <call step="p:xslt">
+                     <port name="stylesheet">
+                        <parameter name="href"
+                                   value="../xslt/docx2tei/xml/xml-group-elements-to-div.xsl"
+                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/docx2tei/xml/xml-group-elements-to-div.xsl"/>
+                     </port>
+                  </call>
+                  <call step="xlog:store">
+                     <parameter name="output-directory"
+                                value="{$log-output-directory}"/>
+                     <parameter name="base-uri"
+                                value="{$base-uri}"/>
+                     <parameter name="file-name"
+                                value="{$log-file-name}"/>
+                     <parameter name="debug"
+                                value="{$debug}"/>
+                     <parameter name="step"
+                                value="45"/>
+                  </call>
+                  <call step="p:xslt">
+                     <port name="stylesheet">
+                        <parameter name="href"
+                                   value="../xslt/docx2tei/xml/xml-group-elements-to-div.xsl"
+                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/docx2tei/xml/xml-group-elements-to-div.xsl"/>
+                     </port>
+                  </call>
+                  <call step="xlog:store">
+                     <parameter name="output-directory"
+                                value="{$log-output-directory}"/>
+                     <parameter name="base-uri"
+                                value="{$base-uri}"/>
+                     <parameter name="file-name"
+                                value="{$log-file-name}"/>
+                     <parameter name="debug"
+                                value="{$debug}"/>
+                     <parameter name="step"
+                                value="50"/>
+                  </call>
+               </body>
+            </step>
+            <step type="xd2dc:tei-processing"
+                  name="tei-processing">
+               <prolog>
+                  <documentation length="0">
+                     <xhtml:section xmlns:xpef="https://www.daliboris.cz/ns/xproc/plays-encoding-framework"
+                                    xmlns:css="http://www.w3.org/1996/css"
+                                    xmlns:xxml="https://www.daliboris.cz/ns/xproc/xml"
+                                    xmlns:xd2dc="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/docx2dracor"
+                                    xmlns:fs="https://www.daliboris.cz/ns/file-system"
+                                    xmlns:dxfs="https://www.daliboris.cz/ns/xproc/file-system"
+                                    xmlns:xevt="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/evt"
+                                    xmlns:hub="http://docbook.org/ns/docbook"
+                                    xmlns:xlog="https://www.daliboris.cz/ns/xproc/logging/1.0"
+                                    xmlns:xpl="https://www.daliboris.cz/ns/xproc/pipeline"
+                                    xmlns:xtei="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/tei"
+                                    xmlns:tei="http://www.tei-c.org/ns/1.0">
+                        <xhtml:h2/>
+                        <xhtml:p/>
+                     </xhtml:section>
+                  </documentation>
+                  <namespaces>
+                     <namespace prefix="css"
+                                value="http://www.w3.org/1996/css"/>
+                     <namespace prefix="dxfs"
+                                value="https://www.daliboris.cz/ns/xproc/file-system"/>
+                     <namespace prefix="fs"
+                                value="https://www.daliboris.cz/ns/file-system"/>
+                     <namespace prefix="hub"
+                                value="http://docbook.org/ns/docbook"/>
+                     <namespace prefix="p"
+                                value="http://www.w3.org/ns/xproc"/>
+                     <namespace prefix="tei"
+                                value="http://www.tei-c.org/ns/1.0"/>
+                     <namespace prefix="xd2dc"
+                                value="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/docx2dracor"/>
+                     <namespace prefix="xevt"
+                                value="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/evt"/>
+                     <namespace prefix="xhtml"
+                                value="http://www.w3.org/1999/xhtml"/>
+                     <namespace prefix="xlog"
+                                value="https://www.daliboris.cz/ns/xproc/logging/1.0"/>
+                     <namespace prefix="xpef"
+                                value="https://www.daliboris.cz/ns/xproc/plays-encoding-framework"/>
+                     <namespace prefix="xpl"
+                                value="https://www.daliboris.cz/ns/xproc/pipeline"/>
+                     <namespace prefix="xs"
+                                value="http://www.w3.org/2001/XMLSchema"/>
+                     <namespace prefix="xtei"
+                                value="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/tei"/>
+                     <namespace prefix="xxml"
+                                value="https://www.daliboris.cz/ns/xproc/xml"/>
+                     <namespace prefix="xml"
+                                value="http://www.w3.org/XML/1998/namespace"/>
+                  </namespaces>
+                  <options>
+                     <option name="debug-path"
+                             select="()"
+                             as="xs:string?"/>
+                     <option name="base-uri"
+                             as="xs:anyURI"
+                             select="static-base-uri()"/>
+                     <option name="data-directory-path"
+                             as="xs:anyURI?"
+                             required="false"/>
+                     <option name="data-file-path"
+                             as="xs:string?"/>
+                     <option name="text-id"
+                             as="xs:string?"/>
+                  </options>
+                  <ports>
+                     <input port="source"
+                            primary="true"/>
+                     <input port="job-ticket"
+                            primary="false"/>
+                     <output port="result"
+                             primary="true"/>
+                  </ports>
+               </prolog>
+               <body>
+                  <documentation length="0">
+                     <xhtml:section xmlns:xpef="https://www.daliboris.cz/ns/xproc/plays-encoding-framework"
+                                    xmlns:css="http://www.w3.org/1996/css"
+                                    xmlns:xxml="https://www.daliboris.cz/ns/xproc/xml"
+                                    xmlns:xd2dc="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/docx2dracor"
+                                    xmlns:fs="https://www.daliboris.cz/ns/file-system"
+                                    xmlns:dxfs="https://www.daliboris.cz/ns/xproc/file-system"
+                                    xmlns:xevt="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/evt"
+                                    xmlns:hub="http://docbook.org/ns/docbook"
+                                    xmlns:xlog="https://www.daliboris.cz/ns/xproc/logging/1.0"
+                                    xmlns:xpl="https://www.daliboris.cz/ns/xproc/pipeline"
+                                    xmlns:xtei="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/tei"
+                                    xmlns:tei="http://www.tei-c.org/ns/1.0">
+                        <xhtml:h2/>
+                        <xhtml:p/>
+                     </xhtml:section>
+                  </documentation>
+                  <call step="p:variable"
+                        name="debug">
+                     <parameter name="select"
+                                value="$debug-path || '' ne ''"/>
+                  </call>
+                  <call step="p:variable"
+                        name="debug-path-uri">
+                     <parameter name="select"
+                                value="resolve-uri($debug-path, $base-uri)"/>
+                  </call>
+                  <call step="p:variable"
+                        name="data-file-path-uri">
+                     <parameter name="select"
+                                value="resolve-uri($data-file-path, $base-uri)"/>
+                  </call>
+                  <call step="p:variable"
+                        name="log-file-name">
+                     <parameter name="select"
+                                value="$text-id || '.xml'"/>
+                  </call>
+                  <call step="p:variable"
+                        name="log-output-directory">
+                     <parameter name="select"
+                                value="if(empty($debug-path)) then () else $debug-path || '/tei-processing/' || $text-id"/>
+                  </call>
+                  <call step="p:xslt">
+                     <port name="stylesheet">
+                        <parameter name="href"
+                                   value="../xslt/docx2dracor/tei-processing/dracor-xml-to-tei.xsl"
+                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/docx2dracor/tei-processing/dracor-xml-to-tei.xsl"/>
+                     </port>
+                  </call>
+                  <call step="xlog:store">
+                     <parameter name="output-directory"
+                                value="{$log-output-directory}"/>
+                     <parameter name="base-uri"
+                                value="{$base-uri}"/>
+                     <parameter name="file-name"
+                                value="{$log-file-name}"/>
+                     <parameter name="debug"
+                                value="{$debug}"/>
+                     <parameter name="step"
+                                value="1"/>
+                  </call>
+                  <call step="p:xslt">
+                     <port name="stylesheet">
+                        <parameter name="href"
+                                   value="../xslt/docx2dracor/tei-processing/dracor-tei-convert-to-lb.xsl"
+                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/docx2dracor/tei-processing/dracor-tei-convert-to-lb.xsl"/>
+                     </port>
+                  </call>
+                  <call step="xlog:store">
+                     <parameter name="output-directory"
+                                value="{$log-output-directory}"/>
+                     <parameter name="base-uri"
+                                value="{$base-uri}"/>
+                     <parameter name="file-name"
+                                value="{$log-file-name}"/>
+                     <parameter name="debug"
+                                value="{$debug}"/>
+                     <parameter name="step"
+                                value="2"/>
+                  </call>
+                  <call step="p:xslt">
+                     <port name="stylesheet">
+                        <parameter name="href"
+                                   value="../xslt/docx2dracor/tei-processing/tei-add-castList.xsl"
+                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/docx2dracor/tei-processing/tei-add-castList.xsl"/>
+                     </port>
+                  </call>
+                  <call step="xlog:store">
+                     <parameter name="output-directory"
+                                value="{$log-output-directory}"/>
+                     <parameter name="base-uri"
+                                value="{$base-uri}"/>
+                     <parameter name="file-name"
+                                value="{$log-file-name}"/>
+                     <parameter name="debug"
+                                value="{$debug}"/>
+                     <parameter name="step"
+                                value="5"/>
+                  </call>
+                  <call step="p:xslt">
+                     <port name="stylesheet">
+                        <parameter name="href"
+                                   value="../xslt/docx2dracor/tei-processing/tei-fix-stage.xsl"
+                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/docx2dracor/tei-processing/tei-fix-stage.xsl"/>
+                     </port>
+                  </call>
+                  <call step="xlog:store">
+                     <parameter name="output-directory"
+                                value="{$log-output-directory}"/>
+                     <parameter name="base-uri"
+                                value="{$base-uri}"/>
+                     <parameter name="file-name"
+                                value="{$log-file-name}"/>
+                     <parameter name="debug"
+                                value="{$debug}"/>
+                     <parameter name="step"
+                                value="10"/>
+                  </call>
+                  <call step="p:xslt">
+                     <port name="stylesheet">
+                        <parameter name="href"
+                                   value="../xslt/docx2dracor/tei-processing/tei-fix-speaker.xsl"
+                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/docx2dracor/tei-processing/tei-fix-speaker.xsl"/>
+                     </port>
+                  </call>
+                  <call step="xlog:store">
+                     <parameter name="output-directory"
+                                value="{$log-output-directory}"/>
+                     <parameter name="base-uri"
+                                value="{$base-uri}"/>
+                     <parameter name="file-name"
+                                value="{$log-file-name}"/>
+                     <parameter name="debug"
+                                value="{$debug}"/>
+                     <parameter name="step"
+                                value="15"/>
+                  </call>
+                  <call step="p:xslt">
+                     <port name="stylesheet">
+                        <parameter name="href"
+                                   value="../xslt/docx2dracor/tei-processing/tei-insert-speaker.xsl"
+                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/docx2dracor/tei-processing/tei-insert-speaker.xsl"/>
+                     </port>
+                  </call>
+                  <call step="xlog:store">
+                     <parameter name="output-directory"
+                                value="{$log-output-directory}"/>
+                     <parameter name="base-uri"
+                                value="{$base-uri}"/>
+                     <parameter name="file-name"
+                                value="{$log-file-name}"/>
+                     <parameter name="debug"
+                                value="{$debug}"/>
+                     <parameter name="step"
+                                value="16"/>
+                  </call>
+                  <call step="p:xslt">
+                     <port name="stylesheet">
+                        <parameter name="href"
+                                   value="../xslt/rochotius/tei-postprocessing/rochotius-add-sp.xsl"
+                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/rochotius/tei-postprocessing/rochotius-add-sp.xsl"/>
+                     </port>
+                  </call>
+                  <call step="xlog:store">
+                     <parameter name="output-directory"
+                                value="{$log-output-directory}"/>
+                     <parameter name="base-uri"
+                                value="{$base-uri}"/>
+                     <parameter name="file-name"
+                                value="{$log-file-name}"/>
+                     <parameter name="debug"
+                                value="{$debug}"/>
+                     <parameter name="step"
+                                value="20"/>
+                  </call>
+                  <call step="p:xslt">
+                     <port name="stylesheet">
+                        <parameter name="href"
+                                   value="../xslt/common/tei-add-who-to-sp.xsl"
+                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/common/tei-add-who-to-sp.xsl"/>
+                     </port>
+                     <parameter name="parameters"
+                                value="map {'person-prefix' : '' }"/>
+                  </call>
+                  <call step="xlog:store">
+                     <parameter name="output-directory"
+                                value="{$log-output-directory}"/>
+                     <parameter name="base-uri"
+                                value="{$base-uri}"/>
+                     <parameter name="file-name"
+                                value="{$log-file-name}"/>
+                     <parameter name="debug"
+                                value="{$debug}"/>
+                     <parameter name="step"
+                                value="21"/>
+                  </call>
+                  <call step="p:xslt">
+                     <port name="stylesheet">
+                        <parameter name="href"
+                                   value="../xslt/docx2dracor/tei-processing/tei-generate-particDesc.xsl"
+                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/docx2dracor/tei-processing/tei-generate-particDesc.xsl"/>
+                     </port>
+                  </call>
+                  <call step="xlog:store">
+                     <parameter name="output-directory"
+                                value="{$log-output-directory}"/>
+                     <parameter name="base-uri"
+                                value="{$base-uri}"/>
+                     <parameter name="file-name"
+                                value="{$log-file-name}"/>
+                     <parameter name="debug"
+                                value="{$debug}"/>
+                     <parameter name="step"
+                                value="22"/>
+                  </call>
+                  <call step="p:xslt">
+                     <port name="stylesheet">
+                        <parameter name="href"
+                                   value="../xslt/docx2dracor/tei-processing/tei-add-l-part.xsl"
+                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/docx2dracor/tei-processing/tei-add-l-part.xsl"/>
+                     </port>
+                  </call>
+                  <call step="xlog:store">
+                     <parameter name="output-directory"
+                                value="{$log-output-directory}"/>
+                     <parameter name="base-uri"
+                                value="{$base-uri}"/>
+                     <parameter name="file-name"
+                                value="{$log-file-name}"/>
+                     <parameter name="debug"
+                                value="{$debug}"/>
+                     <parameter name="step"
+                                value="25"/>
+                  </call>
+                  <call step="p:xslt">
+                     <port name="stylesheet">
+                        <parameter name="href"
+                                   value="../xslt/docx2dracor/tei-processing/tei-space.xsl"
+                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/docx2dracor/tei-processing/tei-space.xsl"/>
+                     </port>
+                  </call>
+                  <call step="xlog:store">
+                     <parameter name="output-directory"
+                                value="{$log-output-directory}"/>
+                     <parameter name="base-uri"
+                                value="{$base-uri}"/>
+                     <parameter name="file-name"
+                                value="{$log-file-name}"/>
+                     <parameter name="debug"
+                                value="{$debug}"/>
+                     <parameter name="step"
+                                value="30"/>
+                  </call>
+                  <call step="p:xslt">
+                     <port name="stylesheet">
+                        <parameter name="href"
+                                   value="../xslt/docx2dracor/tei-processing/tei-clean-whitespace.xsl"
+                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/docx2dracor/tei-processing/tei-clean-whitespace.xsl"/>
+                     </port>
+                  </call>
+                  <call step="xlog:store">
+                     <parameter name="output-directory"
+                                value="{$log-output-directory}"/>
+                     <parameter name="base-uri"
+                                value="{$base-uri}"/>
+                     <parameter name="file-name"
+                                value="{$log-file-name}"/>
+                     <parameter name="debug"
+                                value="{$debug}"/>
+                     <parameter name="step"
+                                value="35"/>
+                  </call>
+                  <call step="p:delete">
+                     <parameter name="match"
+                                value="tei:speaker[@resp='#pef-dracor']"/>
+                  </call>
+                  <call step="p:delete">
+                     <parameter name="match"
+                                value="@xd2dc:*"/>
+                  </call>
+                  <call step="p:namespace-delete">
+                     <parameter name="prefixes"
+                                value="xd2dc"/>
+                  </call>
+                  <call step="p:xslt">
+                     <port name="stylesheet">
+                        <parameter name="href"
+                                   value="../xslt/xml/xml-removing-namespaces.xsl"
+                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/xml/xml-removing-namespaces.xsl"/>
+                     </port>
+                  </call>
+                  <call step="xlog:store">
+                     <parameter name="output-directory"
+                                value="{$log-output-directory}"/>
+                     <parameter name="base-uri"
+                                value="{$base-uri}"/>
+                     <parameter name="file-name"
+                                value="{$log-file-name}"/>
+                     <parameter name="debug"
+                                value="{$debug}"/>
+                     <parameter name="step"
+                                value="50"/>
+                  </call>
+               </body>
+            </step>
+            <step type="xd2dc:apply-xslt"
+                  name="applying-xslt">
+               <prolog>
+                  <namespaces>
+                     <namespace prefix="css"
+                                value="http://www.w3.org/1996/css"/>
+                     <namespace prefix="dxfs"
+                                value="https://www.daliboris.cz/ns/xproc/file-system"/>
+                     <namespace prefix="fs"
+                                value="https://www.daliboris.cz/ns/file-system"/>
+                     <namespace prefix="hub"
+                                value="http://docbook.org/ns/docbook"/>
+                     <namespace prefix="p"
+                                value="http://www.w3.org/ns/xproc"/>
+                     <namespace prefix="tei"
+                                value="http://www.tei-c.org/ns/1.0"/>
+                     <namespace prefix="xd2dc"
+                                value="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/docx2dracor"/>
+                     <namespace prefix="xevt"
+                                value="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/evt"/>
+                     <namespace prefix="xhtml"
+                                value="http://www.w3.org/1999/xhtml"/>
+                     <namespace prefix="xlog"
+                                value="https://www.daliboris.cz/ns/xproc/logging/1.0"/>
+                     <namespace prefix="xpef"
+                                value="https://www.daliboris.cz/ns/xproc/plays-encoding-framework"/>
+                     <namespace prefix="xpl"
+                                value="https://www.daliboris.cz/ns/xproc/pipeline"/>
+                     <namespace prefix="xs"
+                                value="http://www.w3.org/2001/XMLSchema"/>
+                     <namespace prefix="xtei"
+                                value="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/tei"/>
+                     <namespace prefix="xxml"
+                                value="https://www.daliboris.cz/ns/xproc/xml"/>
+                     <namespace prefix="xml"
+                                value="http://www.w3.org/XML/1998/namespace"/>
+                  </namespaces>
+                  <options>
+                     <option name="repeat"
+                             select="1"
+                             as="xs:integer"/>
+                  </options>
+                  <ports>
+                     <input port="source"
+                            primary="true"/>
+                     <input port="stylesheet"
+                            primary="false"/>
+                     <output port="result"
+                             primary="true"/>
+                  </ports>
+               </prolog>
+               <body>
+                  <call step="p:choose"
+                        length="1">
+                     <call step="p:when">
+                        <parameter name="test"
+                                   value="$repeat gt 1"/>
+                        <call step="p:xslt">
+                           <port name="source">
+                              <parameter name="pipe"
+                                         value="source@applying-xslt"/>
+                           </port>
+                           <port name="stylesheet">
+                              <parameter name="pipe"
+                                         value="stylesheet@applying-xslt"/>
+                           </port>
+                        </call>
+                     </call>
+                     <call step="p:otherwise">
+                        <call step="p:xslt">
+                           <port name="source">
+                              <parameter name="pipe"
+                                         value="source@applying-xslt"/>
+                           </port>
+                           <port name="stylesheet">
+                              <parameter name="pipe"
+                                         value="stylesheet@applying-xslt"/>
+                           </port>
+                        </call>
+                     </call>
+                  </call>
+               </body>
+            </step>
+            <step type="xd2dc:tei-conversion"
+                  name="tei-conversion">
+               <prolog>
+                  <documentation length="0">
+                     <xhtml:section xmlns:xpef="https://www.daliboris.cz/ns/xproc/plays-encoding-framework"
+                                    xmlns:css="http://www.w3.org/1996/css"
+                                    xmlns:xxml="https://www.daliboris.cz/ns/xproc/xml"
+                                    xmlns:xd2dc="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/docx2dracor"
+                                    xmlns:fs="https://www.daliboris.cz/ns/file-system"
+                                    xmlns:dxfs="https://www.daliboris.cz/ns/xproc/file-system"
+                                    xmlns:xevt="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/evt"
+                                    xmlns:hub="http://docbook.org/ns/docbook"
+                                    xmlns:xlog="https://www.daliboris.cz/ns/xproc/logging/1.0"
+                                    xmlns:xpl="https://www.daliboris.cz/ns/xproc/pipeline"
+                                    xmlns:xtei="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/tei"
+                                    xmlns:tei="http://www.tei-c.org/ns/1.0">
+                        <xhtml:h2/>
+                        <xhtml:p/>
+                     </xhtml:section>
+                  </documentation>
+                  <namespaces>
+                     <namespace prefix="css"
+                                value="http://www.w3.org/1996/css"/>
+                     <namespace prefix="dxfs"
+                                value="https://www.daliboris.cz/ns/xproc/file-system"/>
+                     <namespace prefix="fs"
+                                value="https://www.daliboris.cz/ns/file-system"/>
+                     <namespace prefix="hub"
+                                value="http://docbook.org/ns/docbook"/>
+                     <namespace prefix="p"
+                                value="http://www.w3.org/ns/xproc"/>
+                     <namespace prefix="tei"
+                                value="http://www.tei-c.org/ns/1.0"/>
+                     <namespace prefix="xd2dc"
+                                value="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/docx2dracor"/>
+                     <namespace prefix="xevt"
+                                value="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/evt"/>
+                     <namespace prefix="xhtml"
+                                value="http://www.w3.org/1999/xhtml"/>
+                     <namespace prefix="xlog"
+                                value="https://www.daliboris.cz/ns/xproc/logging/1.0"/>
+                     <namespace prefix="xpef"
+                                value="https://www.daliboris.cz/ns/xproc/plays-encoding-framework"/>
+                     <namespace prefix="xpl"
+                                value="https://www.daliboris.cz/ns/xproc/pipeline"/>
+                     <namespace prefix="xs"
+                                value="http://www.w3.org/2001/XMLSchema"/>
+                     <namespace prefix="xtei"
+                                value="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/tei"/>
+                     <namespace prefix="xxml"
+                                value="https://www.daliboris.cz/ns/xproc/xml"/>
+                     <namespace prefix="xml"
+                                value="http://www.w3.org/XML/1998/namespace"/>
+                  </namespaces>
+                  <options>
+                     <option name="debug-path"
+                             select="()"
+                             as="xs:string?"/>
+                     <option name="base-uri"
+                             as="xs:anyURI"
+                             select="static-base-uri()"/>
+                     <option name="data-file-path"
+                             as="xs:string?"/>
+                  </options>
+                  <ports>
+                     <input port="source"
+                            primary="true"/>
+                     <output port="result"
+                             primary="true"/>
+                  </ports>
+               </prolog>
+               <body>
+                  <documentation length="0">
+                     <xhtml:section xmlns:xpef="https://www.daliboris.cz/ns/xproc/plays-encoding-framework"
+                                    xmlns:css="http://www.w3.org/1996/css"
+                                    xmlns:xxml="https://www.daliboris.cz/ns/xproc/xml"
+                                    xmlns:xd2dc="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/docx2dracor"
+                                    xmlns:fs="https://www.daliboris.cz/ns/file-system"
+                                    xmlns:dxfs="https://www.daliboris.cz/ns/xproc/file-system"
+                                    xmlns:xevt="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/evt"
+                                    xmlns:hub="http://docbook.org/ns/docbook"
+                                    xmlns:xlog="https://www.daliboris.cz/ns/xproc/logging/1.0"
+                                    xmlns:xpl="https://www.daliboris.cz/ns/xproc/pipeline"
+                                    xmlns:xtei="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/tei"
+                                    xmlns:tei="http://www.tei-c.org/ns/1.0">
+                        <xhtml:h2/>
+                        <xhtml:p/>
+                     </xhtml:section>
+                  </documentation>
+                  <call step="p:variable"
+                        name="debug">
+                     <parameter name="select"
+                                value="$debug-path || '' ne ''"/>
+                  </call>
+                  <call step="p:variable"
+                        name="debug-path-uri">
+                     <parameter name="select"
+                                value="resolve-uri($debug-path, $base-uri)"/>
+                  </call>
+                  <call step="p:variable"
+                        name="data-file-path-uri">
+                     <parameter name="select"
+                                value="resolve-uri($data-file-path, $base-uri)"/>
+                  </call>
+                  <call step="dxfs:document-file-info"
+                        name="info"/>
+                  <call step="p:variable"
+                        name="file">
+                     <parameter name="select"
+                                value="/fs:file"/>
+                     <parameter name="pipe"
+                                value="report@info"/>
+                  </call>
+                  <call step="p:variable"
+                        name="log-output-directory">
+                     <parameter name="select"
+                                value="$debug-path || '/docx2dracor/' || $file/@stem"/>
+                  </call>
+                  <call step="p:variable"
+                        name="log-file-name">
+                     <parameter name="select"
+                                value="$file/@stem || '.xml'"/>
+                  </call>
+                  <call step="xxml:clean-namespaces"/>
+                  <call step="xlog:store">
+                     <parameter name="output-directory"
+                                value="{$log-output-directory}"/>
+                     <parameter name="base-uri"
+                                value="{$base-uri}"/>
+                     <parameter name="file-name"
+                                value="{$log-file-name}"/>
+                     <parameter name="debug"
+                                value="{$debug}"/>
+                     <parameter name="step"
+                                value="20"/>
+                  </call>
+               </body>
+            </step>
+            <step type="xd2dc:convert"
+                  name="conversion">
+               <prolog>
+                  <documentation length="0">
+                     <xhtml:section xmlns:xpef="https://www.daliboris.cz/ns/xproc/plays-encoding-framework"
+                                    xmlns:css="http://www.w3.org/1996/css"
+                                    xmlns:xxml="https://www.daliboris.cz/ns/xproc/xml"
+                                    xmlns:xd2dc="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/docx2dracor"
+                                    xmlns:fs="https://www.daliboris.cz/ns/file-system"
+                                    xmlns:dxfs="https://www.daliboris.cz/ns/xproc/file-system"
+                                    xmlns:xevt="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/evt"
+                                    xmlns:hub="http://docbook.org/ns/docbook"
+                                    xmlns:xlog="https://www.daliboris.cz/ns/xproc/logging/1.0"
+                                    xmlns:xpl="https://www.daliboris.cz/ns/xproc/pipeline"
+                                    xmlns:xtei="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/tei"
+                                    xmlns:tei="http://www.tei-c.org/ns/1.0">
+                        <xhtml:h2/>
+                        <xhtml:p/>
+                     </xhtml:section>
+                  </documentation>
+                  <namespaces>
+                     <namespace prefix="css"
+                                value="http://www.w3.org/1996/css"/>
+                     <namespace prefix="dxfs"
+                                value="https://www.daliboris.cz/ns/xproc/file-system"/>
+                     <namespace prefix="fs"
+                                value="https://www.daliboris.cz/ns/file-system"/>
+                     <namespace prefix="hub"
+                                value="http://docbook.org/ns/docbook"/>
+                     <namespace prefix="p"
+                                value="http://www.w3.org/ns/xproc"/>
+                     <namespace prefix="tei"
+                                value="http://www.tei-c.org/ns/1.0"/>
+                     <namespace prefix="xd2dc"
+                                value="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/docx2dracor"/>
+                     <namespace prefix="xevt"
+                                value="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/evt"/>
+                     <namespace prefix="xhtml"
+                                value="http://www.w3.org/1999/xhtml"/>
+                     <namespace prefix="xlog"
+                                value="https://www.daliboris.cz/ns/xproc/logging/1.0"/>
+                     <namespace prefix="xpef"
+                                value="https://www.daliboris.cz/ns/xproc/plays-encoding-framework"/>
+                     <namespace prefix="xpl"
+                                value="https://www.daliboris.cz/ns/xproc/pipeline"/>
+                     <namespace prefix="xs"
+                                value="http://www.w3.org/2001/XMLSchema"/>
+                     <namespace prefix="xtei"
+                                value="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/tei"/>
+                     <namespace prefix="xxml"
+                                value="https://www.daliboris.cz/ns/xproc/xml"/>
+                     <namespace prefix="xml"
+                                value="http://www.w3.org/XML/1998/namespace"/>
+                  </namespaces>
+                  <options>
+                     <option name="debug-path"
+                             select="()"
+                             as="xs:string?"/>
+                     <option name="base-uri"
+                             as="xs:anyURI"
+                             select="static-base-uri()"/>
+                     <option name="target"
+                             as="xs:string*"
+                             values="('TEI', 'text')"/>
+                     <option name="data-file-path"
+                             as="xs:string?"/>
+                  </options>
+                  <ports>
+                     <input port="source"
+                            primary="true"/>
+                     <output port="result"
+                             primary="true"/>
+                  </ports>
+               </prolog>
+               <body>
+                  <documentation length="0">
+                     <xhtml:section xmlns:xpef="https://www.daliboris.cz/ns/xproc/plays-encoding-framework"
+                                    xmlns:css="http://www.w3.org/1996/css"
+                                    xmlns:xxml="https://www.daliboris.cz/ns/xproc/xml"
+                                    xmlns:xd2dc="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/docx2dracor"
+                                    xmlns:fs="https://www.daliboris.cz/ns/file-system"
+                                    xmlns:dxfs="https://www.daliboris.cz/ns/xproc/file-system"
+                                    xmlns:xevt="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/evt"
+                                    xmlns:hub="http://docbook.org/ns/docbook"
+                                    xmlns:xlog="https://www.daliboris.cz/ns/xproc/logging/1.0"
+                                    xmlns:xpl="https://www.daliboris.cz/ns/xproc/pipeline"
+                                    xmlns:xtei="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/tei"
+                                    xmlns:tei="http://www.tei-c.org/ns/1.0">
+                        <xhtml:h2/>
+                        <xhtml:p/>
+                     </xhtml:section>
+                  </documentation>
+                  <call step="p:choose"
+                        length="1">
+                     <call step="p:when">
+                        <parameter name="test"
+                                   value="$target='TEI'"/>
+                     </call>
+                  </call>
+                  <call step="p:choose"
+                        length="1">
+                     <call step="p:when">
+                        <parameter name="test"
+                                   value="$target='text'"/>
+                     </call>
+                  </call>
+               </body>
+            </step>
+            <step type="xd2dc:docx-to-text">
+               <prolog>
+                  <documentation length="0">
+                     <xhtml:section xmlns:xpef="https://www.daliboris.cz/ns/xproc/plays-encoding-framework"
+                                    xmlns:css="http://www.w3.org/1996/css"
+                                    xmlns:xxml="https://www.daliboris.cz/ns/xproc/xml"
+                                    xmlns:xd2dc="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/docx2dracor"
+                                    xmlns:fs="https://www.daliboris.cz/ns/file-system"
+                                    xmlns:dxfs="https://www.daliboris.cz/ns/xproc/file-system"
+                                    xmlns:xevt="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/evt"
+                                    xmlns:hub="http://docbook.org/ns/docbook"
+                                    xmlns:xlog="https://www.daliboris.cz/ns/xproc/logging/1.0"
+                                    xmlns:xpl="https://www.daliboris.cz/ns/xproc/pipeline"
+                                    xmlns:xtei="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/tei"
+                                    xmlns:tei="http://www.tei-c.org/ns/1.0">
+                        <xhtml:h2/>
+                        <xhtml:p/>
+                     </xhtml:section>
+                  </documentation>
+                  <namespaces>
+                     <namespace prefix="css"
+                                value="http://www.w3.org/1996/css"/>
+                     <namespace prefix="dxfs"
+                                value="https://www.daliboris.cz/ns/xproc/file-system"/>
+                     <namespace prefix="fs"
+                                value="https://www.daliboris.cz/ns/file-system"/>
+                     <namespace prefix="hub"
+                                value="http://docbook.org/ns/docbook"/>
+                     <namespace prefix="p"
+                                value="http://www.w3.org/ns/xproc"/>
+                     <namespace prefix="tei"
+                                value="http://www.tei-c.org/ns/1.0"/>
+                     <namespace prefix="xd2dc"
+                                value="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/docx2dracor"/>
+                     <namespace prefix="xevt"
+                                value="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/evt"/>
+                     <namespace prefix="xhtml"
+                                value="http://www.w3.org/1999/xhtml"/>
+                     <namespace prefix="xlog"
+                                value="https://www.daliboris.cz/ns/xproc/logging/1.0"/>
+                     <namespace prefix="xpef"
+                                value="https://www.daliboris.cz/ns/xproc/plays-encoding-framework"/>
+                     <namespace prefix="xpl"
+                                value="https://www.daliboris.cz/ns/xproc/pipeline"/>
+                     <namespace prefix="xs"
+                                value="http://www.w3.org/2001/XMLSchema"/>
+                     <namespace prefix="xtei"
+                                value="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/tei"/>
+                     <namespace prefix="xxml"
+                                value="https://www.daliboris.cz/ns/xproc/xml"/>
+                     <namespace prefix="xml"
+                                value="http://www.w3.org/XML/1998/namespace"/>
+                  </namespaces>
+                  <options>
+                     <option name="debug-path"
+                             select="()"
+                             as="xs:string?"/>
+                     <option name="base-uri"
+                             as="xs:anyURI"
+                             select="static-base-uri()"/>
+                  </options>
+                  <ports>
+                     <input port="source"
+                            primary="true"/>
+                     <output port="result"
+                             primary="true"/>
+                  </ports>
+               </prolog>
+               <body>
+                  <documentation length="0">
+                     <xhtml:section xmlns:xpef="https://www.daliboris.cz/ns/xproc/plays-encoding-framework"
+                                    xmlns:css="http://www.w3.org/1996/css"
+                                    xmlns:xxml="https://www.daliboris.cz/ns/xproc/xml"
+                                    xmlns:xd2dc="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/docx2dracor"
+                                    xmlns:fs="https://www.daliboris.cz/ns/file-system"
+                                    xmlns:dxfs="https://www.daliboris.cz/ns/xproc/file-system"
+                                    xmlns:xevt="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/evt"
+                                    xmlns:hub="http://docbook.org/ns/docbook"
+                                    xmlns:xlog="https://www.daliboris.cz/ns/xproc/logging/1.0"
+                                    xmlns:xpl="https://www.daliboris.cz/ns/xproc/pipeline"
+                                    xmlns:xtei="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/tei"
+                                    xmlns:tei="http://www.tei-c.org/ns/1.0">
+                        <xhtml:h2/>
+                        <xhtml:p/>
+                     </xhtml:section>
+                  </documentation>
+               </body>
+            </step>
+         </body>
+      </library>
+   </analysis>
    <analysis file-name="docx2tei-lib.xpl"
              path="file:///V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xproc/docx2tei-lib.xpl"
              xmlns="https://www.daliboris.cz/ns/xproc/analysis"
@@ -170,12 +1480,7 @@
                <namespace prefix="xml"
                           value="http://www.w3.org/XML/1998/namespace"/>
             </namespaces>
-            <imports>
-               <import href="../includes/file-system-xpc-lib/src/xproc/file-system-xpc-lib.xpl"/>
-               <import href="../includes/log-xpc-lib/src/xproc/log-xpc-lib.xpl"/>
-               <import href="pef-xpc-lib-base.xpl"/>
-               <import href="tei-play-lib.xpl"/>
-            </imports>
+            <imports/>
          </prolog>
          <body>
             <documentation length="0">
@@ -821,9 +2126,7 @@
                <namespace prefix="xml"
                           value="http://www.w3.org/XML/1998/namespace"/>
             </namespaces>
-            <imports>
-               <import href="common-lib.xpl"/>
-            </imports>
+            <imports/>
          </prolog>
          <body>
             <documentation length="0">
@@ -1166,11 +2469,7 @@
                <namespace prefix="xml"
                           value="http://www.w3.org/XML/1998/namespace"/>
             </namespaces>
-            <imports>
-               <import href="common-lib.xpl"/>
-               <import href="pef-xpc-lib-common.xpl"/>
-               <import href="../includes/file-system-xpc-lib/src/xproc/file-system-xpc-lib.xpl"/>
-            </imports>
+            <imports/>
             <options/>
          </prolog>
          <body>
@@ -1907,11 +3206,7 @@
                <namespace prefix="xml"
                           value="http://www.w3.org/XML/1998/namespace"/>
             </namespaces>
-            <imports>
-               <import href="../includes/file-system-xpc-lib/src/xproc/file-system-xpc-lib.xpl"/>
-               <import href="../includes/log-xpc-lib/src/xproc/log-xpc-lib.xpl"/>
-               <import href="tei-play-lib.xpl"/>
-            </imports>
+            <imports/>
          </prolog>
          <body>
             <documentation length="0">
@@ -3905,11 +5200,7 @@
                <namespace prefix="xml"
                           value="http://www.w3.org/XML/1998/namespace"/>
             </namespaces>
-            <imports>
-               <import href="../includes/docx-xpc-lib/src/xproc/docx-xpc-lib.xpl"/>
-               <import href="../includes/log-xpc-lib/src/xproc/log-xpc-lib.xpl"/>
-               <import href="pef-xpc-lib-common.xpl"/>
-            </imports>
+            <imports/>
          </prolog>
          <body>
             <documentation length="37">
@@ -4560,9 +5851,7 @@
                <namespace prefix="xml"
                           value="http://www.w3.org/XML/1998/namespace"/>
             </namespaces>
-            <imports>
-               <import href="../includes/log-xpc-lib/src/xproc/log-xpc-lib.xpl"/>
-            </imports>
+            <imports/>
          </prolog>
          <body>
             <documentation length="39">
@@ -4746,12 +6035,7 @@
                <namespace prefix="xml"
                           value="http://www.w3.org/XML/1998/namespace"/>
             </namespaces>
-            <imports>
-               <import href="../includes/log-xpc-lib/src/xproc/log-xpc-lib.xpl"/>
-               <import href="common-lib.xpl"/>
-               <import href="evt-play-lib.xpl"/>
-               <import href="dracor-lib.xpl"/>
-            </imports>
+            <imports/>
          </prolog>
          <body>
             <documentation length="0">

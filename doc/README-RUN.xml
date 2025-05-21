@@ -1,5 +1,228 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xpan:report xmlns:xpan="https://www.daliboris.cz/ns/xproc/analysis">
+   <analysis file-name="docx2dracor.xpl"
+             path="file:///V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/run/docx2dracor.xpl"
+             xmlns="https://www.daliboris.cz/ns/xproc/analysis"
+             xmlns:xhtml="http://www.w3.org/1999/xhtml">
+      <step name="docx2dracor">
+         <prolog>
+            <documentation length="0">
+               <xhtml:section xmlns:xpef="https://www.daliboris.cz/ns/xproc/plays-encoding-framework"
+                              xmlns:xlog="https://www.daliboris.cz/ns/xproc/logging/1.0"
+                              xmlns:xpl="https://www.daliboris.cz/ns/xproc/pipeline"
+                              xmlns:xtei="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/tei"
+                              xmlns:xd2dc="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/docx2dracor"
+                              xmlns:xpefjt="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/job-ticket"
+                              xmlns:fs="https://www.daliboris.cz/ns/file-system"
+                              xmlns:dxfs="https://www.daliboris.cz/ns/xproc/file-system">
+                  <xhtml:h1/>
+                  <xhtml:p/>
+               </xhtml:section>
+            </documentation>
+            <namespaces>
+               <namespace prefix="c"
+                          value="http://www.w3.org/ns/xproc-step"/>
+               <namespace prefix="dxfs"
+                          value="https://www.daliboris.cz/ns/xproc/file-system"/>
+               <namespace prefix="fs"
+                          value="https://www.daliboris.cz/ns/file-system"/>
+               <namespace prefix="p"
+                          value="http://www.w3.org/ns/xproc"/>
+               <namespace prefix="xd2dc"
+                          value="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/docx2dracor"/>
+               <namespace prefix="xhtml"
+                          value="http://www.w3.org/1999/xhtml"/>
+               <namespace prefix="xlog"
+                          value="https://www.daliboris.cz/ns/xproc/logging/1.0"/>
+               <namespace prefix="xpef"
+                          value="https://www.daliboris.cz/ns/xproc/plays-encoding-framework"/>
+               <namespace prefix="xpefjt"
+                          value="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/job-ticket"/>
+               <namespace prefix="xpl"
+                          value="https://www.daliboris.cz/ns/xproc/pipeline"/>
+               <namespace prefix="xs"
+                          value="http://www.w3.org/2001/XMLSchema"/>
+               <namespace prefix="xtei"
+                          value="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/tei"/>
+               <namespace prefix="xml"
+                          value="http://www.w3.org/XML/1998/namespace"/>
+            </namespaces>
+            <imports>
+               <import href="../src/includes/log-xpc-lib/src/xproc/log-xpc-lib.xpl"/>
+               <import href="../src/xproc/docx2dracor-lib.xpl"/>
+               <import href="../src/xproc/tei-play-lib.xpl"/>
+            </imports>
+            <options>
+               <option name="debug-path"
+                       select="'../_debug'"
+                       as="xs:string?"/>
+               <option name="base-uri"
+                       as="xs:anyURI"
+                       select="static-base-uri()"/>
+               <option name="data-directory-path"
+                       as="xs:anyURI"
+                       select="'../data'"/>
+               <option name="data-file-path"
+                       as="xs:string"
+                       select="'../data/local.gnapheus-acolastus-data.xml'"/>
+               <option name="innput-directory-path"
+                       select="'../src/input/text/docx/dracor'"
+                       as="xs:string?"/>
+               <option name="output-directory-path"
+                       as="xs:string?"
+                       select="'../_output'"/>
+               <option name="output-file-name"
+                       as="xs:string?"
+                       select="()"/>
+            </options>
+            <ports>
+               <input port="source"
+                      primary="true"
+                      href="../src/input/text/docx/dracor/Gnapheus-Acolastus_markup_v5.docx"
+                      sequence="true"/>
+               <input port="job-ticket"
+                      primary="false"
+                      href="../data/translatin-ticket.xml"/>
+               <output port="result"
+                       primary="true"/>
+            </ports>
+         </prolog>
+         <body>
+            <call step="p:variable"
+                  name="debug">
+               <parameter name="select"
+                          value="$debug-path || '' ne ''"/>
+            </call>
+            <call step="p:variable"
+                  name="debug-path-uri">
+               <parameter name="select"
+                          value="resolve-uri($debug-path, $base-uri)"/>
+            </call>
+            <call step="p:variable"
+                  name="steps">
+               <parameter name="select"
+                          value="/xpefjt:job-ticket/xpefjt:scenario/xpefjt:step"/>
+               <parameter name="pipe"
+                          value="job-ticket@docx2dracor"/>
+            </call>
+            <call step="dxfs:document-file-info"
+                  name="info"/>
+            <call step="p:variable"
+                  name="file-stem">
+               <parameter name="select"
+                          value="/fs:file/@stem"/>
+               <parameter name="pipe"
+                          value="report@info"/>
+            </call>
+            <call step="p:variable"
+                  name="output-file-name">
+               <parameter name="select"
+                          value="if(empty($output-file-name)) then $file-stem else $output-file-name"/>
+            </call>
+            <call step="p:variable"
+                  name="text-id">
+               <parameter name="select"
+                          value="/data/@id"/>
+               <parameter name="href"
+                          value="{$data-file-path}"/>
+            </call>
+            <call step="p:variable"
+                  name="source-debug-path">
+               <parameter name="select"
+                          value="if(empty($debug-path)) then () else $debug-path ||  '/' || $text-id"/>
+            </call>
+            <call step="p:choose"
+                  length="1">
+               <call step="p:when">
+                  <parameter name="test"
+                             value="$steps[@name='xd2dc:input-processing']"/>
+               </call>
+            </call>
+            <call step="p:choose"
+                  length="1">
+               <call step="p:when">
+                  <parameter name="test"
+                             value="$steps[@name='xd2dc:tei-processing']"/>
+               </call>
+            </call>
+            <call step="p:choose"
+                  length="1">
+               <call step="p:when">
+                  <parameter name="test"
+                             value="$steps[@name='xd2dc:tei-postprocessing']"/>
+               </call>
+            </call>
+            <call step="p:identity"
+                  name="tei"/>
+            <call step="xlog:store">
+               <parameter name="output-directory"
+                          value="{$output-directory-path}/{$text-id}/tei"/>
+               <parameter name="base-uri"
+                          value="{$base-uri}"/>
+               <parameter name="debug"
+                          value="true"/>
+               <parameter name="file-name"
+                          value="{$output-file-name}.xml"/>
+            </call>
+            <call step="xtei:convert">
+               <parameter name="output-directory-path"
+                          value="{$output-directory-path}"/>
+               <parameter name="data-file-path"
+                          value="{$data-file-path}"/>
+               <parameter name="debug-path"
+                          value="{$debug-path}"/>
+               <parameter name="base-uri"
+                          value="{$base-uri}"/>
+               <parameter name="output-file-name"
+                          value="{$output-file-name}"/>
+               <parameter name="target"
+                          value="text"/>
+               <port name="source">
+                  <parameter name="pipe"
+                             value="result@tei"/>
+               </port>
+            </call>
+            <call step="xlog:store">
+               <parameter name="output-directory"
+                          value="{$output-directory-path}/{$text-id}/text"/>
+               <parameter name="base-uri"
+                          value="{$base-uri}"/>
+               <parameter name="debug"
+                          value="true"/>
+               <parameter name="file-name"
+                          value="{$output-file-name}-tei.xml"/>
+            </call>
+            <call step="xd2dc:convert">
+               <parameter name="target"
+                          value="text"/>
+               <parameter name="debug-path"
+                          value="{$debug-path}"/>
+               <parameter name="base-uri"
+                          value="{$base-uri}"/>
+               <port name="source">
+                  <parameter name="pipe"
+                             value="source@docx2dracor"/>
+               </port>
+            </call>
+            <call step="xlog:store">
+               <parameter name="output-directory"
+                          value="{$output-directory-path}/{$text-id}/text"/>
+               <parameter name="base-uri"
+                          value="{$base-uri}"/>
+               <parameter name="debug"
+                          value="true"/>
+               <parameter name="file-name"
+                          value="{$output-file-name}-docx.xml"/>
+            </call>
+            <call step="p:identity">
+               <port name="source">
+                  <parameter name="pipe"
+                             value="report"/>
+               </port>
+            </call>
+         </body>
+      </step>
+   </analysis>
    <analysis file-name="docx2tei.xpl"
              path="file:///V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/run/docx2tei.xpl"
              xmlns="https://www.daliboris.cz/ns/xproc/analysis"

@@ -14,6 +14,8 @@
   </xd:desc>
  </xd:doc>
  
+ <xsl:param name="person-prefix" select="'per.'" />
+ 
  <xsl:import href="_tei-play-variables.xsl"/>
  <xsl:output method="xml" indent="yes"/>
  <xsl:mode on-no-match="shallow-copy"/>
@@ -22,7 +24,7 @@
  <xsl:template match="tei:sp[not(@who)]">
   <xsl:variable name="speaker" select="let $text := if(tei:speaker[tei:app]) then tei:speaker/tei:app/tei:lem else tei:speaker/text()[1] return translate($text/normalize-space(), ' .[]:', '-')"/>
   <xsl:variable name="character-id" select="concat('per.', lower-case($speaker), $full-suffix)"/>
-  <xsl:variable name="id" select="if(key('characters', $character-id)) then '#' || $character-id else concat('#per.', lower-case($speaker))"/>
+  <xsl:variable name="id" select="if(key('characters', $character-id)) then '#' || $character-id else concat('#', $person-prefix, lower-case($speaker))"/>
   <xsl:copy>
    <xsl:copy-of select="@*" />
    <xsl:attribute name="who" select="$id" />
