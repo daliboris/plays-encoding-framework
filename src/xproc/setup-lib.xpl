@@ -58,6 +58,7 @@
 # directories with temporary files
 _debug
 _temp
+_output
 
 # editor settings and directories
 .vscode
