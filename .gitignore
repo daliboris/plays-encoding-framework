@@ -1,7 +1,8 @@
 
-# directories with temporary files
+# directories with temporary and output files
 _debug
 _temp
+_output
 
 # directories with generated files
 output
