@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xpefjt:job-ticket xmlns:xpefjt="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/job-ticket">
+ <xpefjt:scenario name="dracor" input-file-mask="Gnapheus-Acolastus_markup\.docx">
+  <xpefjt:step name="xd2dc:input-processing" />
+  <xpefjt:step name="xd2dc:tei-processing" />
+  <xpefjt:step name="xd2dc:tei-postprocessing" />
+ </xpefjt:scenario>
+</xpefjt:job-ticket>
