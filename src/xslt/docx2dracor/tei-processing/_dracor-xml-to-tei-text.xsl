@@ -128,7 +128,7 @@
   </xsl:element>
  </xsl:template>
  
- <xsl:template match="DraCor-line-number">
+ <xsl:template match="DraCor-page-beginning">
   <xsl:variable name="value" select="normalize-space()"/>
   <xsl:element name="pb" namespace="http://www.tei-c.org/ns/1.0">
    <xsl:attribute name="n" select="$value" />
