@@ -20,6 +20,21 @@ Plays Encoding Framework for conversion and encoding plays in TEI format
   - (run command line as administrator): `setx /m PATH "%PATH%;C:\Programs\MorganaXProc-IIIse"`
     - [switch](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/setx) `/m`: Specifies to set the variable in the system environment. The default setting is the local environment.
 
+#### MorganaXProc-IIIse configuration
+
+Open `config.xml` file distributed with MorganaXProc-IIIse application.
+
+Add following lines inside `<morgana-config>` element:
+
+```xml
+<xslt-connector>saxon12-3</xslt-connector>
+<xquery-connector>saxon12-3</xquery-connector>
+```
+
+Save `config.xml` file.
+
+For more details, please consult official [user manual](https://xml-project.com/manual/index.html).
+
 ### Runnig pipeline
 
 Use pipelines stored in the [`run`](./run) directory in file with `.xpl` extension.
@@ -32,6 +47,43 @@ You can modify options. Frequently used options and their meaning:
 - `output-file-name`: the name of the file stored in the output directory, withou extension
 
 If use directory names `_debug`, `_output` or `_temp`, they will not be synchronized with the GitHub repository.
+
+#### Running from command line
+
+Run existing Xproc 3.0 pipeline from the command line using batch file.
+
+Example of the batch file located in the [cmd](../cmd) directory that runs `docx2dracor.xpl` file with inputs or parameters. Path can be absolute, or relative. Please, use forward slashes in the file path, even in Windows.
+
+```script
+@echo off
+Morgana.bat ^
+-config=file:/D:/Programy/Xml/Morgana-run/config.xml ^
+../run/docx2dracor.xpl ^
+-input:source=../src/input/text/docx/dracor/Gnapheus-Acolastus_markup_v5.docx ^
+-input:job-ticket=../data/translatin-ticket.xml ^
+-option:data-file-path=../data/local.gnapheus-acolastus-data.xml ^
+-option:output-directory-path=../_output ^
+-option:output-file-name=Gnapheus-Acolastus ^
+-option:debug-path=../_debug
+```
+
+Version for macOS:
+
+```script
+#!/bin/bash
+
+# Spuštění Morgana s příslušnými parametry
+./Morgana.sh \
+  -config=file:$(pwd)/../Morgana-run/config.xml \
+  ../run/docx2dracor.xpl \
+  -input:source=../src/input/text/docx/dracor/Gnapheus-Acolastus_markup_v5.docx \
+  -input:job-ticket=../data/translatin-ticket.xml \
+  -option:data-file-path=../data/local.gnapheus-acolastus-data.xml \
+  -option:output-directory-path=../_output \
+  -option:output-file-name=Gnapheus-Acolastus \
+  -option:debug-path=../_debug
+```
+
 
 ### Available pipelines
 
