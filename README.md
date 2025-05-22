@@ -5,14 +5,14 @@ Plays Encoding Framework for conversion and encoding plays in TEI format
 ## Prerequisites
 
 - [Java 11](https://www.azul.com/downloads/?version=java-11-lts&package=jdk#zulu "Download Azul Zulu OpenJDK")
-- [Saxon-HE 12.3](https://github.com/Saxonica/Saxon-HE/releases/tag/SaxonHE12-7 "Download SaxonHE12-7J")
+- [Saxon-HE 12.7](https://github.com/Saxonica/Saxon-HE/releases/tag/SaxonHE12-7 "Download SaxonHE12-7J")
 - [MorganaXProc-IIIse 1.6.7](https://sourceforge.net/projects/morganaxproc-iiise/files/MorganaXProc-IIIse-1.6.7/ "Donwload MorganaXProc-IIIse 1.6.7")
 
 ### Setting up the environment
 
 - [ ] Install Java JDK 11
 - [ ] Extract content of the [MorganaXProc-IIIse-1.6.7.zip](https://sourceforge.net/projects/morganaxproc-iiise/files/MorganaXProc-IIIse-1.6.7/MorganaXProc-IIIse-1.6.7.zip/download "Donwload MorganaXProc-IIIse 1.6.7.zip file")
-- [ ] Extract content of the [SaxonHE12-5J.zip](https://github.com/Saxonica/Saxon-HE/releases/download/SaxonHE12-7/SaxonHE12-7J.zip "Download SaxonHE12-7J") file
+- [ ] Extract content of the [SaxonHE12-7J.zip](https://github.com/Saxonica/Saxon-HE/releases/download/SaxonHE12-7/SaxonHE12-7J.zip "Download SaxonHE12-7J") file
   - [ ] copy extracted `saxon-he-12.7.jar` and `saxon-he-xqj-12.7.jar` files to the `MorganaXProc-IIIse_lib` folder
 - [ ] On your operating system, set environment `PATH` variable to point to the location of the `MorganaXProc-IIIse` folder
 - for example on Windows:
@@ -29,14 +29,11 @@ Add following lines inside `<morgana-config>` element:
 ```xml
 <xslt-connector>saxon12-3</xslt-connector>
 <xquery-connector>saxon12-3</xquery-connector>
-```
 
-Also add the following lines to the `<mediatype-mapping>` element:
-
-```xml
+<mediatype-mapping>
 <map file-extension="rels" media-type="application/xml" />
 <map file-extension="docx" media-type="application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
-
+</mediatype-mapping>
 ```
 
 Save `config.xml` file.
