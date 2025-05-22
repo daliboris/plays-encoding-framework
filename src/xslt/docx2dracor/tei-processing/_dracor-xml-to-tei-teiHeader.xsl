@@ -149,6 +149,10 @@
     <xsl:variable name="source-critical-edition" select="./row[$rows?source-critical-edition]/cell[2]"/>
     <xsl:variable name="digital-source" select="./row[$rows?digital-source]/cell[2]"/>
     
+    <xsl:variable name="copyright-of-the-source-text-edition" select="./row[$rows?copyright-of-the-source-text-edition]/cell[2]"/>
+    <xsl:variable name="copyright-of-the-source-critical-edition" select="./row[$rows?copyright-of-the-source-critical-edition]/cell[2]"/>
+    <xsl:variable name="copyright-of-the-digital-source" select="./row[$rows?copyright-of-the-digital-source]/cell[2]"/>
+    
     <publicationStmt>
      
      <xsl:apply-templates select="." mode="element">
@@ -165,7 +169,7 @@
        </xsl:apply-templates>
       </licence>
       
-      <xsl:if test="not(xpef:is-empty($source-text-edition))">
+      <xsl:if test="not(xpef:is-empty($copyright-of-the-source-text-edition))">
        <p xmlns="http://www.tei-c.org/ns/1.0">
         <xsl:text>Copyright of the text edition (c) </xsl:text>
         <xsl:apply-templates select="." mode="element">
@@ -178,7 +182,7 @@
        </p>
       </xsl:if>
        
-      <xsl:if test="not(xpef:is-empty($source-critical-edition))">
+      <xsl:if test="not(xpef:is-empty($copyright-of-the-source-critical-edition))">
         <p xmlns="http://www.tei-c.org/ns/1.0">
          <xsl:text>Copyright of the critical edition (c) </xsl:text>
          <xsl:apply-templates select="." mode="element">
@@ -191,7 +195,9 @@
         </p>
        </xsl:if>
        
-        <xsl:if test="not(xpef:is-empty($digital-source))">
+      
+       
+      <xsl:if test="not(xpef:is-empty($copyright-of-the-digital-source))">
          <p xmlns="http://www.tei-c.org/ns/1.0">
           <xsl:text>Copyright of the digital source (c) </xsl:text>
           <xsl:apply-templates select="." mode="element">
