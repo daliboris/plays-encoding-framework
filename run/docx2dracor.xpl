@@ -26,8 +26,10 @@
  
  <!-- INPUT PORTS -->
 <!-- <p:input  port="source" primary="true" href="../src/input/text/docx/dracor/Metadata_table.docx" sequence="true" />-->
-<!-- <p:input  port="source" primary="true" href="../src/input/text/docx/dracor/NeoLatDraCor_hackathon_plays_metadata.docx" sequence="true" />-->
- <p:input  port="source" primary="true" href="../src/input/text/docx/dracor/Gnapheus-Acolastus_markup_v5.docx" sequence="true" />
+<!-- <p:input  port="source" primary="true" href="../src/input/text/docx/dracor/Metadata_table.docx" sequence="true" />-->
+<!-- <p:input  port="source" primary="true" href="../src/input/text/docx/dracor/Lummenaeus-Saul.docx" sequence="true" />-->
+ <p:input  port="source" primary="true" href="../src/input/text/docx/dracor/Placentius-Susanna.docx" sequence="true" />
+<!-- <p:input  port="source" primary="true" href="../src/input/text/docx/dracor/Gnapheus-Acolastus_markup_v5.docx" sequence="true" />-->
  <p:input  port="job-ticket" primary="false" href="../data/translatin-ticket.xml" />
  
  
@@ -39,7 +41,7 @@
  <p:option name="base-uri" as="xs:anyURI" select="static-base-uri()"/>
 
  <p:option name="data-directory-path" as="xs:anyURI"  select="'../data'" />
- <p:option name="data-file-path" as="xs:string" select="'../data/local.gnapheus-acolastus-data.xml'" />
+ <p:option name="data-file-path" as="xs:string" select="'../data/rochotius-ticket.xml'" />
  
  <p:option name="innput-directory-path" select="'../src/input/text/docx/dracor'" as="xs:string?" />
  <p:option name="output-directory-path" as="xs:string?" select="'../_output'" />
