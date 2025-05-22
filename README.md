@@ -31,6 +31,14 @@ Add following lines inside `<morgana-config>` element:
 <xquery-connector>saxon12-3</xquery-connector>
 ```
 
+Also add the following lines to the `<mediatype-mapping>` element:
+
+```xml
+<map file-extension="rels" media-type="application/xml" />
+<map file-extension="docx" media-type="application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+
+```
+
 Save `config.xml` file.
 
 For more details, please consult official [user manual](https://xml-project.com/manual/index.html).
@@ -84,7 +92,6 @@ Version for macOS:
   -option:debug-path=../_debug
 ```
 
-
 ### Available pipelines
 
 #### hub2tei.xpl
@@ -101,4 +108,4 @@ Converts editions in DOCX documents to XML according to the [DraCor](https://dra
 
 #### setup.xpl
 
-Downloads and updates resources for the conversion and validation, like MorganaXProc-IIIse runtime, Saxon-HE libraries and RNG or XML schemas. 
+Downloads and updates resources for the conversion and validation, like MorganaXProc-IIIse runtime, Saxon-HE libraries and RNG or XML schemas.
