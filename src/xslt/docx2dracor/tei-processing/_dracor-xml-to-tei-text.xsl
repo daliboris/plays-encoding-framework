@@ -124,11 +124,11 @@
  <xsl:template match="DraCor-line-number">
   <xsl:variable name="value" select="normalize-space()"/>
   <xsl:element name="lb" namespace="http://www.tei-c.org/ns/1.0">
-   <xsl:attribute name="n" select="$value" />
+   <xsl:attribute name="n" select="$value" namespace="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/docx2dracor" />
   </xsl:element>
  </xsl:template>
  
- <xsl:template match="DraCor-page-beginning">
+ <xsl:template match="DraCor-page-beginning | DraCor-page-break">
   <xsl:variable name="value" select="normalize-space()"/>
   <xsl:element name="pb" namespace="http://www.tei-c.org/ns/1.0">
    <xsl:attribute name="n" select="$value" />
