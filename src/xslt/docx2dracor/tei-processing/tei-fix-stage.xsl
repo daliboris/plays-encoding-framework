@@ -22,4 +22,8 @@
   <xsl:apply-templates />
  </xsl:template>
  
+ <xsl:template match="tei:p[count(*) eq 1][tei:stage]">
+  <xsl:apply-templates />
+ </xsl:template>
+ 
 </xsl:stylesheet>
