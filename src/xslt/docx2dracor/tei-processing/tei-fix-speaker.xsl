@@ -26,4 +26,12 @@
   <xsl:apply-templates  select="tei:speaker"/>
  </xsl:template>
  
+ <xsl:template match="tei:p[count(*) eq 1][tei:speaker]">
+  <xsl:apply-templates />
+ </xsl:template>
+ 
+ <xsl:template match="tei:p[count(*) eq 2][tei:speaker and tei:space]">
+  <xsl:apply-templates select="tei:speaker"/>
+ </xsl:template>
+ 
 </xsl:stylesheet>

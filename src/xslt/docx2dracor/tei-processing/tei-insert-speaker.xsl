@@ -22,4 +22,9 @@
   <xsl:copy-of select="." />
  </xsl:template>
  
+ <xsl:template match="tei:div/tei:p[1][not(preceding-sibling::*[1][self::tei:speaker])]">
+  <speaker resp="#pef-dracor">Unknown</speaker>
+  <xsl:copy-of select="." />
+ </xsl:template>
+ 
 </xsl:stylesheet>
