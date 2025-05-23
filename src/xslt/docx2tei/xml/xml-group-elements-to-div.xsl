@@ -74,11 +74,20 @@
       <xsl:variable name="act" select="$info[.][2]"/>
       <xsl:variable name="scene" select="$info[.][4]"/>
       <xsl:variable name="previous" select="preceding-sibling::DraCor-additions[starts-with(normalize-space(), '/act=' || $act)]"/>
-      <div type="act" n="{$act}">
-       <div type="scene" n="{$scene}">
-        <xsl:copy-of select="current-group() except ." />
-       </div>
-      </div>
+      <xsl:choose>
+       <xsl:when test="exists($scene)">
+        <div type="act" n="{$act}">
+         <div type="scene" n="{$scene}">
+          <xsl:copy-of select="current-group() except ." />
+         </div>
+        </div>
+       </xsl:when>
+       <xsl:otherwise>
+        <div type="act" n="{$act}">
+          <xsl:copy-of select="current-group() except ." />
+        </div>
+       </xsl:otherwise>
+      </xsl:choose>
      </xsl:when>
      <xsl:when test=".[self::DraCor-additions]">
       <xsl:variable name="info" select="translate(normalize-space(), '/', '') => tokenize('_')"/>
