@@ -114,6 +114,12 @@
   <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="30" />
   
   <p:xslt>
+   <p:with-input port="stylesheet" href="../xslt/docx2dracor/xml/xml-fix-element-combinations.xsl" />
+  </p:xslt>
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="31" />
+  
+  
+  <p:xslt>
    <p:with-input port="stylesheet" href="../xslt/docx2tei/xml/xml-group-elements-to-div.xsl" />
   </p:xslt>
   <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="35" />
@@ -184,9 +190,15 @@
   <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="1" />
 
   <p:xslt>
-   <p:with-input port="stylesheet" href="../xslt/docx2dracor/tei-processing/dracor-tei-convert-to-lb.xsl" />
+   <p:with-input port="stylesheet" href="../xslt/docx2dracor/tei-processing/dracor-tei-move-lb.n-attribute.xsl" />
   </p:xslt>
   <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="2" />
+  
+
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../xslt/docx2dracor/tei-processing/dracor-tei-convert-to-lb.xsl" />
+  </p:xslt>
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="3" />
 
   <p:xslt>
    <p:with-input port="stylesheet" href="../xslt/docx2dracor/tei-processing/tei-add-castList.xsl" />
