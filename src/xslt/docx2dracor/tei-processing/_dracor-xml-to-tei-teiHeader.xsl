@@ -20,6 +20,7 @@
  
  <xsl:output indent="yes" />
  
+ <xsl:param name="neolat-xml-id" select="'neolatXXXXXX'" />
  <xsl:variable name="multiple-items-separator-regex">;\s</xsl:variable>
  <xsl:variable name="year-regex">^\d{4}$</xsl:variable>
  <xsl:variable name="not-before-after-regex">^not\sbefore\s(\d{4}),\snot\safter\s(\d{4})$</xsl:variable>
@@ -297,20 +298,21 @@
   <xsl:variable name="row" select="row[$rows?($row-key)]" />
   <xsl:variable name="cell" select="$row/cell[2]" />
   <xsl:choose>
+   <xsl:when test="$row-key = 'work-wikidata-id'">
+    <xsl:variable name="value" select="$cell/normalize-space()" />
+    <relation xmlns="http://www.tei-c.org/ns/1.0" name="wikidata" active="https://dracor.org/entity/{$neolat-xml-id}">
+     <xsl:if test="not(xpef:is-empty($value))">
+      <xsl:attribute name="passive" select="'https://www.wikidata.org/wiki/' || $value" />
+     </xsl:if>
+    </relation>
+   </xsl:when>
    <xsl:when test="xpef:is-empty($cell)" />
    <xsl:when test="$row-key = 'work-title'">
     <title xmlns="http://www.tei-c.org/ns/1.0" type="work">
      <xsl:apply-templates select="$cell" mode="tei" />
     </title>
    </xsl:when>
-   <xsl:when test="$row-key = 'work-wikidata-id'">
-    <xsl:variable name="value" select="$cell/normalize-space()" />
-    <relation xmlns="http://www.tei-c.org/ns/1.0" name="wikidata" active="https://dracor.org/entity/neolatXXXXXX">
-     <xsl:if test="not(xpef:is-empty($value))">
-      <xsl:attribute name="passive" select="'https://www.wikidata.org/wiki/' || $value" />
-     </xsl:if>
-    </relation>
-   </xsl:when>
+   
    <xsl:when test="$row-key = 'genre'">
     <keywords xmlns="http://www.tei-c.org/ns/1.0" >
      <term type="genreTitle">
