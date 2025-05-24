@@ -69,10 +69,15 @@
   </p:store>
   <p:load href="{$href-tempfile-uri}" />
   
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../xslt/docx/docx-remove-dracor-metadata.xsl" />
+  </p:xslt>
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="10" />
+  
   <p:xslt name="docx-text">
    <p:with-input port="stylesheet" href="../xslt/docx/docx-document-to-text.xsl" />
   </p:xslt>
-  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.txt"  step="10" />
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.txt"  step="15" />
   
   <p:file-create-tempfile delete-on-exit="true" suffix=".txt"/>
   <p:variable name="href-tempfile-uri" select="xs:anyURI(.)"/>
@@ -85,7 +90,7 @@
    <p:with-input port="stylesheet" href="../xslt/docx/text-clean-lines.xsl" />
    <p:with-option name="parameters" select="map {'href' : $href-tempfile-uri }" />
   </p:xslt>
-  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="15" />
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="20" />
   
   
   <!-- 
