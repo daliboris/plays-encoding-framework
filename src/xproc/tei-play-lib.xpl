@@ -175,6 +175,7 @@
 
  </p:declare-step>
  
+ <!-- STEP -->
  <p:declare-step type="xtei:tei-to-text">
   <!-- INPUT PORTS -->
   <p:input  port="source" primary="true" />
