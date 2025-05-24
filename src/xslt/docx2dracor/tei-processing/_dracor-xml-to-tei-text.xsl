@@ -60,7 +60,7 @@
  
  <xsl:template match="div[@type='imprint']">
   <xsl:element name="docImprint"  namespace="http://www.tei-c.org/ns/1.0">
-   <xsl:copy-of select="@*" />
+   <xsl:copy-of select="@* except @type" />
    <xsl:apply-imports />
   </xsl:element>
  </xsl:template>
