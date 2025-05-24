@@ -23,8 +23,9 @@
  <xsl:template match="/">
   <xsl:apply-templates select="//tei:text" />
  </xsl:template>
+
  
- <xsl:template match="tei:div | tei:l | tei:p | tei:head | tei:speaker | tei:stage | tei:castItem">
+ <xsl:template match="tei:div | tei:l | tei:p | tei:head | tei:speaker | tei:stage | tei:castItem | tei:titlePart | tei:docImprint">
   <xsl:apply-templates />
   <xsl:value-of select="$new-line"/>
  </xsl:template>
@@ -39,6 +40,11 @@
  <xsl:template match="tei:speaker/tei:persName/text()"><xsl:value-of select="."/><xsl:text>:</xsl:text></xsl:template>
  <xsl:template match="tei:speaker[not(tei:persName)]/text()"><xsl:value-of select="."/><xsl:text></xsl:text></xsl:template>
  <xsl:template match="tei:p/tei:persName/text()"><xsl:value-of select="."/></xsl:template>
+ <xsl:template match="tei:foreign/text()"><xsl:value-of select="."/></xsl:template>
+ 
+ <xsl:template match="tei:titlePart/text()"><xsl:value-of select="."/></xsl:template>
+ <xsl:template match="tei:docImprint/text()"><xsl:value-of select="."/></xsl:template>
+ 
  <xsl:template match="tei:pb">
   <xsl:choose>
    <xsl:when test="empty(following-sibling::text()[1][normalize-space() != ''])">
