@@ -24,7 +24,7 @@
   <xsl:apply-templates select="//tei:text" />
  </xsl:template>
  
- <xsl:template match="tei:div | tei:l | tei:p | tei:head | tei:speaker">
+ <xsl:template match="tei:div | tei:l | tei:p | tei:head | tei:speaker | tei:stage | tei:castItem">
   <xsl:apply-templates />
   <xsl:value-of select="$new-line"/>
  </xsl:template>
@@ -34,7 +34,10 @@
  <xsl:template match="tei:head/text()"><xsl:value-of select="."/></xsl:template>
  <xsl:template match="tei:hi/text()"><xsl:value-of select="."/></xsl:template>
  <xsl:template match="tei:lem/text()"><xsl:value-of select="."/></xsl:template>
+ <xsl:template match="tei:stage/text()"><xsl:value-of select="."/></xsl:template>
+ <xsl:template match="tei:castItem/*/text()"><xsl:value-of select="."/></xsl:template>
  <xsl:template match="tei:speaker/tei:persName/text()"><xsl:value-of select="."/><xsl:text>:</xsl:text></xsl:template>
+ <xsl:template match="tei:speaker[not(tei:persName)]/text()"><xsl:value-of select="."/><xsl:text></xsl:text></xsl:template>
  <xsl:template match="tei:p/tei:persName/text()"><xsl:value-of select="."/></xsl:template>
  <xsl:template match="tei:pb">
   <xsl:choose>
