@@ -124,7 +124,7 @@
   </p:xslt>
   <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="35" />
   
-  <p:variable name="sections" select="count(//div/DraCor-additions[matches(normalize-space(), '^/(.+)_start/$')])" />
+  <p:variable name="sections" select="count(//div/DraCor-additions[matches(normalize-space(), '^/(.+)_start(=.*)?/$')])" />
   
   <xd2dc:apply-xslt repeat="{$sections}">
    <p:with-input port="stylesheet" href="../xslt/docx2tei/xml/xml-group-div-start-to-end.xsl" />
