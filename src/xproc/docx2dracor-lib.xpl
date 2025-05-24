@@ -217,10 +217,16 @@
   
   <!-- TODO -->
   <p:xslt>
-   <p:with-input port="stylesheet" href="../xslt/docx2dracor/tei-processing/tei-insert-speaker.xsl" />
+   <p:with-input port="stylesheet" href="../xslt/docx2dracor/tei-processing/tei-split-line-with-speakers.xsl" />
   </p:xslt>
   <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="16" />
+
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../xslt/docx2dracor/tei-processing/tei-insert-speaker.xsl" />
+  </p:xslt>
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="17" />
   
+ 
   <p:xslt>
    <p:with-input port="stylesheet" href="../xslt/rochotius/tei-postprocessing/rochotius-add-sp.xsl" />
   </p:xslt>

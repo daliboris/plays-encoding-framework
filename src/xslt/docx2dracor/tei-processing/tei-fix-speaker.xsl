@@ -18,19 +18,19 @@
  <xsl:strip-space elements="*"/>
  <xsl:output method="xml" indent="yes" />
  
- <xsl:template match="tei:l[count(*) eq 1][tei:speaker]">
+ <xsl:template match="tei:l[count(*) eq 1][tei:speaker][normalize-space(string-join(text())) = '']">
   <xsl:apply-templates />
  </xsl:template>
  
- <xsl:template match="tei:l[count(*) eq 2][tei:speaker and tei:space]">
+ <xsl:template match="tei:l[count(*) eq 2][tei:speaker and tei:space][normalize-space(string-join(text())) = '']">
   <xsl:apply-templates  select="tei:speaker"/>
  </xsl:template>
  
- <xsl:template match="tei:p[count(*) eq 1][tei:speaker]">
+ <xsl:template match="tei:p[count(*) eq 1][tei:speaker][normalize-space(string-join(text())) = '']">
   <xsl:apply-templates />
  </xsl:template>
  
- <xsl:template match="tei:p[count(*) eq 2][tei:speaker and tei:space]">
+ <xsl:template match="tei:p[count(*) eq 2][tei:speaker and tei:space][normalize-space(string-join(text())) = '']">
   <xsl:apply-templates select="tei:speaker"/>
  </xsl:template>
  
