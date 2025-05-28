@@ -126,13 +126,13 @@
   
   <p:variable name="sections" select="count(//div/DraCor-additions[matches(normalize-space(), '^/(.+)_start(=.*)?/$')])" />
   
-  <xd2dc:apply-xslt repeat="{$sections}">
+  <xd2dc:apply-xslt repeat="{$sections}" debug-path="{$debug-path}" base-uri="{$base-uri}" >
    <p:with-input port="stylesheet" href="../xslt/docx2tei/xml/xml-group-div-start-to-end.xsl" />
   </xd2dc:apply-xslt>
   <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="40" />
 
   
-  <xd2dc:apply-xslt repeat="2">
+  <xd2dc:apply-xslt repeat="2" debug-path="{$debug-path}" base-uri="{$base-uri}">
    <p:with-input port="stylesheet" href="../xslt/docx2tei/xml/xml-group-elements-to-div.xsl" />
   </xd2dc:apply-xslt>
   <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="45" />
@@ -201,7 +201,7 @@
   <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="3" />
 
   <p:xslt>
-   <p:with-input port="stylesheet" href="../xslt/docx2dracor/tei-processing/tei-add-castList.xsl" />
+   <p:with-input port="stylesheet" href="../xslt/docx2dracor/tei-processing/tei-add-castItem.xsl" />
   </p:xslt>
   <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="5" />
   
@@ -277,7 +277,21 @@
    <p:input port="stylesheet" primary="false"/>
    <p:output port="result" primary="true"/>
    
-   <p:option name="repeat" select="1" as="xs:integer"/>
+  <!-- OPTIONS -->
+  <p:option name="debug-path" select="()" as="xs:string?" />
+  <p:option name="base-uri" as="xs:anyURI" select="static-base-uri()"/>
+  
+  <p:option name="repeat" select="1" as="xs:integer"/>
+  
+  <!-- VARIABLES -->
+  <p:variable name="debug" select="$debug-path || '' ne ''" />
+  <p:variable name="debug-path-uri" select="resolve-uri($debug-path, $base-uri)" />
+  
+  <dxfs:document-file-info name="info" />
+  <p:variable name="file" select="/fs:file" pipe="report@info" />
+  
+  <p:variable name="log-output-directory" select="$debug-path || '/apply-xslt/' || $file/@stem"  />
+  <p:variable name="log-file-name" select="$file/@stem || '.xml'" />
    
    <p:choose>
     <p:when test="$repeat gt 1">
@@ -285,7 +299,8 @@
        <p:with-input port="source" pipe="source@applying-xslt"/>
        <p:with-input port="stylesheet" pipe="stylesheet@applying-xslt"/>
       </p:xslt>
-     <xd2dc:apply-xslt repeat="{$repeat - 1}">
+     <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="{$repeat}" />
+     <xd2dc:apply-xslt repeat="{$repeat - 1}" debug-path="{$debug-path}" base-uri="{$base-uri}" >
       <p:with-input port="stylesheet" pipe="stylesheet@applying-xslt" />
      </xd2dc:apply-xslt>
     </p:when>
@@ -294,6 +309,7 @@
       <p:with-input port="source" pipe="source@applying-xslt"/>
       <p:with-input port="stylesheet" pipe="stylesheet@applying-xslt"/>
      </p:xslt>
+     <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="1" />
     </p:otherwise>
    </p:choose>
   
