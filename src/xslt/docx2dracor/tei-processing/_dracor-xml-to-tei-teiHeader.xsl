@@ -222,7 +222,9 @@
        
       </xsl:if>
       <bibl type="digitalSource" xmlns="http://www.tei-c.org/ns/1.0">
+       <xsl:if test="not(xpef:is-empty($digital-source))">
        <name  xmlns="http://www.tei-c.org/ns/1.0"><xsl:apply-templates select="$digital-source" mode="tei" /></name>
+       </xsl:if>
        <xsl:if test="not(xpef:is-empty($digital-source))">
         <xsl:variable name="url" select="./row[$rows?url-of-digital-source]/cell[2]"/>        
         <xsl:variable name="availability-status" select="./row[$rows?availability-status]/cell[2]"/>        
@@ -234,7 +236,12 @@
          </xsl:if>
         </availability>
        </xsl:if>
-       
+       <xsl:if 
+        test="not(xpef:is-empty($source-text-edition))">
+        <bibl type="originalSource" xmlns="http://www.tei-c.org/ns/1.0">
+         <xsl:apply-templates select="$source-text-edition" mode="tei" />
+        </bibl>
+       </xsl:if>
       </bibl>
       <xsl:if 
        test="not(xpef:is-empty($source-critical-edition))">
@@ -242,12 +249,7 @@
         <xsl:apply-templates select="$source-critical-edition" mode="tei" />
        </bibl>
       </xsl:if>
-      <xsl:if 
-       test="not(xpef:is-empty($source-text-edition))">
-       <bibl type="originalSource" xmlns="http://www.tei-c.org/ns/1.0">
-        <xsl:apply-templates select="$source-text-edition" mode="tei" />
-       </bibl>
-      </xsl:if>
+      
      </sourceDesc>
      
     </xsl:if>
@@ -308,7 +310,7 @@
    </xsl:when>
    <xsl:when test="xpef:is-empty($cell)" />
    <xsl:when test="$row-key = 'work-title'">
-    <title xmlns="http://www.tei-c.org/ns/1.0" type="work">
+    <title xmlns="http://www.tei-c.org/ns/1.0" type="main">
      <xsl:apply-templates select="$cell" mode="tei" />
     </title>
    </xsl:when>
