@@ -95,6 +95,9 @@
   </p:when> 
  </p:choose>
  
+ <xpef:remove-xinclude debug-path="{$source-debug-path}" base-uri="{$base-uri}">
+  <p:with-input port="ticket-in" pipe="job-ticket@docx2dracor" />
+ </xpef:remove-xinclude>
  <p:identity name="tei" />
  
  <xlog:store output-directory="{$output-directory-path}/{$text-id}/tei" base-uri="{$base-uri}" debug="true" file-name="{$output-file-name}.xml" />

@@ -268,4 +268,36 @@
   
  </p:declare-step>
  
+ <p:declare-step type="xpef:remove-xinclude" name="removing-xinclude">
+  <p:documentation>
+   <xhtml:section>
+    <xhtml:h2>input-processing</xhtml:h2>
+    <xhtml:p></xhtml:p>
+   </xhtml:section>
+  </p:documentation>
+  
+  <!-- INPUT PORTS -->
+  <p:input  port="source" primary="true" sequence="true" />
+  <p:input port="ticket-in" primary="false" sequence="true">
+   <p:empty />
+  </p:input>
+  
+  <!-- OUTPUT PORTS -->
+  <p:output port="result" primary="true" sequence="true" />
+  <p:output port="ticket-out" primary="false" sequence="true" pipe="ticket-in@removing-xinclude"/>
+  
+  <!-- OPTIONS -->
+  <p:option name="debug-path" select="()" as="xs:string?" />
+  <p:option name="base-uri" as="xs:anyURI" select="static-base-uri()"/>
+  
+  <!-- VARIABLES -->
+  <p:variable name="debug" select="$debug-path || '' ne ''" />
+  <p:variable name="debug-path-uri" select="resolve-uri($debug-path, $base-uri)" />
+  
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../xslt/common/xml-remove-xinclude.xsl" />
+  </p:xslt>
+  
+ </p:declare-step>
+ 
 </p:library>
