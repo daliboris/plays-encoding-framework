@@ -82,9 +82,7 @@
  </xsl:template>
  
  <xsl:template match="div[@type=('dramatisPersonae')]">
-  <xsl:element name="{name()}" namespace="http://www.tei-c.org/ns/1.0">
-   <xsl:copy-of select="@* except @type" />
-   <xsl:attribute name="type" select="'Dramatis_Personae'" />
+  <xsl:element name="castList" namespace="http://www.tei-c.org/ns/1.0">
    <xsl:apply-templates />
   </xsl:element>
  </xsl:template>
