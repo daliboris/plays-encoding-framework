@@ -17,15 +17,6 @@
  
  <xsl:mode on-no-match="shallow-copy"/>
  
- <xsl:template match="tei:div[tei:p[tei:role]]">
-  <xsl:copy>
-   <xsl:copy-of select="@*" />
-    <castList>
-     <xsl:apply-templates />
-    </castList>    
-  </xsl:copy>
- </xsl:template>
- 
  <xsl:template match="tei:p[tei:role]">
    <castItem>
     <xsl:apply-templates />
