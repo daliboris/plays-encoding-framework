@@ -304,7 +304,7 @@
     <xsl:variable name="value" select="$cell/normalize-space()" />
     <relation xmlns="http://www.tei-c.org/ns/1.0" name="wikidata" active="https://dracor.org/entity/{$neolat-xml-id}">
      <xsl:if test="not(xpef:is-empty($value))">
-      <xsl:attribute name="passive" select="'https://www.wikidata.org/wiki/' || $value" />
+      <xsl:attribute name="passive" select="'http://www.wikidata.org/entity/' || $value" />
      </xsl:if>
     </relation>
    </xsl:when>
