@@ -43,7 +43,7 @@
   </xsl:element>
  </xsl:template>
  
- <xsl:template match="div[@type=('titlePage','argument')]">
+ <xsl:template match="div[@type=('titlePage')]">
   <xsl:element name="{@type}" namespace="http://www.tei-c.org/ns/1.0">
    <xsl:apply-templates />
   </xsl:element>
@@ -65,7 +65,7 @@
   </xsl:element>
  </xsl:template>
  
- <xsl:template match="div[@type=('act', 'scene', 'preface',  'prologue', 'epilogue', 'dedication', 'appendix', 'epistle')]">
+ <xsl:template match="div[@type=('argument', 'act', 'scene', 'preface',  'prologue', 'epilogue', 'dedication', 'appendix', 'epistle')]">
   <xsl:element name="{name()}" namespace="http://www.tei-c.org/ns/1.0">
    <xsl:copy-of select="@*" />
    <xsl:apply-templates />
