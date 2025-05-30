@@ -23,6 +23,12 @@
    <xsl:copy-of select="@*" />
    <xsl:for-each-group select="*" group-starting-with="tei:speaker">
     <xsl:choose>
+     <xsl:when test=".[self::tei:speaker] and current-group()[last()][self::tei:stage]">
+      <tei:sp>
+       <xsl:copy-of select="current-group() except current-group()[last()]" />
+      </tei:sp>
+      <xsl:copy-of select="current-group()[last()]" />
+     </xsl:when>
      <xsl:when test=".[self::tei:speaker]">
       <tei:sp>
        <xsl:copy-of select="current-group()" />

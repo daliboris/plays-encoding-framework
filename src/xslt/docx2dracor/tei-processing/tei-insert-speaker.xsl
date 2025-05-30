@@ -18,13 +18,30 @@
  <xsl:mode on-no-match="shallow-copy"/>
  
  <xsl:template match="tei:l[1][not(preceding-sibling::*[1][self::tei:speaker])]">
-  <speaker resp="#pef-dracor">Unknown</speaker>
+  <xsl:call-template name="insert-speaker-uknown"/>
   <xsl:copy-of select="." />
  </xsl:template>
+ 
  
  <xsl:template match="tei:div/tei:p[1][not(preceding-sibling::*[1][self::tei:speaker])]">
-  <speaker resp="#pef-dracor">Unknown</speaker>
+  <xsl:call-template name="insert-speaker-uknown"/>
   <xsl:copy-of select="." />
  </xsl:template>
  
+ <xsl:template match="tei:stage[preceding-sibling::*[1][self::tei:l[node()]]][following-sibling::*[1][self::tei:l[node()]]]">
+  <xsl:copy-of select="." />
+  <xsl:call-template name="insert-speaker-uknown"/>
+ </xsl:template>
+
+ <xsl:template match="tei:stage[preceding-sibling::*[1][self::tei:p[node()]]][following-sibling::*[1][self::tei:p[node()]]]">
+  <xsl:copy-of select="." />
+  <xsl:call-template name="insert-speaker-uknown"/>
+ </xsl:template>
+ 
+
+ <xsl:template name="insert-speaker-uknown">
+  <speaker resp="#pef-dracor">Unknown</speaker>
+ </xsl:template>
+ 
+
 </xsl:stylesheet>
