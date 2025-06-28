@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description 
+ xmlns:x="http://www.jenitennison.com/xslt/xspec"
+ xmlns:tei="http://www.tei-c.org/ns/1.0"
+ xmlns:f="#functions"
+ stylesheet="./xslt/line-numbers-validation.xsl">
+<x:scenario>
+ <x:label>Checking line numbers sequence</x:label>
+ <x:call function="f:is-line-number-valid">
+  <x:param name="prev" select="/tei:l">
+   <tei:l n="23" />
+  </x:param>
+  <x:param name="current" select="/tei:l">
+   <tei:l n="24" />
+  </x:param>
+  <x:param name="next" select="/tei:l">
+   <tei:l n="1" />
+  </x:param>
+ </x:call>
+ <x:expect select="true()">
+  <x:label>Result should be false</x:label>
+ </x:expect>
+</x:scenario>
+</x:description>
