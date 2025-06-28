@@ -182,7 +182,7 @@ declare function local:extract-speakers ($lines as element(lines)*, $play-name a
    return local:exctract-lines($tei)
  let $speakers := local:extract-speakers-2($lines, $play-name-suffix)
  let $listPerson := local:get-listPerson($speakers/speaker, $play-name, $play-name-suffix)
- return <result> {($speakers, $listPerson, $lines)} </result>
+ return <data> {($speakers, $listPerson, $lines)} </data>
  
   
  
