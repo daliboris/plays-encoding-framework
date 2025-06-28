@@ -37,6 +37,8 @@
  <xsl:template match="tei:lem/text()"><xsl:value-of select="."/></xsl:template>
  <xsl:template match="tei:stage/text()"><xsl:value-of select="."/></xsl:template>
  <xsl:template match="tei:castItem/*/text()"><xsl:value-of select="."/></xsl:template>
+ <xsl:template match="tei:supplied/text()"><xsl:text>[</xsl:text><xsl:value-of select="."/><xsl:text>]</xsl:text></xsl:template>
+ <xsl:template match="tei:speaker/tei:persName/tei:supplied/text()" priority="2"><xsl:text>[</xsl:text><xsl:value-of select="."/><xsl:text>:]</xsl:text></xsl:template>
  <xsl:template match="tei:speaker/tei:persName/text()"><xsl:value-of select="."/><xsl:text>:</xsl:text></xsl:template>
  <xsl:template match="tei:speaker[not(tei:persName)]/text()"><xsl:value-of select="."/><xsl:text></xsl:text></xsl:template>
  <xsl:template match="tei:p/tei:persName/text()"><xsl:value-of select="."/></xsl:template>
