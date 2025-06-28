@@ -61,6 +61,12 @@
  
  <xsl:template match="Normální[not(node())]" priority="3" />
 
+ <xsl:template match="Normální[matches( text[1] ! string-join(text(), '') ! normalize-space(), $speaker-regex)]" priority="2.5">
+  <tei:speaker>
+   <xsl:apply-templates />
+  </tei:speaker>  
+ </xsl:template>
+ 
  <xsl:template match="Normální[.//text()[normalize-space() != ''][1][matches(fn:normalize-space(), $speaker-regex)]]" priority="3">
   <tei:speaker>
    <xsl:apply-templates />
@@ -99,11 +105,13 @@
  </xsl:template>
  
  <xsl:template name="get-indentation">
-  <xsl:variable name="root" select="text[not(@* except @xml:*)][1]/text()[matches(., '^\p{L}+')][1]"/>
-  <xsl:variable name="tabs-only" select="text[not(@* except @xml:*)][1][tab and not(normalize-space() != '')]"/>
+  <xsl:variable name="root" select="text[not(@* except (@xml:*, @highlight-val))][1]/text()[matches(., '^\p{L}+')][1]"/>
+  <xsl:variable name="tabs-only" select="text[not(@* except (@xml:*, @highlight-val))][1][tab and not(normalize-space() != '')]"/>
   <xsl:variable name="tabs" select="if(exists($root)) then $root/count(preceding-sibling::tab) else $tabs-only/count(tab)"/>
   <xsl:variable name="indent" select="
-    if ($tabs = 0) then
+   if (empty($tabs)) then
+      ()
+   else if ($tabs = 0) then
      ()
     else
      if ($tabs = 1) then
@@ -125,6 +133,7 @@
  <xsl:template match="Normální[text[1]/node()[1][self::text()][matches(normalize-space(.), '^\d+$')]]" priority="3">
   <xsl:variable name="number" select="text[1]/node()[1][self::text()][matches(normalize-space(.), '^\d+$')]"/>
   <tei:l n="{$number}">
+   <xsl:call-template name="get-indentation"/>
    <xsl:apply-templates />
   </tei:l>
  </xsl:template>
@@ -213,6 +222,15 @@
   <xsl:template match="text">
    <xsl:apply-templates />
   </xsl:template>
+ 
+ <xsl:template match="Normální/*[last()][self::text[@xml:space][. = ' ']]" priority="3" />
+ 
+ <xsl:template match="text[@xml:space][. = ' ']" priority="2">
+  <tei:hi>
+   <xsl:copy-of select="@xml:space" />
+   <xsl:apply-templates />
+  </tei:hi>
+ </xsl:template>
  
  <xsl:template match="text[@bold|@italic|@underline|@strike][@xml:space][fn:normalize-space() = '']" priority="2">
   <xsl:apply-templates />
