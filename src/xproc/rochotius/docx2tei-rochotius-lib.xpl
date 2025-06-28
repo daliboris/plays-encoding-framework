@@ -60,6 +60,12 @@
   <p:variable name="output-temp-directory" select="if(empty($debug-path)) then () else $debug-path || '/' || $file-stem" />
   
   <!-- PIPELINE BODY -->
+  
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../../xslt/common/xml-remove-annotation-reference.xsl" />
+  </p:xslt> 
+  <xlog:store output-directory="{$output-temp-directory}/input-processing" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml" step="1"  />
+  
   <p:xslt>
    <p:with-input port="stylesheet" href="../../xslt/rochotius/input-processing/rochotius-xml-move-comment-range.xsl" />
   </p:xslt> 
@@ -79,11 +85,22 @@
    <p:with-input port="stylesheet" href="../../xslt/rochotius/input-processing/rochotius-xml-split-critical-apparatus.xsl" />
   </p:xslt>   
   <xlog:store output-directory="{$output-temp-directory}/input-processing" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml" step="8" />
+
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../../xslt/rochotius/input-processing/rochotius-xml-move-punctation-after-comments.xsl" />
+  </p:xslt>   
+  <xlog:store output-directory="{$output-temp-directory}/input-processing" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml" step="9" />
   
   <p:xslt>
    <p:with-input port="stylesheet" href="../../xslt/rochotius/input-processing/rochotius-xml-move-punctation-after-critical-apparatus.xsl" />
   </p:xslt>   
-  <xlog:store output-directory="{$output-temp-directory}/input-processing" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml" step="9" />
+  <xlog:store output-directory="{$output-temp-directory}/input-processing" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml" step="10" />
+
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../../xslt/rochotius/input-processing/rochotius-xml-fix-critical-apparatus.xsl" />
+  </p:xslt>   
+  <xlog:store output-directory="{$output-temp-directory}/input-processing" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml" step="15" />
+  
 
   <p:variable name="teiHeader" select="doc($data-file-path-uri)/data[@id =$text-id]/tei:teiHeader" />
   
@@ -248,6 +265,16 @@
   </p:xslt>
   <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="70" />
   
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../../xslt/common/tei/tei-postprocessing/tei-move-pb-inside-elements.xsl"/>
+  </p:xslt>
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="71" />
+  
+  <xpef:identify-first-verses >
+   <p:with-input port="job-ticket" pipe="job-ticket@tei-processing" />
+  </xpef:identify-first-verses>
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="72" />
+
   <xpef:create-list-of-speakers doc-name="{$file-stem}" data-directory-path="{$data-directory-path}" data-file-path="{$data-file-path}" debug-path="{$debug-path}" base-uri="{$base-uri}">
    <p:with-input port="job-ticket" pipe="job-ticket@tei-processing" />
   </xpef:create-list-of-speakers>
@@ -257,6 +284,12 @@
    <p:with-input port="job-ticket" pipe="job-ticket@tei-processing" />
   </xd2t:person-list-postprocessing>
   <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="80" />
+  
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../../xslt/tei/tei-square-brackets-to-supplied.xsl"/>
+  </p:xslt>
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="85" />
+  
   
  </p:declare-step>
  
