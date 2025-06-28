@@ -219,7 +219,7 @@
 
   <!-- VARIABLES -->
   <p:variable name="debug" select="$debug-path || '' ne ''" />
-  <p:variable name="line-numbers-file-path" select="concat($data-directory-path, '/', $doc-name, '-line-numbers.xml')" />
+  <p:variable name="line-numbers-file-path" select="concat($data-directory-path, '/local.', $doc-name, '-line-numbers.xml')" />
   <p:variable name="line-numbers-file-path-uri" select="resolve-uri($line-numbers-file-path, $base-uri)" />
   <p:variable name="output-temp-directory" select="$debug-path || '/' || $doc-name || '/' || 'create-list-of-speakers'" />
 
