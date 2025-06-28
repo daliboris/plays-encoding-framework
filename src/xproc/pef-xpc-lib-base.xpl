@@ -79,6 +79,7 @@
   </p:xslt>
   <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.txt"  step="15" />
   
+  
   <p:file-create-tempfile delete-on-exit="true" suffix=".txt"/>
   <p:variable name="href-tempfile-uri" select="xs:anyURI(.)"/>
 
@@ -91,6 +92,12 @@
    <p:with-option name="parameters" select="map {'href' : $href-tempfile-uri }" />
   </p:xslt>
   <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="20" />
+  
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../xslt/common/xml-fix-common-text-errors.xsl" />
+  </p:xslt>
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="25" />
+  
   
   
   <!-- 
@@ -174,6 +181,25 @@
   
  </p:declare-step>
  
+ <p:declare-step type="xpef:identify-first-verses" name="identifying-first-verses">
+  <p:input  port="source" primary="true" />
+  <p:input  port="job-ticket" primary="false" />
+  
+  
+  <!-- OUTPUT PORTS -->
+  <p:output port="result" primary="true" />
+  <p:output port="job-ticket-out" primary="false" pipe="job-ticket@identifying-first-verses" />
+  
+  <!-- OPTIONS -->
+  <p:option name="debug-path" select="()" as="xs:string?" />
+  <p:option name="base-uri" as="xs:anyURI" select="static-base-uri()"/>
+
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../xslt/common/tei/tei-postprocessing/tei-identify-first-verses.xsl" />
+  </p:xslt>
+  
+ </p:declare-step>
+ 
  <p:declare-step type="xpef:create-list-of-speakers" name="creating-list-of-speakers">
   <!-- INPUT PORTS -->
   <p:input  port="source" primary="true" />
@@ -194,6 +220,7 @@
   <!-- VARIABLES -->
   <p:variable name="debug" select="$debug-path || '' ne ''" />
   <p:variable name="line-numbers-file-path" select="concat($data-directory-path, '/', $doc-name, '-line-numbers.xml')" />
+  <p:variable name="line-numbers-file-path-uri" select="resolve-uri($line-numbers-file-path, $base-uri)" />
   <p:variable name="output-temp-directory" select="$debug-path || '/' || $doc-name || '/' || 'create-list-of-speakers'" />
 
   <p:variable name="data-file-path-uri" select="resolve-uri($data-file-path, $base-uri)" />
@@ -204,17 +231,17 @@
   
 
  <p:choose>
-  <p:when test="false()">
-   <p:xquery>
+  <p:when test="true()">
+   <p:xquery message=" ---- applying tei-assign-line-number.xquery">
     <p:with-input port="query" href="../xquery/tei-assign-line-number.xquery" />
    </p:xquery>
-   <p:store href="{$line-numbers-file-path}" />
+   <p:store href="{$line-numbers-file-path-uri}" message=" ---- storing {$line-numbers-file-path-uri}" />
    
    <p:xslt>
     <p:with-input port="source" pipe="source@creating-list-of-speakers" />
     <p:with-input port="stylesheet" href="../xslt/common/tei-assign-line-number-iterating.xsl"/>
     <p:with-option name="parameters" select="map {
-     'line-numbers-file-path' : $data-file-path-uri
+     'line-numbers-file-path' : $line-numbers-file-path-uri
      }"  />
    </p:xslt>
   </p:when>
