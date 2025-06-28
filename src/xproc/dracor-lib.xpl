@@ -96,18 +96,22 @@
   <p:unwrap match="tei:app/tei:lem" />
   <p:unwrap match="tei:app" />
   
-  <p:delete match="tei:anchor/@subtype" />
+  <p:delete match="tei:anchor" />
   
   <p:unwrap match="tei:supplied" />
-  
+  <p:unwrap match="tei:hi[@rendition='normal'][. = ' ']" /><!-- whitespace between 2 <tei:app> elements -->
   <p:rename match="tei:hi" new-name="tei:emph" />
-  <p:add-attribute match="tei:note[@n]" attribute-name="place" attribute-value="foot" />
+  <p:delete match="tei:note[@n]" />
+  <p:delete match="tei:note[not(@n)]" />
+  <p:add-attribute match="tei:note[@n]" attribute-name="place" attribute-value="foot" use-when="false()" />
   <p:add-attribute match="tei:emph[@rend='italic' or @rendition='italic']" attribute-name="style" attribute-value="font-style: italic;" use-when="false()" />
   <p:rename match="@rendition" new-name="rend"></p:rename>
   <!--<p:delete match="tei:emph/@rend[. ='italic']" />
   <p:delete match="tei:emph/@rendition[. ='italic']" />-->
   
-  
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../xslt/dracor/rename-ids.xsl" />
+  </p:xslt>
   
   <!-- ??? -->
   <p:delete match="tei:space" />
