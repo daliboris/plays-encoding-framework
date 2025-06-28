@@ -20,12 +20,18 @@
  <xsl:key name="footnote" match="footnote" use="@id" />
  
  
- <xsl:template match="body/*/*/text()[last()][matches(., $end-punctation-regex)][following::*[1][self::footnote-reference]]">
-  <xsl:variable name="foot-ref" select="following::*[1]"/>
+ <xsl:template match="body/*/*/text()[last()][matches(., $end-punctation-regex)][following::*[1][self::footnote-reference]]
+  | body/*/*/text()[last()][matches(., $end-punctation-regex)][following::*[1][self::comment-range]][following::*[2][self::footnote-reference]]">
+  <xsl:variable name="foot-ref" select="following::footnote-reference[1]"/>
   <xsl:variable name="id" select="$foot-ref/*/@id"/>
   <xsl:variable name="note" select="key('footnote', $id)"/>
+  <xsl:variable name="text-text" select="./normalize-space()"/>
+  <xsl:variable name="lemma-text" select="$note//*[not(*)][not(@tei-data='wit')] => string-join('') => substring-before($rigth-square-bracket) => normalize-space()"/>
 <!--  <xsl:variable name="current" select="."/>-->
   <xsl:choose>
+   <xsl:when test="$text-text = $lemma-text">
+    <xsl:copy-of select="." />
+   </xsl:when>
    <xsl:when test="$note[@tei-data='app']">
      
      <xsl:analyze-string select="." regex="{$end-punctation-regex}">
@@ -50,7 +56,8 @@
   </xsl:choose>
  </xsl:template>
  
- <xsl:template match="body/*/footnote-reference[preceding-sibling::*[1][matches(., '\p{P}$')]]">
+ <xsl:template match="body/*/footnote-reference[preceding-sibling::*[1][matches(., '\p{P}$')]]
+  | body/*/footnote-reference[preceding-sibling::*[1][self::comment-range]][preceding-sibling::*[2][matches(., '\p{P}$')]]">
   <xsl:variable name="id" select="*/@id"/>
   <xsl:variable name="note" select="key('footnote', $id)"/>
   <xsl:choose>
