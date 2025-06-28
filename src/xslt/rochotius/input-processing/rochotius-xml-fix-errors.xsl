@@ -248,5 +248,7 @@
    <xsl:apply-templates />
   </xsl:copy>
  </xsl:template>
+ 
+ <xsl:template match="text/@sz-val" />
 
 </xsl:stylesheet>
