@@ -36,10 +36,9 @@
  <p:option name="debug-path" select="'../_debug'" as="xs:string?" />
  <p:option name="base-uri" as="xs:anyURI" select="static-base-uri()"/>
  <p:option name="data-directory-path" as="xs:anyURI"  select="'../data'" />
- <p:option name="data-file-path" as="xs:string" select="'../data/local.rochotius-comoedia-data.xml'" />
+ <p:option name="data-file-path" as="xs:string" select="'../data/local.rochotius-iosephiados-comoedia-data.xml'" />
  <p:option name="output-directory-path" as="xs:string?" select="'../_output'" />
-<!-- <p:option name="output-file-name" as="xs:string?" select="'Rochotius-Comoedia-2024-11-19'"  />-->
- <p:option name="output-file-name" as="xs:string?" select="'rochotius-comoedia'"  />
+ <p:option name="output-file-name" as="xs:string?" select="'rochotius-iosephiados-comoedia'"  />
  
  <!-- VARIABLES -->
  <p:variable name="debug" select="$debug-path || '' ne ''" />
