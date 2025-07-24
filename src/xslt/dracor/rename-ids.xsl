@@ -24,7 +24,7 @@
  </xsl:template>
  
  <xsl:template match="@who[matches(., $id-regex)] | @ref[matches(., $id-regex)]">
-  <xsl:attribute name="{local-name()}" select="dcf:clean-id(.)" />
+  <xsl:attribute name="{local-name()}" select="'#' || dcf:clean-id(.)" />
  </xsl:template>
  
  <xsl:function name="dcf:clean-id" as="xs:string">
