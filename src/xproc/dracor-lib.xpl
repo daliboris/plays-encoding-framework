@@ -45,14 +45,11 @@
   
   <!-- PIPELINE BODY -->
   
+  <p:add-attribute match="*[@xml:lang['la']]" attribute-name="xml:lang" attribute-value="lat" />
   <p:delete match="tei:div[@type='editorial']" />
   <p:delete match="tei:fileDesc/tei:notesStmt" />
   <p:delete match="tei:sourceDesc/tei:listWit" />
   <p:delete match="tei:sourceDesc/tei:msDesc" />
-  <p:delete match="tei:listPerson/tei:head[@xml:lang='cs']" />
-  <p:delete match="tei:listPerson/tei:head/@xml:lang" />
-  <p:delete match="tei:listPerson/tei:person/tei:persName[@xml:lang='cs']" />
-  <p:delete match="tei:listPerson/tei:person/tei:occupation" />
   
   <!-- TODO -->
   <!-- TODO: nahradit -->
@@ -74,6 +71,28 @@
     </tei:bibl>   
    </p:with-input>
   </p:replace>
+  
+  <p:replace match="tei:teiHeader" message="   ---- replacing teiHeader --- ">
+   <p:with-input port="replacement" select="/data/dracor/tei:teiHeader" href="{$data-file-path-uri}" />
+  </p:replace>
+  <p:replace match="tei:listPerson" message="   ---- replacing listPerson --- ">
+   <p:with-input port="replacement" select="//tei:teiHeader//tei:listPerson" pipe="source@tei-to-dracor"/>
+  </p:replace>
+
+  <p:delete match="tei:listPerson/tei:head[@xml:lang='cs']" use-when="false()" />
+  <p:delete match="tei:listPerson/tei:head[@xml:lang]" />
+  <p:delete match="tei:listPerson/tei:person/tei:persName[@xml:lang='cs']" />
+  <p:delete match="tei:listPerson/tei:person/tei:persName/@xml:lang" />
+  <p:delete match="tei:listPerson/tei:person/tei:persName/@type" />
+  <p:delete match="tei:listPerson/tei:person/tei:occupation" />
+  
+  <p:variable name="females" select="tokenize(/data/persons/females, '[,\s]')[.]" href="{$data-file-path-uri}"/>
+  
+  <p:add-attribute match="tei:listPerson/tei:person[tei:persName[. = ('Melaenis', 'Rosina', 'Thamar', 'Artemona')]]" attribute-name="sex" attribute-value="FEMALE" />
+  
+  <p:insert match="tei:teiHeader">
+   <p:with-input port="insertion" select="/data/dracor/tei:standOff"  href="{$data-file-path-uri}" />
+  </p:insert>
   
   <p:delete match="tei:encodingDesc" />
   
@@ -112,17 +131,23 @@
   <p:xslt>
    <p:with-input port="stylesheet" href="../xslt/dracor/rename-ids.xsl" />
   </p:xslt>
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../xslt/dracor/move-finis-to-stage.xsl" />
+  </p:xslt>
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../xslt/dracor/remove-trailing-spaces.xsl" />
+  </p:xslt>
   
   <!-- ??? -->
   <p:delete match="tei:space" />
-  <p:delete match="tei:editionStmt" />
+  <p:delete match="tei:editionStmt" use-when="false()" />
   <!-- 
  <p:delete match="tei:publicationStmt/tei:pubPlace" />
  <p:delete match="tei:publicationStmt/tei:date" />
   -->
   
   <!-- <p:add-attribute match="tei:availability" attribute-name="status" attribute-value="free" />-->
-  <p:replace match="tei:availability">
+  <p:replace match="tei:availability"  use-when="false()">
    <p:with-input port="replacement">
     <tei:availability status="free">
      <tei:licence>
