@@ -24,6 +24,7 @@
  <xsl:variable name="multiple-items-separator-regex">;\s</xsl:variable>
  <xsl:variable name="year-regex">^\d{4}$</xsl:variable>
  <xsl:variable name="not-before-after-regex">^not\sbefore\s(\d{4}),\snot\safter\s(\d{4})$</xsl:variable>
+ <xsl:variable name="author-persName-default-lang">lat</xsl:variable>
 
  <xsl:variable name="rows" as="map(xs:string, xs:integer)">
   <xsl:map>
@@ -371,7 +372,7 @@
     <event xmlns="http://www.tei-c.org/ns/1.0" type="written" when="{$value}"><desc/></event> -->
    </xsl:when>
    <xsl:when test="$row-key = 'author'">
-    <persName xmlns="http://www.tei-c.org/ns/1.0" xml:lang="eng"><xsl:apply-templates select="$cell" mode="tei" /></persName>
+    <persName xmlns="http://www.tei-c.org/ns/1.0" xml:lang="{$author-persName-default-lang}"><xsl:apply-templates select="$cell" mode="tei" /></persName>
    </xsl:when>
    <xsl:when test="$row-key = 'author-wikidata-id'">
     <idno xmlns="http://www.tei-c.org/ns/1.0" type="wikidata"><xsl:apply-templates select="$cell" mode="tei" /></idno>
