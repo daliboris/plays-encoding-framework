@@ -96,7 +96,7 @@
   </p:xslt>   
   <xlog:store output-directory="{$output-temp-directory}/input-processing" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml" step="10" />
 
-  <p:variable name="teiHeader" select="doc($data-file-path-uri)/data[@id =$text-id]/tei:teiHeader" />
+  <p:variable name="teiHeader" select="doc($data-file-path-uri)/data[@id=$text-id]/tei:teiHeader" />
   
   <p:xslt>
    <p:with-input port="stylesheet" href="../../xslt/rochotius/input-processing/rochotius-xml-to-tei.xsl" />
