@@ -4,6 +4,7 @@
  <xpefjt:scenario name="rochotius" input-file-mask="Rochotius-.*\.docx">
   <xpefjt:step name="xd2t:input-processing" />
   <xpefjt:step name="xd2t:input-processing-rochotius" />
+  <xpefjt:step name="xd2t:tei-processing-rochotius" />
   <xpefjt:step name="xd2t:tei-postprocessing-rochotius" />
  </xpefjt:scenario>
 </xpefjt:job-ticket>

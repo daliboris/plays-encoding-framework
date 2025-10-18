@@ -19,7 +19,7 @@
   <xsl:output-character character="&#xa0;" string=" "/>
  </xsl:character-map>
  
- <xsl:output use-character-maps="normalization"/>
+ <xsl:output use-character-maps="normalization" indent="false"/>
  
  <xsl:mode on-no-match="shallow-copy"/>
 <!-- <xsl:variable name="text-errors-regex" select="'[˂]'"/> <!-\- │ -\->
@@ -250,5 +250,34 @@
  </xsl:template>
  
  <xsl:template match="text/@sz-val" />
+ 
+ 
+ <xsl:template match="annotation-text[text[ends-with(., 'Caesar, Comentarii, I,54,1–3, p. 25.')]]">
+  <xsl:call-template name="split-by-cit">
+   <xsl:with-param name="cit" select="'Caesar, Comentarii, I,54,1–3, p. 25.'" />
+  </xsl:call-template>
+ </xsl:template>
+ 
+ <xsl:template match="annotation-text[text[ends-with(., 'Caesar, Comentarii, I,53,6, p. 25.')]]">
+  <xsl:call-template name="split-by-cit">
+   <xsl:with-param name="cit" select="'Caesar, Comentarii, I,53,6, p. 25.'" />
+  </xsl:call-template>
+ </xsl:template>
+ 
+ <xsl:template name="split-by-cit">
+  <xsl:param name="cit" as="xs:string" />
+  <xsl:copy>
+   <xsl:copy-of select="@*" />
+   <text>
+    <xsl:value-of select="substring-before(., ' ' || $cit)" />
+   </text>
+  </xsl:copy>
+  <xsl:copy>
+   <xsl:copy-of select="@*" />
+   <text>
+    <xsl:value-of select="$cit" />
+   </text>
+  </xsl:copy>
+ </xsl:template>
 
 </xsl:stylesheet>

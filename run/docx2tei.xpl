@@ -65,6 +65,18 @@
  </p:choose>
  
  <p:choose>
+  <p:when test="$steps[@name='xd2t:tei-processing-rochotius']">
+   <xd2t:tei-processing-rochotius debug-path="{$source-debug-path}" base-uri="{$base-uri}" 
+    data-directory-path="{$data-directory-path}" 
+    data-file-path="{$data-file-path}" 
+    text-id="{$text-id}">
+    <p:with-input port="job-ticket" pipe="job-ticket@docx2tei" />
+   </xd2t:tei-processing-rochotius>
+   <xlog:store output-directory="{$debug-path}/{$text-id}/tei-processing-rochotius" base-uri="{$base-uri}" debug="{$debug}" file-name="{$output-file-name}.xml" step="1" />
+  </p:when> 
+ </p:choose>
+ 
+ <p:choose>
   <p:when test="$steps[@name='xd2t:tei-postprocessing-rochotius']">
    <xd2t:tei-postprocessing-rochotius debug-path="{$source-debug-path}" base-uri="{$base-uri}" 
     data-directory-path="{$data-directory-path}" 
