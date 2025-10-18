@@ -219,7 +219,7 @@
 
   <!-- VARIABLES -->
   <p:variable name="debug" select="$debug-path || '' ne ''" />
-  <p:variable name="line-numbers-file-path" select="concat($data-directory-path, '/local.', $doc-name, '-line-numbers.xml')" />
+  <p:variable name="line-numbers-file-path" select="concat($data-directory-path, '/local.', $doc-name, '.line-numbers.xml')" />
   <p:variable name="line-numbers-file-path-uri" select="resolve-uri($line-numbers-file-path, $base-uri)" />
   <p:variable name="output-temp-directory" select="$debug-path || '/' || $doc-name || '/' || 'create-list-of-speakers'" />
 
@@ -268,12 +268,11 @@
   <p:viewport match="tei:TEI" name="play-text">
 
    <p:choose>
-    <p:when test="$listPerson-in-data-file-e
-     xists">
+    <p:when test="$listPerson-in-data-file-exists">
      <p:load href="{$data-file-path-uri}" />     
     </p:when>
     <p:otherwise>
-     <p:load href="{$line-numbers-file-path}" />
+     <p:load href="{$line-numbers-file-path-uri}" />
     </p:otherwise>
    </p:choose>
 

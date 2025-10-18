@@ -195,34 +195,34 @@
   <p:xslt>
    <p:with-input port="stylesheet" href="../../xslt/tei/tei-style-to-rend.xsl"/>
   </p:xslt>
-  <xlog:store output-directory="{$output-temp-directory}" debug="{$debug}" file-name="{$file-stem}.xml"  step="1"/>
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="1"/>
 
   
   <p:xslt>
    <p:with-input port="stylesheet" href="../../xslt/tei/tei-merge-following-hi.xsl"/>
   </p:xslt>
-  <xlog:store output-directory="{$output-temp-directory}" debug="{$debug}" file-name="{$file-stem}.xml"  step="5"/>
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="5"/>
   
   
   <p:xslt>
    <p:with-input port="stylesheet" href="../../xslt/rochotius/tei-processing/rochotius-tei-app-resolve-quotes.xsl" />
   </p:xslt>
-  <xlog:store output-directory="{$output-temp-directory}" debug="{$debug}" file-name="{$file-stem}.xml"  step="10" />
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="10" />
 
   <p:xslt>
    <p:with-input port="stylesheet" href="../../xslt/rochotius/tei-processing/rochotius-tei-app-resolve-seg.xsl" />
   </p:xslt>
-  <xlog:store output-directory="{$output-temp-directory}" debug="{$debug}" file-name="{$file-stem}.xml"  step="15" />
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="15" />
 
   <p:xslt>
    <p:with-input port="stylesheet" href="../../xslt/rochotius/tei-processing/rochotius-tei-app-group-quote-to-cit.xsl" />
   </p:xslt>
-  <xlog:store output-directory="{$output-temp-directory}" debug="{$debug}" file-name="{$file-stem}.xml"  step="20" />
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="20" />
 
   <p:xslt>
    <p:with-input port="stylesheet" href="../../xslt/rochotius/tei-processing/rochotius-tei-app-move-ref-to-cit.xsl" />
   </p:xslt>
-  <xlog:store output-directory="{$output-temp-directory}" debug="{$debug}" file-name="{$file-stem}.xml"  step="25"/>
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="25"/>
   
  </p:declare-step>
  
