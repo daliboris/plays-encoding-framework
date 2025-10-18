@@ -76,7 +76,7 @@
    <p:with-input port="replacement" select="/data/dracor/tei:teiHeader" href="{$data-file-path-uri}" />
   </p:replace>
   <p:replace match="tei:listPerson" message="   ---- replacing listPerson --- ">
-   <p:with-input port="replacement" select="//tei:teiHeader//tei:listPerson" pipe="source@tei-to-dracor"/>
+   <p:with-input port="replacement" select="//tei:teiHeader//tei:listPerson[tei:person]" pipe="source@tei-to-dracor"/>
   </p:replace>
 
   <p:delete match="tei:listPerson/tei:head[@xml:lang='cs']" use-when="false()" />
