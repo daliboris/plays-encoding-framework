@@ -119,7 +119,7 @@
 | input | **source** | true |
 | output | **result** | true |
 
-### Steps  (0 + 40)
+### Steps  (0 + 42)
       
 #### Documentation (0)
     
@@ -229,34 +229,38 @@
 |   |   |   | output-directory | {$log-output-directory} | 
 |   |   |   | step | 30 | 
 | 30 | p:xslt |  |   |   | 
-|   |   |   | href | ../xslt/docx2tei/xml/xml-group-elements-to-div.xsl | 
+|   |   |   | href | ../xslt/docx2dracor/xml/xml-fix-element-combinations.xsl | 
 | 31 | xlog:store |  |   |   | 
 |   |   |   | base-uri | {$base-uri} | 
 |   |   |   | debug | {$debug} | 
 |   |   |   | file-name | {$log-file-name} | 
 |   |   |   | output-directory | {$log-output-directory} | 
-|   |   |   | step | 35 | 
-| 32 | p:variable | sections |   |   | 
-|   |   |   | select | count(//div/DraCor-additions[matches(normalize-space(), '^/(.+)_start/$')]) | 
-| 33 | xd2dc:apply-xslt |  |   |   | 
-|   |   |   | repeat | {$sections} | 
-|   |   |   | href | ../xslt/docx2tei/xml/xml-group-div-start-to-end.xsl | 
-| 34 | xlog:store |  |   |   | 
+|   |   |   | step | 31 | 
+| 32 | p:xslt |  |   |   | 
+|   |   |   | href | ../xslt/docx2tei/xml/xml-group-elements-to-div.xsl | 
+| 33 | xlog:store |  |   |   | 
 |   |   |   | base-uri | {$base-uri} | 
 |   |   |   | debug | {$debug} | 
 |   |   |   | file-name | {$log-file-name} | 
 |   |   |   | output-directory | {$log-output-directory} | 
-|   |   |   | step | 40 | 
+|   |   |   | step | 35 | 
+| 34 | p:variable | sections |   |   | 
+|   |   |   | select | count(//div/DraCor-additions[matches(normalize-space(), '^/(.+)_start(=.*)?/$')]) | 
 | 35 | xd2dc:apply-xslt |  |   |   | 
-|   |   |   | repeat | 2 | 
-|   |   |   | href | ../xslt/docx2tei/xml/xml-group-elements-to-div.xsl | 
+|   |   |   | base-uri | {$base-uri} | 
+|   |   |   | debug-path | {$debug-path} | 
+|   |   |   | repeat | {$sections} | 
+|   |   |   | href | ../xslt/docx2tei/xml/xml-group-div-start-to-end.xsl | 
 | 36 | xlog:store |  |   |   | 
 |   |   |   | base-uri | {$base-uri} | 
 |   |   |   | debug | {$debug} | 
 |   |   |   | file-name | {$log-file-name} | 
 |   |   |   | output-directory | {$log-output-directory} | 
-|   |   |   | step | 45 | 
-| 37 | p:xslt |  |   |   | 
+|   |   |   | step | 40 | 
+| 37 | xd2dc:apply-xslt |  |   |   | 
+|   |   |   | base-uri | {$base-uri} | 
+|   |   |   | debug-path | {$debug-path} | 
+|   |   |   | repeat | 2 | 
 |   |   |   | href | ../xslt/docx2tei/xml/xml-group-elements-to-div.xsl | 
 | 38 | xlog:store |  |   |   | 
 |   |   |   | base-uri | {$base-uri} | 
@@ -267,6 +271,14 @@
 | 39 | p:xslt |  |   |   | 
 |   |   |   | href | ../xslt/docx2tei/xml/xml-group-elements-to-div.xsl | 
 | 40 | xlog:store |  |   |   | 
+|   |   |   | base-uri | {$base-uri} | 
+|   |   |   | debug | {$debug} | 
+|   |   |   | file-name | {$log-file-name} | 
+|   |   |   | output-directory | {$log-output-directory} | 
+|   |   |   | step | 45 | 
+| 41 | p:xslt |  |   |   | 
+|   |   |   | href | ../xslt/docx2tei/xml/xml-group-elements-to-div.xsl | 
+| 42 | xlog:store |  |   |   | 
 |   |   |   | base-uri | {$base-uri} | 
 |   |   |   | debug | {$debug} | 
 |   |   |   | file-name | {$log-file-name} | 
@@ -297,7 +309,7 @@
 | input | job-ticket | false |
 | output | **result** | true |
 
-### Steps  (0 + 34)
+### Steps  (0 + 38)
       
 #### Documentation (0)
     
@@ -326,7 +338,7 @@
 |   |   |   | output-directory | {$log-output-directory} | 
 |   |   |   | step | 1 | 
 | 8 | p:xslt |  |   |   | 
-|   |   |   | href | ../xslt/docx2dracor/tei-processing/dracor-tei-convert-to-lb.xsl | 
+|   |   |   | href | ../xslt/docx2dracor/tei-processing/dracor-tei-move-lb.n-attribute.xsl | 
 | 9 | xlog:store |  |   |   | 
 |   |   |   | base-uri | {$base-uri} | 
 |   |   |   | debug | {$debug} | 
@@ -334,95 +346,111 @@
 |   |   |   | output-directory | {$log-output-directory} | 
 |   |   |   | step | 2 | 
 | 10 | p:xslt |  |   |   | 
-|   |   |   | href | ../xslt/docx2dracor/tei-processing/tei-add-castList.xsl | 
+|   |   |   | href | ../xslt/docx2dracor/tei-processing/dracor-tei-convert-to-lb.xsl | 
 | 11 | xlog:store |  |   |   | 
 |   |   |   | base-uri | {$base-uri} | 
 |   |   |   | debug | {$debug} | 
 |   |   |   | file-name | {$log-file-name} | 
 |   |   |   | output-directory | {$log-output-directory} | 
-|   |   |   | step | 5 | 
+|   |   |   | step | 3 | 
 | 12 | p:xslt |  |   |   | 
-|   |   |   | href | ../xslt/docx2dracor/tei-processing/tei-fix-stage.xsl | 
+|   |   |   | href | ../xslt/docx2dracor/tei-processing/tei-add-castItem.xsl | 
 | 13 | xlog:store |  |   |   | 
 |   |   |   | base-uri | {$base-uri} | 
 |   |   |   | debug | {$debug} | 
 |   |   |   | file-name | {$log-file-name} | 
 |   |   |   | output-directory | {$log-output-directory} | 
-|   |   |   | step | 10 | 
+|   |   |   | step | 5 | 
 | 14 | p:xslt |  |   |   | 
-|   |   |   | href | ../xslt/docx2dracor/tei-processing/tei-fix-speaker.xsl | 
+|   |   |   | href | ../xslt/docx2dracor/tei-processing/tei-fix-stage.xsl | 
 | 15 | xlog:store |  |   |   | 
 |   |   |   | base-uri | {$base-uri} | 
 |   |   |   | debug | {$debug} | 
 |   |   |   | file-name | {$log-file-name} | 
 |   |   |   | output-directory | {$log-output-directory} | 
-|   |   |   | step | 15 | 
+|   |   |   | step | 10 | 
 | 16 | p:xslt |  |   |   | 
-|   |   |   | href | ../xslt/docx2dracor/tei-processing/tei-insert-speaker.xsl | 
+|   |   |   | href | ../xslt/docx2dracor/tei-processing/tei-fix-speaker.xsl | 
 | 17 | xlog:store |  |   |   | 
 |   |   |   | base-uri | {$base-uri} | 
 |   |   |   | debug | {$debug} | 
 |   |   |   | file-name | {$log-file-name} | 
 |   |   |   | output-directory | {$log-output-directory} | 
-|   |   |   | step | 16 | 
+|   |   |   | step | 15 | 
 | 18 | p:xslt |  |   |   | 
-|   |   |   | href | ../xslt/rochotius/tei-postprocessing/rochotius-add-sp.xsl | 
+|   |   |   | href | ../xslt/docx2dracor/tei-processing/tei-split-line-with-speakers.xsl | 
 | 19 | xlog:store |  |   |   | 
 |   |   |   | base-uri | {$base-uri} | 
 |   |   |   | debug | {$debug} | 
 |   |   |   | file-name | {$log-file-name} | 
 |   |   |   | output-directory | {$log-output-directory} | 
-|   |   |   | step | 20 | 
+|   |   |   | step | 16 | 
 | 20 | p:xslt |  |   |   | 
-|   |   |   | parameters | map {'person-prefix' : '' } | 
-|   |   |   | href | ../xslt/common/tei-add-who-to-sp.xsl | 
+|   |   |   | href | ../xslt/docx2dracor/tei-processing/tei-insert-speaker.xsl | 
 | 21 | xlog:store |  |   |   | 
 |   |   |   | base-uri | {$base-uri} | 
 |   |   |   | debug | {$debug} | 
 |   |   |   | file-name | {$log-file-name} | 
 |   |   |   | output-directory | {$log-output-directory} | 
-|   |   |   | step | 21 | 
+|   |   |   | step | 17 | 
 | 22 | p:xslt |  |   |   | 
-|   |   |   | href | ../xslt/docx2dracor/tei-processing/tei-generate-particDesc.xsl | 
+|   |   |   | href | ../xslt/rochotius/tei-postprocessing/rochotius-add-sp.xsl | 
 | 23 | xlog:store |  |   |   | 
 |   |   |   | base-uri | {$base-uri} | 
 |   |   |   | debug | {$debug} | 
 |   |   |   | file-name | {$log-file-name} | 
 |   |   |   | output-directory | {$log-output-directory} | 
-|   |   |   | step | 22 | 
+|   |   |   | step | 20 | 
 | 24 | p:xslt |  |   |   | 
-|   |   |   | href | ../xslt/docx2dracor/tei-processing/tei-add-l-part.xsl | 
+|   |   |   | parameters | map {'person-prefix' : '' } | 
+|   |   |   | href | ../xslt/common/tei-add-who-to-sp.xsl | 
 | 25 | xlog:store |  |   |   | 
 |   |   |   | base-uri | {$base-uri} | 
 |   |   |   | debug | {$debug} | 
 |   |   |   | file-name | {$log-file-name} | 
 |   |   |   | output-directory | {$log-output-directory} | 
-|   |   |   | step | 25 | 
+|   |   |   | step | 21 | 
 | 26 | p:xslt |  |   |   | 
-|   |   |   | href | ../xslt/docx2dracor/tei-processing/tei-space.xsl | 
+|   |   |   | href | ../xslt/docx2dracor/tei-processing/tei-generate-particDesc.xsl | 
 | 27 | xlog:store |  |   |   | 
 |   |   |   | base-uri | {$base-uri} | 
 |   |   |   | debug | {$debug} | 
 |   |   |   | file-name | {$log-file-name} | 
 |   |   |   | output-directory | {$log-output-directory} | 
-|   |   |   | step | 30 | 
+|   |   |   | step | 22 | 
 | 28 | p:xslt |  |   |   | 
-|   |   |   | href | ../xslt/docx2dracor/tei-processing/tei-clean-whitespace.xsl | 
+|   |   |   | href | ../xslt/docx2dracor/tei-processing/tei-add-l-part.xsl | 
 | 29 | xlog:store |  |   |   | 
 |   |   |   | base-uri | {$base-uri} | 
 |   |   |   | debug | {$debug} | 
 |   |   |   | file-name | {$log-file-name} | 
 |   |   |   | output-directory | {$log-output-directory} | 
+|   |   |   | step | 25 | 
+| 30 | p:xslt |  |   |   | 
+|   |   |   | href | ../xslt/docx2dracor/tei-processing/tei-space.xsl | 
+| 31 | xlog:store |  |   |   | 
+|   |   |   | base-uri | {$base-uri} | 
+|   |   |   | debug | {$debug} | 
+|   |   |   | file-name | {$log-file-name} | 
+|   |   |   | output-directory | {$log-output-directory} | 
+|   |   |   | step | 30 | 
+| 32 | p:xslt |  |   |   | 
+|   |   |   | href | ../xslt/docx2dracor/tei-processing/tei-clean-whitespace.xsl | 
+| 33 | xlog:store |  |   |   | 
+|   |   |   | base-uri | {$base-uri} | 
+|   |   |   | debug | {$debug} | 
+|   |   |   | file-name | {$log-file-name} | 
+|   |   |   | output-directory | {$log-output-directory} | 
 |   |   |   | step | 35 | 
-| 30 | p:delete |  |   |   | 
+| 34 | p:delete |  |   |   | 
 |   |   |   | match | tei:speaker[@resp='#pef-dracor'] | 
-| 31 | p:delete |  |   |   | 
+| 35 | p:delete |  |   |   | 
 |   |   |   | match | @xd2dc:* | 
-| 32 | p:namespace-delete |  |   |   | 
+| 36 | p:namespace-delete |  |   |   | 
 |   |   |   | prefixes | xd2dc | 
-| 33 | p:xslt |  |   |   | 
+| 37 | p:xslt |  |   |   | 
 |   |   |   | href | ../xslt/xml/xml-removing-namespaces.xsl | 
-| 34 | xlog:store |  |   |   | 
+| 38 | xlog:store |  |   |   | 
 |   |   |   | base-uri | {$base-uri} | 
 |   |   |   | debug | {$debug} | 
 |   |   |   | file-name | {$log-file-name} | 
@@ -431,10 +459,12 @@
 
 
 #### **xd2dc:apply-xslt** (applying-xslt)
-#### Options (1)
+#### Options (3)
       
 | name | properties |
 | --- | --- |
+| debug-path | name = debug-path \| select = () \| as = xs:string? |
+| base-uri | name = base-uri \| as = xs:anyURI \| select = static-base-uri() |
 | repeat | name = repeat \| select = 1 \| as = xs:integer |
 
 #### Ports (3)
@@ -445,13 +475,25 @@
 | input | stylesheet | false |
 | output | **result** | true |
 
-### Steps  (0 + 1)
+### Steps  (0 + 7)
       
 
 
 | position | step | name | parameter | value | 
 | --- | --- | --- | --- | --- | 
-| 1 | p:choose |  |   |   | 
+| 1 | p:variable | debug |   |   | 
+|   |   |   | select | $debug-path \|\| '' ne '' | 
+| 2 | p:variable | debug-path-uri |   |   | 
+|   |   |   | select | resolve-uri($debug-path, $base-uri) | 
+| 3 | dxfs:document-file-info | info |   |   | 
+| 4 | p:variable | file |   |   | 
+|   |   |   | pipe | report@info | 
+|   |   |   | select | /fs:file | 
+| 5 | p:variable | log-output-directory |   |   | 
+|   |   |   | select | $debug-path \|\| '/apply-xslt/' \|\| $file/@stem | 
+| 6 | p:variable | log-file-name |   |   | 
+|   |   |   | select | $file/@stem \|\| '.xml' | 
+| 7 | p:choose |  |   |   | 
 | 1 | p:when |  |   |   | 
 | 1 | p:xslt |  |   |   | 
 |   |   |   | pipe | source@applying-xslt | 
@@ -889,7 +931,7 @@
 | input | **source** | true |
 | output | **result** | true |
 
-### Steps  (0 + 45)
+### Steps  (0 + 59)
       
 #### Documentation (0)
     
@@ -908,99 +950,142 @@
 | 4 | p:variable | dracor-id |   |   | 
 |   |   |   | href | {$data-file-path-uri} | 
 |   |   |   | select | /data/@dracor-id | 
-| 5 | p:delete |  |   |   | 
-|   |   |   | match | tei:div[@type='editorial'] | 
+| 5 | p:add-attribute |  |   |   | 
+|   |   |   | attribute-name | xml:lang | 
+|   |   |   | attribute-value | lat | 
+|   |   |   | match | *[@xml:lang['la']] | 
 | 6 | p:delete |  |   |   | 
-|   |   |   | match | tei:fileDesc/tei:notesStmt | 
+|   |   |   | match | tei:div[@type='editorial'] | 
 | 7 | p:delete |  |   |   | 
-|   |   |   | match | tei:sourceDesc/tei:listWit | 
+|   |   |   | match | tei:fileDesc/tei:notesStmt | 
 | 8 | p:delete |  |   |   | 
-|   |   |   | match | tei:sourceDesc/tei:msDesc | 
+|   |   |   | match | tei:sourceDesc/tei:listWit | 
 | 9 | p:delete |  |   |   | 
-|   |   |   | match | tei:listPerson/tei:head[@xml:lang='cs'] | 
-| 10 | p:delete |  |   |   | 
-|   |   |   | match | tei:listPerson/tei:head/@xml:lang | 
-| 11 | p:delete |  |   |   | 
-|   |   |   | match | tei:listPerson/tei:person/tei:persName[@xml:lang='cs'] | 
-| 12 | p:delete |  |   |   | 
-|   |   |   | match | tei:listPerson/tei:person/tei:occupation | 
-| 13 | p:replace |  |   |   | 
+|   |   |   | match | tei:sourceDesc/tei:msDesc | 
+| 10 | p:replace |  |   |   | 
 |   |   |   | match | tei:listBibl | 
 |   |   |   | use-when | false() | 
+| 11 | p:replace |  |   |   | 
+|   |   |   | match | tei:teiHeader | 
+|   |   |   | select | /data/dracor/tei:teiHeader | 
+|   |   |   | href | {$data-file-path-uri} | 
+| 12 | p:replace |  |   |   | 
+|   |   |   | match | tei:listPerson | 
+|   |   |   | select | //tei:teiHeader//tei:listPerson[tei:person] | 
+|   |   |   | pipe | source@tei-to-dracor | 
+| 13 | p:delete |  |   |   | 
+|   |   |   | match | tei:listPerson/tei:head[@xml:lang='cs'] | 
+|   |   |   | use-when | false() | 
 | 14 | p:delete |  |   |   | 
-|   |   |   | match | tei:encodingDesc | 
+|   |   |   | match | tei:listPerson/tei:head[@xml:lang] | 
 | 15 | p:delete |  |   |   | 
-|   |   |   | match | tei:profileDesc/tei:creation | 
+|   |   |   | match | tei:listPerson/tei:person/tei:persName[@xml:lang='cs'] | 
 | 16 | p:delete |  |   |   | 
-|   |   |   | match | tei:profileDesc/tei:langUsage | 
+|   |   |   | match | tei:listPerson/tei:person/tei:persName/@xml:lang | 
 | 17 | p:delete |  |   |   | 
-|   |   |   | match | tei:body/tei:div[@type='title'] | 
+|   |   |   | match | tei:listPerson/tei:person/tei:persName/@type | 
 | 18 | p:delete |  |   |   | 
-|   |   |   | match | tei:text/@* | 
-| 19 | p:delete |  |   |   | 
-|   |   |   | match | tei:p/@* | 
-| 20 | p:delete |  |   |   | 
-|   |   |   | match | tei:emph/@rendition | 
-| 21 | p:delete |  |   |   | 
-|   |   |   | match | tei:facsimile | 
+|   |   |   | match | tei:listPerson/tei:person/tei:occupation | 
+| 19 | p:variable | females |   |   | 
+|   |   |   | href | {$data-file-path-uri} | 
+|   |   |   | select | tokenize(/data/persons/females, '[,\s]')[.] | 
+| 20 | p:add-attribute |  |   |   | 
+|   |   |   | attribute-name | sex | 
+|   |   |   | attribute-value | FEMALE | 
+|   |   |   | match | tei:listPerson/tei:person[tei:persName[. = ('Melaenis', 'Rosina', 'Thamar', 'Artemona')]] | 
+| 21 | p:insert |  |   |   | 
+|   |   |   | select | /data/dracor/tei:standOff | 
+|   |   |   | href | {$data-file-path-uri} | 
+|   |   |   | match | tei:teiHeader | 
 | 22 | p:delete |  |   |   | 
-|   |   |   | match | tei:pb/@xml:id | 
+|   |   |   | match | tei:encodingDesc | 
 | 23 | p:delete |  |   |   | 
-|   |   |   | match | tei:pb/@facs | 
-| 24 | p:unwrap |  |   |   | 
-|   |   |   | match | tei:speaker/tei:persName | 
+|   |   |   | match | tei:profileDesc/tei:creation | 
+| 24 | p:delete |  |   |   | 
+|   |   |   | match | tei:profileDesc/tei:langUsage | 
 | 25 | p:delete |  |   |   | 
-|   |   |   | match | tei:app/tei:rdg | 
-| 26 | p:unwrap |  |   |   | 
-|   |   |   | match | tei:app/tei:lem | 
-| 27 | p:unwrap |  |   |   | 
-|   |   |   | match | tei:app | 
+|   |   |   | match | tei:body/tei:div[@type='title'] | 
+| 26 | p:delete |  |   |   | 
+|   |   |   | match | tei:text/@* | 
+| 27 | p:delete |  |   |   | 
+|   |   |   | match | tei:p/@* | 
 | 28 | p:delete |  |   |   | 
-|   |   |   | match | tei:anchor/@subtype | 
-| 29 | p:unwrap |  |   |   | 
+|   |   |   | match | tei:emph/@rendition | 
+| 29 | p:delete |  |   |   | 
+|   |   |   | match | tei:facsimile | 
+| 30 | p:delete |  |   |   | 
+|   |   |   | match | tei:pb/@xml:id | 
+| 31 | p:delete |  |   |   | 
+|   |   |   | match | tei:pb/@facs | 
+| 32 | p:unwrap |  |   |   | 
+|   |   |   | match | tei:speaker/tei:persName | 
+| 33 | p:delete |  |   |   | 
+|   |   |   | match | tei:app/tei:rdg | 
+| 34 | p:unwrap |  |   |   | 
+|   |   |   | match | tei:app/tei:lem | 
+| 35 | p:unwrap |  |   |   | 
+|   |   |   | match | tei:app | 
+| 36 | p:delete |  |   |   | 
+|   |   |   | match | tei:anchor | 
+| 37 | p:unwrap |  |   |   | 
 |   |   |   | match | tei:supplied | 
-| 30 | p:rename |  |   |   | 
+| 38 | p:unwrap |  |   |   | 
+|   |   |   | match | tei:hi[@rendition='normal'][. = ' '] | 
+| 39 | p:rename |  |   |   | 
 |   |   |   | match | tei:hi | 
 |   |   |   | new-name | tei:emph | 
-| 31 | p:add-attribute |  |   |   | 
+| 40 | p:delete |  |   |   | 
+|   |   |   | match | tei:note[@n] | 
+| 41 | p:delete |  |   |   | 
+|   |   |   | match | tei:note[not(@n)] | 
+| 42 | p:add-attribute |  |   |   | 
 |   |   |   | attribute-name | place | 
 |   |   |   | attribute-value | foot | 
 |   |   |   | match | tei:note[@n] | 
-| 32 | p:add-attribute |  |   |   | 
+|   |   |   | use-when | false() | 
+| 43 | p:add-attribute |  |   |   | 
 |   |   |   | attribute-name | style | 
 |   |   |   | attribute-value | font-style: italic; | 
 |   |   |   | match | tei:emph[@rend='italic' or @rendition='italic'] | 
 |   |   |   | use-when | false() | 
-| 33 | p:rename |  |   |   | 
+| 44 | p:rename |  |   |   | 
 |   |   |   | match | @rendition | 
 |   |   |   | new-name | rend | 
-| 34 | p:delete |  |   |   | 
+| 45 | p:xslt |  |   |   | 
+|   |   |   | href | ../xslt/dracor/rename-ids.xsl | 
+| 46 | p:xslt |  |   |   | 
+|   |   |   | href | ../xslt/dracor/move-finis-to-stage.xsl | 
+| 47 | p:xslt |  |   |   | 
+|   |   |   | href | ../xslt/dracor/remove-trailing-spaces.xsl | 
+| 48 | p:delete |  |   |   | 
 |   |   |   | match | tei:space | 
-| 35 | p:delete |  |   |   | 
+| 49 | p:delete |  |   |   | 
 |   |   |   | match | tei:editionStmt | 
-| 36 | p:replace |  |   |   | 
+|   |   |   | use-when | false() | 
+| 50 | p:replace |  |   |   | 
 |   |   |   | match | tei:availability | 
-| 37 | p:unwrap |  |   |   | 
+|   |   |   | use-when | false() | 
+| 51 | p:unwrap |  |   |   | 
 |   |   |   | match | tei:div[@type='scene']/tei:div[tei:div] | 
-| 38 | p:insert |  |   |   | 
+| 52 | p:insert |  |   |   | 
 |   |   |   | match | tei:teiHeader | 
 |   |   |   | position | after | 
 |   |   |   | use-when | false() | 
-| 39 | p:add-attribute |  |   |   | 
+| 53 | p:add-attribute |  |   |   | 
 |   |   |   | attribute-name | xml:id | 
 |   |   |   | attribute-value | {$dracor-id} | 
 |   |   |   | match | tei:TEI | 
-| 40 | p:insert |  |   |   | 
+| 54 | p:insert |  |   |   | 
 |   |   |   | match | tei:TEI | 
 |   |   |   | position | before | 
-| 41 | p:unwrap |  |   |   | 
+| 55 | p:unwrap |  |   |   | 
 |   |   |   | match | tei:ref[starts-with(@target, '#')][. = 'Potipharis'] | 
-| 42 | p:delete |  |   |   | 
+| 56 | p:delete |  |   |   | 
 |   |   |   | match | tei:note[tei:person][count(*) eq 1] | 
-| 43 | p:delete |  |   |   | 
+| 57 | p:delete |  |   |   | 
 |   |   |   | match | tei:person/tei:note[@type='bio'] | 
-| 44 | xxml:clean-namespaces |  |   |   | 
-| 45 | p:identity |  |   |   | 
+| 58 | xxml:clean-namespaces |  |   |   | 
+| 59 | p:identity |  |   |   | 
 
 
 
@@ -2069,7 +2154,7 @@
 #### Imports (0)
     
 
-### Steps  (4 + 0)
+### Steps  (6 + 0)
       
 #### Documentation (37)
     
@@ -2097,7 +2182,7 @@
 | output | **result** | true |
 | output | ticket-out | false |
 
-### Steps  (0 + 21)
+### Steps  (0 + 27)
       
 #### Documentation (16)
     
@@ -2150,30 +2235,54 @@
 | 14 | p:load |  |   |   | 
 |   |   |   | href | {$href-tempfile-uri} | 
 | 15 | p:xslt |  |   |   | 
-|   |   |   | href | ../xslt/docx/docx-document-to-text.xsl | 
+|   |   |   | href | ../xslt/docx/docx-remove-dracor-metadata.xsl | 
 | 16 | xlog:store |  |   |   | 
-|   |   |   | base-uri | {$base-uri} | 
-|   |   |   | debug | {$debug} | 
-|   |   |   | file-name | {$file-stem}.txt | 
-|   |   |   | output-directory | {$output-temp-directory} | 
-|   |   |   | step | 10 | 
-| 17 | p:file-create-tempfile |  |   |   | 
-|   |   |   | delete-on-exit | true | 
-|   |   |   | suffix | .txt | 
-| 18 | p:variable | href-tempfile-uri |   |   | 
-|   |   |   | select | xs:anyURI(.) | 
-| 19 | p:store |  |   |   | 
-|   |   |   | pipe | result@docx-text | 
-|   |   |   | href | {$href-tempfile-uri} | 
-| 20 | p:xslt |  |   |   | 
-|   |   |   | parameters | map {'href' : $href-tempfile-uri } | 
-|   |   |   | href | ../xslt/docx/text-clean-lines.xsl | 
-| 21 | xlog:store |  |   |   | 
 |   |   |   | base-uri | {$base-uri} | 
 |   |   |   | debug | {$debug} | 
 |   |   |   | file-name | {$file-stem}.xml | 
 |   |   |   | output-directory | {$output-temp-directory} | 
+|   |   |   | step | 10 | 
+| 17 | p:xslt |  |   |   | 
+|   |   |   | href | ../xslt/docx/docx-document-to-text.xsl | 
+| 18 | xlog:store |  |   |   | 
+|   |   |   | base-uri | {$base-uri} | 
+|   |   |   | debug | {$debug} | 
+|   |   |   | file-name | {$file-stem}.txt | 
+|   |   |   | output-directory | {$output-temp-directory} | 
 |   |   |   | step | 15 | 
+| 19 | p:file-create-tempfile |  |   |   | 
+|   |   |   | delete-on-exit | true | 
+|   |   |   | suffix | .txt | 
+| 20 | p:variable | href-tempfile-uri |   |   | 
+|   |   |   | select | xs:anyURI(.) | 
+| 21 | p:store |  |   |   | 
+|   |   |   | pipe | result@docx-text | 
+|   |   |   | href | {$href-tempfile-uri} | 
+| 22 | p:xslt |  |   |   | 
+|   |   |   | parameters | map {'href' : $href-tempfile-uri } | 
+|   |   |   | href | ../xslt/docx/text-clean-lines.xsl | 
+| 23 | xlog:store |  |   |   | 
+|   |   |   | base-uri | {$base-uri} | 
+|   |   |   | debug | {$debug} | 
+|   |   |   | file-name | {$file-stem}.xml | 
+|   |   |   | output-directory | {$output-temp-directory} | 
+|   |   |   | step | 20 | 
+| 24 | p:xslt |  |   |   | 
+|   |   |   | href | ../xslt/common/xml-fix-common-text-errors.xsl | 
+| 25 | xlog:store |  |   |   | 
+|   |   |   | base-uri | {$base-uri} | 
+|   |   |   | debug | {$debug} | 
+|   |   |   | file-name | {$file-stem}.xml | 
+|   |   |   | output-directory | {$output-temp-directory} | 
+|   |   |   | step | 25 | 
+| 26 | p:xslt |  |   |   | 
+|   |   |   | href | ../xslt/docx/text-move-pb.xsl | 
+| 27 | xlog:store |  |   |   | 
+|   |   |   | base-uri | {$base-uri} | 
+|   |   |   | debug | {$debug} | 
+|   |   |   | file-name | {$file-stem}.xml | 
+|   |   |   | output-directory | {$output-temp-directory} | 
+|   |   |   | step | 30 | 
 
 
 #### **xpef:input-processing** (input-processing)
@@ -2251,6 +2360,33 @@
 | 1 | p:identity |  |   |   | 
 
 
+#### **xpef:identify-first-verses** (identifying-first-verses)
+#### Options (2)
+      
+| name | properties |
+| --- | --- |
+| debug-path | name = debug-path \| select = () \| as = xs:string? |
+| base-uri | name = base-uri \| as = xs:anyURI \| select = static-base-uri() |
+
+#### Ports (4)
+    
+| direction | value | primary |
+| --- | --- | ---| 
+| input | **source** | true |
+| input | job-ticket | false |
+| output | **result** | true |
+| output | job-ticket-out | false |
+
+### Steps  (0 + 1)
+      
+
+
+| position | step | name | parameter | value | 
+| --- | --- | --- | --- | --- | 
+| 1 | p:xslt |  |   |   | 
+|   |   |   | href | ../xslt/common/tei/tei-postprocessing/tei-identify-first-verses.xsl | 
+
+
 #### **xpef:create-list-of-speakers** (creating-list-of-speakers)
 #### Options (5)
       
@@ -2270,7 +2406,7 @@
 | input | job-ticket | false |
 | output | **result** | true |
 
-### Steps  (0 + 13)
+### Steps  (0 + 15)
       
 
 
@@ -2279,55 +2415,98 @@
 | 1 | p:variable | debug |   |   | 
 |   |   |   | select | $debug-path \|\| '' ne '' | 
 | 2 | p:variable | line-numbers-file-path |   |   | 
-|   |   |   | select | concat($data-directory-path, '/', $doc-name, '-line-numbers.xml') | 
-| 3 | p:variable | output-temp-directory |   |   | 
+|   |   |   | select | concat($data-directory-path, '/local.', $doc-name, '.line-numbers.xml') | 
+| 3 | p:variable | line-numbers-file-path-uri |   |   | 
+|   |   |   | select | resolve-uri($line-numbers-file-path, $base-uri) | 
+| 4 | p:variable | output-temp-directory |   |   | 
 |   |   |   | select | $debug-path \|\| '/' \|\| $doc-name \|\| '/' \|\| 'create-list-of-speakers' | 
-| 4 | p:variable | data-file-path-uri |   |   | 
+| 5 | p:variable | data-file-path-uri |   |   | 
 |   |   |   | select | resolve-uri($data-file-path, $base-uri) | 
-| 5 | p:variable | file-stem |   |   | 
+| 6 | p:variable | file-stem |   |   | 
 |   |   |   | select | $doc-name | 
-| 6 | p:identity | original |   |   | 
-| 7 | p:choose |  |   |   | 
+| 7 | p:variable | listPerson-in-data-file-exists |   |   | 
+|   |   |   | select | doc($data-file-path-uri)/data/tei:listPerson[1][tei:person] | 
+| 8 | p:identity | original |   |   | 
+| 9 | p:choose |  |   |   | 
 | 1 | p:when |  |   |   | 
-| 1 | p:xquery |  |   |   | 
-|   |   |   | href | ../xquery/tei-assign-line-number.xquery | 
-| 2 | p:xslt |  |   |   | 
-|   |   |   | parameters | map {      'line-numbers-file-path' : $data-file-path-uri      } | 
-|   |   |   | pipe | source@creating-list-of-speakers | 
-|   |   |   | href | ../xslt/common/tei-assign-line-number-iterating.xsl | 
-|   |   |   | test | false() | 
-| 2 | p:otherwise |  |   |   | 
 | 1 | p:xslt |  |   |   | 
 |   |   |   | parameters | map {      'line-numbers-file-path' : $data-file-path-uri      } | 
 |   |   |   | pipe | source@creating-list-of-speakers | 
 |   |   |   | href | ../xslt/common/tei-assign-line-number-iterating.xsl | 
-| 8 | p:viewport | play-text |   |   | 
+|   |   |   | test | $listPerson-in-data-file-exists | 
+| 2 | p:otherwise |  |   |   | 
+| 1 | p:xquery |  |   |   | 
+|   |   |   | href | ../xquery/tei-assign-line-number.xquery | 
+| 2 | p:xslt |  |   |   | 
+|   |   |   | parameters | map {      'line-numbers-file-path' : $line-numbers-file-path-uri      } | 
+|   |   |   | pipe | source@creating-list-of-speakers | 
+|   |   |   | href | ../xslt/common/tei-assign-line-number-iterating.xsl | 
+| 10 | p:viewport | play-text |   |   | 
 | 1 | p:choose |  |   |   | 
 | 1 | p:when |  |   |   | 
-|   |   |   | test | false() | 
+|   |   |   | test | $listPerson-in-data-file-exists | 
 | 2 | p:otherwise |  |   |   | 
 |   |   |   | match | tei:TEI | 
-| 9 | xlog:store |  |   |   | 
-|   |   |   | base-uri | {$base-uri} | 
-|   |   |   | debug | {$debug} | 
-|   |   |   | file-name | {$file-stem}.xml | 
-|   |   |   | output-directory | {$output-temp-directory} | 
-|   |   |   | step | 1 | 
-| 10 | p:xslt |  |   |   | 
-|   |   |   | href | ../xslt/common/tei-add-who-to-sp.xsl | 
 | 11 | xlog:store |  |   |   | 
 |   |   |   | base-uri | {$base-uri} | 
 |   |   |   | debug | {$debug} | 
 |   |   |   | file-name | {$file-stem}.xml | 
 |   |   |   | output-directory | {$output-temp-directory} | 
-|   |   |   | step | 5 | 
-| 12 | xpefc:add-persName-to-speaker | corpus |   |   | 
+|   |   |   | step | 1 | 
+| 12 | p:xslt |  |   |   | 
+|   |   |   | href | ../xslt/common/tei-add-who-to-sp.xsl | 
 | 13 | xlog:store |  |   |   | 
 |   |   |   | base-uri | {$base-uri} | 
 |   |   |   | debug | {$debug} | 
 |   |   |   | file-name | {$file-stem}.xml | 
 |   |   |   | output-directory | {$output-temp-directory} | 
+|   |   |   | step | 5 | 
+| 14 | xpefc:add-persName-to-speaker | corpus |   |   | 
+| 15 | xlog:store |  |   |   | 
+|   |   |   | base-uri | {$base-uri} | 
+|   |   |   | debug | {$debug} | 
+|   |   |   | file-name | {$file-stem}.xml | 
+|   |   |   | output-directory | {$output-temp-directory} | 
 |   |   |   | step | 10 | 
+
+
+#### **xpef:remove-xinclude** (removing-xinclude)
+#### Documentation (16)
+    
+##### input-processing
+
+#### Options (2)
+      
+| name | properties |
+| --- | --- |
+| debug-path | name = debug-path \| select = () \| as = xs:string? |
+| base-uri | name = base-uri \| as = xs:anyURI \| select = static-base-uri() |
+
+#### Ports (4)
+    
+| direction | value | primary |
+| --- | --- | ---| 
+| input | **source** | true |
+| input | ticket-in | false |
+| output | **result** | true |
+| output | ticket-out | false |
+
+### Steps  (0 + 3)
+      
+#### Documentation (16)
+    
+##### input-processing
+
+
+
+| position | step | name | parameter | value | 
+| --- | --- | --- | --- | --- | 
+| 1 | p:variable | debug |   |   | 
+|   |   |   | select | $debug-path \|\| '' ne '' | 
+| 2 | p:variable | debug-path-uri |   |   | 
+|   |   |   | select | resolve-uri($debug-path, $base-uri) | 
+| 3 | p:xslt |  |   |   | 
+|   |   |   | href | ../xslt/common/xml-remove-xinclude.xsl | 
 
 
 
@@ -2430,242 +2609,7 @@
 
 
 
-## tei-play-lib.xpl
-#### Documentation (0)
-    
-##### 
-
-#### Namespaces (11)
-    
-| prefix | string |
-| --- | --- |
-| p | http://www.w3.org/ns/xproc |
-| xdc | https://www.daliboris.cz/ns/xproc/plays-encoding-framework/dracor |
-| xevt | https://www.daliboris.cz/ns/xproc/plays-encoding-framework/evt |
-| xhtml | http://www.w3.org/1999/xhtml |
-| xlog | https://www.daliboris.cz/ns/xproc/logging/1.0 |
-| xpef | https://www.daliboris.cz/ns/xproc/plays-encoding-framework |
-| xs | http://www.w3.org/2001/XMLSchema |
-| xsl | http://www.w3.org/1999/XSL/Transform |
-| xtei | https://www.daliboris.cz/ns/xproc/plays-encoding-framework/tei |
-| xxml | https://www.daliboris.cz/ns/xproc/xml |
-| xml | http://www.w3.org/XML/1998/namespace |
-
-#### Imports (0)
-    
-
-### Steps  (5 + 0)
-      
-#### Documentation (0)
-    
-##### 
-
-
-#### **xtei:create-person-list** (creating-person-list)
-#### Documentation (0)
-    
-##### 
-
-#### Options (3)
-      
-| name | properties |
-| --- | --- |
-| include-variants | name = include-variants \| as = xs:boolean \| select = false() |
-| debug-path | name = debug-path \| select = () \| as = xs:string? |
-| base-uri | name = base-uri \| as = xs:anyURI \| select = static-base-uri() |
-
-#### Ports (2)
-    
-| direction | value | primary |
-| --- | --- | ---| 
-| input | **source** | true |
-| output | **result** | true |
-
-### Steps  (0 + 3)
-      
-#### Documentation (0)
-    
-##### 
-
-
-
-| position | step | name | parameter | value | 
-| --- | --- | --- | --- | --- | 
-| 1 | p:variable | debug |   |   | 
-|   |   |   | select | $debug-path \|\| '' ne '' | 
-| 2 | p:variable | debug-path-uri |   |   | 
-|   |   |   | select | resolve-uri($debug-path, $base-uri) | 
-| 3 | p:xquery |  |   |   | 
-|   |   |   | parameters | map { 'include-variants' : $include-variants} | 
-|   |   |   | href | ../xquery/get-listPerson-from-play.xquery | 
-
-
-#### **xtei:add-lang-usage** (adding-lang-usage)
-#### Documentation (0)
-    
-##### 
-
-#### Options (2)
-      
-| name | properties |
-| --- | --- |
-| debug-path | name = debug-path \| select = () \| as = xs:string? |
-| base-uri | name = base-uri \| as = xs:anyURI \| select = static-base-uri() |
-
-#### Ports (2)
-    
-| direction | value | primary |
-| --- | --- | ---| 
-| input | **source** | true |
-| output | **result** | true |
-
-### Steps  (0 + 3)
-      
-#### Documentation (0)
-    
-##### 
-
-
-
-| position | step | name | parameter | value | 
-| --- | --- | --- | --- | --- | 
-| 1 | p:variable | debug |   |   | 
-|   |   |   | select | $debug-path \|\| '' ne '' | 
-| 2 | p:variable | debug-path-uri |   |   | 
-|   |   |   | select | resolve-uri($debug-path, $base-uri) | 
-| 3 | p:xslt |  |   |   | 
-|   |   |   | href | ../xslt/tei/tei-add-lang-usage.xsl | 
-
-
-#### **xtei:postprocessing** (postprocessing)
-#### Options (5)
-      
-| name | properties |
-| --- | --- |
-| debug-path | name = debug-path \| select = () \| as = xs:string? |
-| base-uri | name = base-uri \| as = xs:anyURI \| select = static-base-uri() |
-| data-file-path | name = data-file-path \| as = xs:string? |
-| output-directory-path | name = output-directory-path \| as = xs:string? |
-| output-file-name | name = output-file-name \| as = xs:string? |
-
-#### Ports (2)
-    
-| direction | value | primary |
-| --- | --- | ---| 
-| input | **source** | true |
-| output | **result** | true |
-
-### Steps  (0 + 4)
-      
-
-
-| position | step | name | parameter | value | 
-| --- | --- | --- | --- | --- | 
-| 1 | xdc:tei-to-dracor |  |   |   | 
-|   |   |   | pipe | source@postprocessing | 
-|   |   |   | base-uri | {$base-uri} | 
-|   |   |   | data-file-path | {$data-file-path} | 
-|   |   |   | debug-path | {$debug-path} | 
-| 2 | xevt:tei-to-evt | evt |   |   | 
-|   |   |   | pipe | source@postprocessing | 
-|   |   |   | base-uri | {$base-uri} | 
-|   |   |   | data-file-path | {$data-file-path} | 
-|   |   |   | debug-path | {$debug-path} | 
-|   |   |   | output-directory-path | {$output-directory-path}/evt | 
-| 3 | xevt:validate-hierarchies |  |   |   | 
-|   |   |   | pipe | source@postprocessing | 
-|   |   |   | base-uri | {$base-uri} | 
-|   |   |   | debug-path | {$debug-path} | 
-|   |   |   | output-directory-path | {$output-directory-path}/validation | 
-|   |   |   | output-file-name | {$output-file-name}.html | 
-| 4 | xevt:zip |  |   |   | 
-|   |   |   | base-uri | {$base-uri} | 
-|   |   |   | debug-path | {$debug-path} | 
-|   |   |   | input-directory-path | {$output-directory-path}/evt | 
-|   |   |   | output-directory-path | {$output-directory-path}/zip | 
-
-
-#### **xtei:convert** (converting)
-#### Options (6)
-      
-| name | properties |
-| --- | --- |
-| debug-path | name = debug-path \| select = () \| as = xs:string? |
-| base-uri | name = base-uri \| as = xs:anyURI \| select = static-base-uri() |
-| data-file-path | name = data-file-path \| as = xs:string? |
-| output-directory-path | name = output-directory-path \| as = xs:string? |
-| output-file-name | name = output-file-name \| as = xs:string? |
-| target | name = target \| as = xs:string* \| values = ('EVT', 'DraCor', 'text') |
-
-#### Ports (2)
-    
-| direction | value | primary |
-| --- | --- | ---| 
-| input | **source** | true |
-| output | **result** | true |
-
-### Steps  (0 + 6)
-      
-
-
-| position | step | name | parameter | value | 
-| --- | --- | --- | --- | --- | 
-| 1 | p:variable | debug |   |   | 
-|   |   |   | select | $debug-path \|\| '' ne '' | 
-| 2 | p:variable | debug-path-uri |   |   | 
-|   |   |   | select | resolve-uri($debug-path, $base-uri) | 
-| 3 | p:variable | output-directory-path-uri |   |   | 
-|   |   |   | select | resolve-uri($output-directory-path, $base-uri) | 
-| 4 | p:choose |  |   |   | 
-| 1 | p:when |  |   |   | 
-|   |   |   | test | $target='DraCor' | 
-| 5 | p:choose |  |   |   | 
-| 1 | p:when |  |   |   | 
-|   |   |   | test | not(empty($output-directory-path) or empty($output-file-name)) | 
-| 6 | p:choose |  |   |   | 
-| 1 | p:when |  |   |   | 
-|   |   |   | test | $target='text' | 
-
-
-#### **xtei:tei-to-text**
-#### Options (2)
-      
-| name | properties |
-| --- | --- |
-| debug-path | name = debug-path \| select = () \| as = xs:string? |
-| base-uri | name = base-uri \| as = xs:anyURI \| select = static-base-uri() |
-
-#### Ports (2)
-    
-| direction | value | primary |
-| --- | --- | ---| 
-| input | **source** | true |
-| output | **result** | true |
-
-### Steps  (0 + 5)
-      
-
-
-| position | step | name | parameter | value | 
-| --- | --- | --- | --- | --- | 
-| 1 | p:xslt |  |   |   | 
-|   |   |   | href | ../xslt/tei/tei-to-text.xsl | 
-| 2 | p:file-create-tempfile |  |   |   | 
-|   |   |   | delete-on-exit | true | 
-|   |   |   | suffix | .txt | 
-| 3 | p:variable | href-tempfile-uri |   |   | 
-|   |   |   | select | xs:anyURI(.) | 
-| 4 | p:store |  |   |   | 
-|   |   |   | pipe | result@tei-to-text | 
-|   |   |   | href | {$href-tempfile-uri} | 
-| 5 | p:xslt |  |   |   | 
-|   |   |   | parameters | map {'href' : $href-tempfile-uri } | 
-|   |   |   | href | ../xslt/docx/text-clean-lines.xsl | 
-
-
-
-## xproc-project-setup.xpl
-#### **default**
+## setup-lib.xpl
 #### Documentation (0)
     
 ##### 
@@ -2681,44 +2625,14 @@
 | xs | http://www.w3.org/2001/XMLSchema |
 | xml | http://www.w3.org/XML/1998/namespace |
 
-#### Options (4)
+### Steps  (7 + 0)
       
-| name | properties |
-| --- | --- |
-| debug-path | name = debug-path \| select = () \| as = xs:string? |
-| base-uri | name = base-uri \| as = xs:anyURI \| select = static-base-uri() |
-| saxon-version | name = saxon-version \| as = xs:string \| select = '12.3' |
-| morgana-version | name = morgana-version \| as = xs:string \| select = '1.6.4' |
-
-#### Ports (1)
+#### Documentation (0)
     
-| direction | value | primary |
-| --- | --- | ---| 
-| output | **result** | true |
-
-### Steps  (7 + 7)
-      
+##### 
 
 
-| position | step | name | parameter | value | 
-| --- | --- | --- | --- | --- | 
-| 1 | p:variable | debug |   |   | 
-|   |   |   | select | $debug-path \|\| '' ne '' | 
-| 2 | p:variable | debug-path-uri |   |   | 
-|   |   |   | select | resolve-uri($debug-path, $base-uri) | 
-| 3 | xps:create-directories |  |   |   | 
-| 4 | xps:download-morgana |  |   |   | 
-|   |   |   | version | {$morgana-version} | 
-| 5 | xps:download-saxon |  |   |   | 
-|   |   |   | version | {$saxon-version} | 
-| 6 | xps:setup-morgana |  |   |   | 
-|   |   |   | morgana-version | {$morgana-version} | 
-|   |   |   | saxon-version | {$saxon-version} | 
-| 7 | p:directory-list |  |   |   | 
-|   |   |   | max-depth | unbounded | 
-|   |   |   | path | ../ | 
-
-#### **xps:create-directories**
+#### **xps:create-directories**
 ### Steps  (0 + 21)
       
 
@@ -2971,6 +2885,257 @@
 |   |   |   | select | exists(/c:file) | 
 | 3 | p:if |  |   |   | 
 |   |   |   | test | not($file-exists) | 
+
+
+
+## tei-play-lib.xpl
+#### Documentation (0)
+    
+##### 
+
+#### Namespaces (11)
+    
+| prefix | string |
+| --- | --- |
+| p | http://www.w3.org/ns/xproc |
+| xdc | https://www.daliboris.cz/ns/xproc/plays-encoding-framework/dracor |
+| xevt | https://www.daliboris.cz/ns/xproc/plays-encoding-framework/evt |
+| xhtml | http://www.w3.org/1999/xhtml |
+| xlog | https://www.daliboris.cz/ns/xproc/logging/1.0 |
+| xpef | https://www.daliboris.cz/ns/xproc/plays-encoding-framework |
+| xs | http://www.w3.org/2001/XMLSchema |
+| xsl | http://www.w3.org/1999/XSL/Transform |
+| xtei | https://www.daliboris.cz/ns/xproc/plays-encoding-framework/tei |
+| xxml | https://www.daliboris.cz/ns/xproc/xml |
+| xml | http://www.w3.org/XML/1998/namespace |
+
+#### Imports (0)
+    
+
+### Steps  (5 + 0)
+      
+#### Documentation (0)
+    
+##### 
+
+
+#### **xtei:create-person-list** (creating-person-list)
+#### Documentation (0)
+    
+##### 
+
+#### Options (3)
+      
+| name | properties |
+| --- | --- |
+| include-variants | name = include-variants \| as = xs:boolean \| select = false() |
+| debug-path | name = debug-path \| select = () \| as = xs:string? |
+| base-uri | name = base-uri \| as = xs:anyURI \| select = static-base-uri() |
+
+#### Ports (2)
+    
+| direction | value | primary |
+| --- | --- | ---| 
+| input | **source** | true |
+| output | **result** | true |
+
+### Steps  (0 + 3)
+      
+#### Documentation (0)
+    
+##### 
+
+
+
+| position | step | name | parameter | value | 
+| --- | --- | --- | --- | --- | 
+| 1 | p:variable | debug |   |   | 
+|   |   |   | select | $debug-path \|\| '' ne '' | 
+| 2 | p:variable | debug-path-uri |   |   | 
+|   |   |   | select | resolve-uri($debug-path, $base-uri) | 
+| 3 | p:xquery |  |   |   | 
+|   |   |   | parameters | map { 'include-variants' : $include-variants} | 
+|   |   |   | href | ../xquery/get-listPerson-from-play.xquery | 
+
+
+#### **xtei:add-lang-usage** (adding-lang-usage)
+#### Documentation (0)
+    
+##### 
+
+#### Options (2)
+      
+| name | properties |
+| --- | --- |
+| debug-path | name = debug-path \| select = () \| as = xs:string? |
+| base-uri | name = base-uri \| as = xs:anyURI \| select = static-base-uri() |
+
+#### Ports (2)
+    
+| direction | value | primary |
+| --- | --- | ---| 
+| input | **source** | true |
+| output | **result** | true |
+
+### Steps  (0 + 3)
+      
+#### Documentation (0)
+    
+##### 
+
+
+
+| position | step | name | parameter | value | 
+| --- | --- | --- | --- | --- | 
+| 1 | p:variable | debug |   |   | 
+|   |   |   | select | $debug-path \|\| '' ne '' | 
+| 2 | p:variable | debug-path-uri |   |   | 
+|   |   |   | select | resolve-uri($debug-path, $base-uri) | 
+| 3 | p:xslt |  |   |   | 
+|   |   |   | href | ../xslt/tei/tei-add-lang-usage.xsl | 
+
+
+#### **xtei:postprocessing** (postprocessing)
+#### Options (5)
+      
+| name | properties |
+| --- | --- |
+| debug-path | name = debug-path \| select = () \| as = xs:string? |
+| base-uri | name = base-uri \| as = xs:anyURI \| select = static-base-uri() |
+| data-file-path | name = data-file-path \| as = xs:string? |
+| output-directory-path | name = output-directory-path \| as = xs:string? |
+| output-file-name | name = output-file-name \| as = xs:string? |
+
+#### Ports (2)
+    
+| direction | value | primary |
+| --- | --- | ---| 
+| input | **source** | true |
+| output | **result** | true |
+
+### Steps  (0 + 4)
+      
+
+
+| position | step | name | parameter | value | 
+| --- | --- | --- | --- | --- | 
+| 1 | xdc:tei-to-dracor |  |   |   | 
+|   |   |   | pipe | source@postprocessing | 
+|   |   |   | base-uri | {$base-uri} | 
+|   |   |   | data-file-path | {$data-file-path} | 
+|   |   |   | debug-path | {$debug-path} | 
+| 2 | xevt:tei-to-evt | evt |   |   | 
+|   |   |   | pipe | source@postprocessing | 
+|   |   |   | base-uri | {$base-uri} | 
+|   |   |   | data-file-path | {$data-file-path} | 
+|   |   |   | debug-path | {$debug-path} | 
+|   |   |   | output-directory-path | {$output-directory-path}/evt | 
+| 3 | xevt:validate-hierarchies |  |   |   | 
+|   |   |   | pipe | source@postprocessing | 
+|   |   |   | base-uri | {$base-uri} | 
+|   |   |   | debug-path | {$debug-path} | 
+|   |   |   | output-directory-path | {$output-directory-path}/validation | 
+|   |   |   | output-file-name | {$output-file-name}.html | 
+| 4 | xevt:zip |  |   |   | 
+|   |   |   | base-uri | {$base-uri} | 
+|   |   |   | debug-path | {$debug-path} | 
+|   |   |   | input-directory-path | {$output-directory-path}/evt | 
+|   |   |   | output-directory-path | {$output-directory-path}/zip | 
+
+
+#### **xtei:convert** (converting)
+#### Options (6)
+      
+| name | properties |
+| --- | --- |
+| debug-path | name = debug-path \| select = () \| as = xs:string? |
+| base-uri | name = base-uri \| as = xs:anyURI \| select = static-base-uri() |
+| data-file-path | name = data-file-path \| as = xs:string? |
+| output-directory-path | name = output-directory-path \| as = xs:string? |
+| output-file-name | name = output-file-name \| as = xs:string? |
+| target | name = target \| as = xs:string* \| values = ('EVT', 'DraCor', 'text') |
+
+#### Ports (2)
+    
+| direction | value | primary |
+| --- | --- | ---| 
+| input | **source** | true |
+| output | **result** | true |
+
+### Steps  (0 + 6)
+      
+
+
+| position | step | name | parameter | value | 
+| --- | --- | --- | --- | --- | 
+| 1 | p:variable | debug |   |   | 
+|   |   |   | select | $debug-path \|\| '' ne '' | 
+| 2 | p:variable | debug-path-uri |   |   | 
+|   |   |   | select | resolve-uri($debug-path, $base-uri) | 
+| 3 | p:variable | output-directory-path-uri |   |   | 
+|   |   |   | select | resolve-uri($output-directory-path, $base-uri) | 
+| 4 | p:choose |  |   |   | 
+| 1 | p:when |  |   |   | 
+|   |   |   | test | $target='DraCor' | 
+| 5 | p:choose |  |   |   | 
+| 1 | p:when |  |   |   | 
+|   |   |   | test | not(empty($output-directory-path) or empty($output-file-name)) | 
+| 6 | p:choose |  |   |   | 
+| 1 | p:when |  |   |   | 
+|   |   |   | test | $target='text' | 
+
+
+#### **xtei:tei-to-text**
+#### Options (3)
+      
+| name | properties |
+| --- | --- |
+| debug-path | name = debug-path \| select = () \| as = xs:string? |
+| base-uri | name = base-uri \| as = xs:anyURI \| select = static-base-uri() |
+| output-file-name | name = output-file-name \| as = xs:string? |
+
+#### Ports (2)
+    
+| direction | value | primary |
+| --- | --- | ---| 
+| input | **source** | true |
+| output | **result** | true |
+
+### Steps  (0 + 9)
+      
+
+
+| position | step | name | parameter | value | 
+| --- | --- | --- | --- | --- | 
+| 1 | p:variable | debug |   |   | 
+|   |   |   | select | $debug-path \|\| '' ne '' | 
+| 2 | p:variable | debug-path-uri |   |   | 
+|   |   |   | select | resolve-uri($debug-path, $base-uri) | 
+| 3 | p:xslt |  |   |   | 
+|   |   |   | href | ../xslt/tei/tei-to-text.xsl | 
+| 4 | xlog:store |  |   |   | 
+|   |   |   | base-uri | {$base-uri} | 
+|   |   |   | debug | {$debug} | 
+|   |   |   | file-name | {$output-file-name}.txt | 
+|   |   |   | output-directory | {$debug-path} | 
+|   |   |   | step | 1 | 
+| 5 | p:file-create-tempfile |  |   |   | 
+|   |   |   | delete-on-exit | true | 
+|   |   |   | suffix | .txt | 
+| 6 | p:variable | href-tempfile-uri |   |   | 
+|   |   |   | select | xs:anyURI(.) | 
+| 7 | p:store |  |   |   | 
+|   |   |   | pipe | result@tei-to-text | 
+|   |   |   | href | {$href-tempfile-uri} | 
+| 8 | p:xslt |  |   |   | 
+|   |   |   | parameters | map {'href' : $href-tempfile-uri } | 
+|   |   |   | href | ../xslt/docx/text-clean-lines.xsl | 
+| 9 | xlog:store |  |   |   | 
+|   |   |   | base-uri | {$base-uri} | 
+|   |   |   | debug | {$debug} | 
+|   |   |   | file-name | {$output-file-name}.xml | 
+|   |   |   | output-directory | {$debug-path} | 
+|   |   |   | step | 5 | 
 
 
 

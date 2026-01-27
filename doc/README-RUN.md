@@ -37,7 +37,7 @@
 | debug-path | name = debug-path \| select = '../_debug' \| as = xs:string? |
 | base-uri | name = base-uri \| as = xs:anyURI \| select = static-base-uri() |
 | data-directory-path | name = data-directory-path \| as = xs:anyURI \| select = '../data' |
-| data-file-path | name = data-file-path \| as = xs:string \| select = '../data/local.gnapheus-acolastus-data.xml' |
+| data-file-path | name = data-file-path \| as = xs:string \| select = '../data/rochotius-ticket.xml' |
 | innput-directory-path | name = innput-directory-path \| select = '../src/input/text/docx/dracor' \| as = xs:string? |
 | output-directory-path | name = output-directory-path \| as = xs:string? \| select = '../_output' |
 | output-file-name | name = output-file-name \| as = xs:string? \| select = () |
@@ -50,7 +50,7 @@
 | input | job-ticket | false |
 | output | **result** | true |
 
-### Steps  (0 + 18)
+### Steps  (0 + 19)
       
 
 
@@ -83,13 +83,17 @@
 | 11 | p:choose |  |   |   | 
 | 1 | p:when |  |   |   | 
 |   |   |   | test | $steps[@name='xd2dc:tei-postprocessing'] | 
-| 12 | p:identity | tei |   |   | 
-| 13 | xlog:store |  |   |   | 
+| 12 | xpef:remove-xinclude |  |   |   | 
+|   |   |   | base-uri | {$base-uri} | 
+|   |   |   | debug-path | {$source-debug-path} | 
+|   |   |   | pipe | job-ticket@docx2dracor | 
+| 13 | p:identity | tei |   |   | 
+| 14 | xlog:store |  |   |   | 
 |   |   |   | base-uri | {$base-uri} | 
 |   |   |   | debug | true | 
 |   |   |   | file-name | {$output-file-name}.xml | 
 |   |   |   | output-directory | {$output-directory-path}/{$text-id}/tei | 
-| 14 | xtei:convert |  |   |   | 
+| 15 | xtei:convert |  |   |   | 
 |   |   |   | base-uri | {$base-uri} | 
 |   |   |   | data-file-path | {$data-file-path} | 
 |   |   |   | debug-path | {$debug-path} | 
@@ -97,22 +101,22 @@
 |   |   |   | output-file-name | {$output-file-name} | 
 |   |   |   | pipe | result@tei | 
 |   |   |   | target | text | 
-| 15 | xlog:store |  |   |   | 
+| 16 | xlog:store |  |   |   | 
 |   |   |   | base-uri | {$base-uri} | 
 |   |   |   | debug | true | 
 |   |   |   | file-name | {$output-file-name}-tei.xml | 
 |   |   |   | output-directory | {$output-directory-path}/{$text-id}/text | 
-| 16 | xd2dc:convert |  |   |   | 
+| 17 | xd2dc:convert |  |   |   | 
 |   |   |   | base-uri | {$base-uri} | 
 |   |   |   | debug-path | {$debug-path} | 
 |   |   |   | pipe | source@docx2dracor | 
 |   |   |   | target | text | 
-| 17 | xlog:store |  |   |   | 
+| 18 | xlog:store |  |   |   | 
 |   |   |   | base-uri | {$base-uri} | 
 |   |   |   | debug | true | 
 |   |   |   | file-name | {$output-file-name}-docx.xml | 
 |   |   |   | output-directory | {$output-directory-path}/{$text-id}/text | 
-| 18 | p:identity |  |   |   | 
+| 19 | p:identity |  |   |   | 
 |   |   |   | pipe | report | 
 
 
@@ -151,10 +155,10 @@
 | --- | --- |
 | debug-path | name = debug-path \| select = '../_debug' \| as = xs:string? |
 | base-uri | name = base-uri \| as = xs:anyURI \| select = static-base-uri() |
-| data-directory-path | name = data-directory-path \| as = xs:anyURI \| select = '../data' |
-| data-file-path | name = data-file-path \| as = xs:string \| select = '../data/local.rochotius-comoedia-data.xml' |
+| data-directory-path | name = data-directory-path \| as = xs:anyURI \| select = '../data/rochotius-iosephiados-comoedia' |
+| data-file-path | name = data-file-path \| as = xs:string \| select = '../data/local.rochotius-iosephiados-comoedia.data.xml' |
 | output-directory-path | name = output-directory-path \| as = xs:string? \| select = '../_output' |
-| output-file-name | name = output-file-name \| as = xs:string? \| select = 'rochotius-comoedia' |
+| output-file-name | name = output-file-name \| as = xs:string? \| select = 'rochotius-iosephiados-comoedia' |
 
 #### Ports (3)
     
@@ -164,7 +168,7 @@
 | input | job-ticket | false |
 | output | **result** | true |
 
-### Steps  (0 + 18)
+### Steps  (0 + 19)
       
 
 
@@ -190,14 +194,17 @@
 |   |   |   | test | $steps[@name='xd2t:input-processing-rochotius'] | 
 | 8 | p:choose |  |   |   | 
 | 1 | p:when |  |   |   | 
+|   |   |   | test | $steps[@name='xd2t:tei-processing-rochotius'] | 
+| 9 | p:choose |  |   |   | 
+| 1 | p:when |  |   |   | 
 |   |   |   | test | $steps[@name='xd2t:tei-postprocessing-rochotius'] | 
-| 9 | p:identity | tei |   |   | 
-| 10 | xlog:store |  |   |   | 
+| 10 | p:identity | tei |   |   | 
+| 11 | xlog:store |  |   |   | 
 |   |   |   | base-uri | {$base-uri} | 
 |   |   |   | debug | true | 
 |   |   |   | file-name | {$output-file-name}.xml | 
 |   |   |   | output-directory | {$output-directory-path}/{$text-id}/tei | 
-| 11 | xtei:convert |  |   |   | 
+| 12 | xtei:convert |  |   |   | 
 |   |   |   | base-uri | {$base-uri} | 
 |   |   |   | data-file-path | {$data-file-path} | 
 |   |   |   | debug-path | {$debug-path} | 
@@ -205,12 +212,12 @@
 |   |   |   | output-file-name | {$output-file-name} | 
 |   |   |   | pipe | result@tei | 
 |   |   |   | target | DraCor | 
-| 12 | xlog:store |  |   |   | 
+| 13 | xlog:store |  |   |   | 
 |   |   |   | base-uri | {$base-uri} | 
 |   |   |   | debug | true | 
 |   |   |   | file-name | {$output-file-name}.xml | 
 |   |   |   | output-directory | {$output-directory-path}/{$text-id}/dracor | 
-| 13 | xtei:convert |  |   |   | 
+| 14 | xtei:convert |  |   |   | 
 |   |   |   | base-uri | {$base-uri} | 
 |   |   |   | data-file-path | {$data-file-path} | 
 |   |   |   | debug-path | {$debug-path} | 
@@ -218,27 +225,27 @@
 |   |   |   | output-file-name | {$output-file-name} | 
 |   |   |   | pipe | result@tei | 
 |   |   |   | target | text | 
-| 14 | xlog:store |  |   |   | 
+| 15 | xlog:store |  |   |   | 
 |   |   |   | base-uri | {$base-uri} | 
 |   |   |   | debug | true | 
 |   |   |   | file-name | {$output-file-name}-tei.xml | 
 |   |   |   | output-directory | {$output-directory-path}/{$text-id}/text | 
-| 15 | xd2t:convert |  |   |   | 
+| 16 | xd2t:convert |  |   |   | 
 |   |   |   | base-uri | {$base-uri} | 
 |   |   |   | debug-path | {$debug-path} | 
 |   |   |   | pipe | source@docx2tei | 
 |   |   |   | target | text | 
-| 16 | xlog:store |  |   |   | 
+| 17 | xlog:store |  |   |   | 
 |   |   |   | base-uri | {$base-uri} | 
 |   |   |   | debug | true | 
 |   |   |   | file-name | {$output-file-name}-docx.xml | 
 |   |   |   | output-directory | {$output-directory-path}/{$text-id}/text | 
-| 17 | xd2t:tei-conversion | tei |   |   | 
+| 18 | xd2t:tei-conversion | tei |   |   | 
 |   |   |   | base-uri | {$base-uri} | 
 |   |   |   | data-file-path | {$data-file-path} | 
 |   |   |   | debug-path | {$debug-path} | 
 |   |   |   | p:use-when | false() | 
-| 18 | p:identity |  |   |   | 
+| 19 | p:identity |  |   |   | 
 |   |   |   | pipe | report | 
 
 
@@ -415,5 +422,147 @@
 |   |   |   | output-directory-path | {$output-directory-path} | 
 |   |   |   | output-file-name | {$output-file-name} | 
 
+
+
+## local.tei2dracor.xpl
+#### **default** (tei2dracor)
+#### Documentation (0)
+    
+##### 
+
+#### Namespaces (11)
+    
+| prefix | string |
+| --- | --- |
+| c | http://www.w3.org/ns/xproc-step |
+| p | http://www.w3.org/ns/xproc |
+| xd2t | https://www.daliboris.cz/ns/xproc/plays-encoding-framework/docx2tei |
+| xhtml | http://www.w3.org/1999/xhtml |
+| xlog | https://www.daliboris.cz/ns/xproc/logging/1.0 |
+| xpef | https://www.daliboris.cz/ns/xproc/plays-encoding-framework |
+| xpefjt | https://www.daliboris.cz/ns/xproc/plays-encoding-framework/job-ticket |
+| xpl | https://www.daliboris.cz/ns/xproc/pipeline |
+| xs | http://www.w3.org/2001/XMLSchema |
+| xtei | https://www.daliboris.cz/ns/xproc/plays-encoding-framework/tei |
+| xml | http://www.w3.org/XML/1998/namespace |
+
+#### Imports (4)
+    
+- ../src/includes/log-xpc-lib/src/xproc/log-xpc-lib.xpl
+- ../src/xproc/docx2tei-lib.xpl
+- ../src/xproc/rochotius/docx2tei-rochotius-lib.xpl
+- ../src/xproc/tei-play-lib.xpl
+
+#### Options (6)
+      
+| name | properties |
+| --- | --- |
+| debug-path | name = debug-path \| select = '../_debug' \| as = xs:string? |
+| base-uri | name = base-uri \| as = xs:anyURI \| select = static-base-uri() |
+| data-directory-path | name = data-directory-path \| as = xs:anyURI \| select = '../data' |
+| data-file-path | name = data-file-path \| as = xs:string \| select = '../data/local.rochotius-comoedia-data.xml' |
+| output-directory-path | name = output-directory-path \| as = xs:string? \| select = '../_output' |
+| output-file-name | name = output-file-name \| as = xs:string? \| select = 'rochotius-comoedia' |
+
+#### Ports (3)
+    
+| direction | value | primary |
+| --- | --- | ---| 
+| input | **source** | true |
+| input | job-ticket | false |
+| output | **result** | true |
+
+### Steps  (0 + 8)
+      
+
+
+| position | step | name | parameter | value | 
+| --- | --- | --- | --- | --- | 
+| 1 | p:variable | debug |   |   | 
+|   |   |   | select | $debug-path \|\| '' ne '' | 
+| 2 | p:variable | debug-path-uri |   |   | 
+|   |   |   | select | resolve-uri($debug-path, $base-uri) | 
+| 3 | p:variable | steps |   |   | 
+|   |   |   | pipe | job-ticket@tei2dracor | 
+|   |   |   | select | /xpefjt:job-ticket/xpefjt:scenario/xpefjt:step | 
+| 4 | p:variable | text-id |   |   | 
+|   |   |   | href | {$data-file-path} | 
+|   |   |   | select | /data/@id | 
+| 5 | p:variable | source-debug-path |   |   | 
+|   |   |   | select | if(empty($debug-path)) then () else $debug-path \|\|  '/' \|\| $text-id | 
+| 6 | xtei:convert |  |   |   | 
+|   |   |   | base-uri | {$base-uri} | 
+|   |   |   | data-file-path | {$data-file-path} | 
+|   |   |   | debug-path | {$debug-path} | 
+|   |   |   | output-directory-path | {$output-directory-path} | 
+|   |   |   | output-file-name | {$output-file-name} | 
+|   |   |   | pipe | source@tei2dracor | 
+|   |   |   | target | DraCor | 
+| 7 | xlog:store |  |   |   | 
+|   |   |   | base-uri | {$base-uri} | 
+|   |   |   | debug | true | 
+|   |   |   | file-name | {$output-file-name}.xml | 
+|   |   |   | output-directory | {$output-directory-path}/{$text-id}/dracor | 
+| 8 | p:identity |  |   |   | 
+|   |   |   | pipe | report | 
+
+
+## setup.xpl
+#### **default**
+#### Documentation (0)
+    
+##### 
+
+#### Namespaces (6)
+    
+| prefix | string |
+| --- | --- |
+| c | http://www.w3.org/ns/xproc-step |
+| p | http://www.w3.org/ns/xproc |
+| xhtml | http://www.w3.org/1999/xhtml |
+| xps | https://www.daliboris.cs/ns/xproc/project/setup |
+| xs | http://www.w3.org/2001/XMLSchema |
+| xml | http://www.w3.org/XML/1998/namespace |
+
+#### Imports (1)
+    
+- ../src/xproc/setup-lib.xpl
+
+#### Options (4)
+      
+| name | properties |
+| --- | --- |
+| debug-path | name = debug-path \| select = () \| as = xs:string? |
+| base-uri | name = base-uri \| as = xs:anyURI \| select = static-base-uri() |
+| saxon-version | name = saxon-version \| as = xs:string \| select = '12.7' |
+| morgana-version | name = morgana-version \| as = xs:string \| select = '1.6.7' |
+
+#### Ports (1)
+    
+| direction | value | primary |
+| --- | --- | ---| 
+| output | **result** | true |
+
+### Steps  (0 + 7)
+      
+
+
+| position | step | name | parameter | value | 
+| --- | --- | --- | --- | --- | 
+| 1 | p:variable | debug |   |   | 
+|   |   |   | select | $debug-path \|\| '' ne '' | 
+| 2 | p:variable | debug-path-uri |   |   | 
+|   |   |   | select | resolve-uri($debug-path, $base-uri) | 
+| 3 | xps:download-schemas |  |   |   | 
+| 4 | xps:download-morgana |  |   |   | 
+|   |   |   | version | {$morgana-version} | 
+| 5 | xps:download-saxon |  |   |   | 
+|   |   |   | version | {$saxon-version} | 
+| 6 | xps:setup-morgana |  |   |   | 
+|   |   |   | morgana-version | {$morgana-version} | 
+|   |   |   | saxon-version | {$saxon-version} | 
+| 7 | p:directory-list |  |   |   | 
+|   |   |   | max-depth | unbounded | 
+|   |   |   | path | ../ | 
 
 

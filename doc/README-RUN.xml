@@ -64,7 +64,7 @@
                        select="'../data'"/>
                <option name="data-file-path"
                        as="xs:string"
-                       select="'../data/local.gnapheus-acolastus-data.xml'"/>
+                       select="'../data/rochotius-ticket.xml'"/>
                <option name="innput-directory-path"
                        select="'../src/input/text/docx/dracor'"
                        as="xs:string?"/>
@@ -78,7 +78,7 @@
             <ports>
                <input port="source"
                       primary="true"
-                      href="../src/input/text/docx/dracor/Gnapheus-Acolastus_markup_v5.docx"
+                      href="../src/input/text/docx/dracor/Placentius-Susanna.docx"
                       sequence="true"/>
                <input port="job-ticket"
                       primary="false"
@@ -151,6 +151,16 @@
                   <parameter name="test"
                              value="$steps[@name='xd2dc:tei-postprocessing']"/>
                </call>
+            </call>
+            <call step="xpef:remove-xinclude">
+               <parameter name="debug-path"
+                          value="{$source-debug-path}"/>
+               <parameter name="base-uri"
+                          value="{$base-uri}"/>
+               <port name="ticket-in">
+                  <parameter name="pipe"
+                             value="job-ticket@docx2dracor"/>
+               </port>
             </call>
             <call step="p:identity"
                   name="tei"/>
@@ -279,21 +289,21 @@
                        select="static-base-uri()"/>
                <option name="data-directory-path"
                        as="xs:anyURI"
-                       select="'../data'"/>
+                       select="'../data/rochotius-iosephiados-comoedia'"/>
                <option name="data-file-path"
                        as="xs:string"
-                       select="'../data/local.rochotius-comoedia-data.xml'"/>
+                       select="'../data/local.rochotius-iosephiados-comoedia.data.xml'"/>
                <option name="output-directory-path"
                        as="xs:string?"
                        select="'../_output'"/>
                <option name="output-file-name"
                        as="xs:string?"
-                       select="'rochotius-comoedia'"/>
+                       select="'rochotius-iosephiados-comoedia'"/>
             </options>
             <ports>
                <input port="source"
                       primary="true"
-                      href="../src/input/text/docx/latest/Rochotius-Comoedia.docx"/>
+                      href="../src/input/text/docx/theatrum-neolatinum/rochotius-iosephiados-comoedia.docx"/>
                <input port="job-ticket"
                       primary="false"
                       href="../data/rochotius-ticket.xml"/>
@@ -343,6 +353,13 @@
                <call step="p:when">
                   <parameter name="test"
                              value="$steps[@name='xd2t:input-processing-rochotius']"/>
+               </call>
+            </call>
+            <call step="p:choose"
+                  length="1">
+               <call step="p:when">
+                  <parameter name="test"
+                             value="$steps[@name='xd2t:tei-processing-rochotius']"/>
                </call>
             </call>
             <call step="p:choose"
@@ -748,6 +765,234 @@
                   <parameter name="select"
                              value="base-uri(/)"/>
                </port>
+            </call>
+         </body>
+      </step>
+   </analysis>
+   <analysis file-name="local.tei2dracor.xpl"
+             path="file:///V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/run/local.tei2dracor.xpl"
+             xmlns="https://www.daliboris.cz/ns/xproc/analysis"
+             xmlns:xhtml="http://www.w3.org/1999/xhtml">
+      <step name="tei2dracor">
+         <prolog>
+            <documentation length="0">
+               <xhtml:section xmlns:xpef="https://www.daliboris.cz/ns/xproc/plays-encoding-framework"
+                              xmlns:xlog="https://www.daliboris.cz/ns/xproc/logging/1.0"
+                              xmlns:xpl="https://www.daliboris.cz/ns/xproc/pipeline"
+                              xmlns:xd2t="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/docx2tei"
+                              xmlns:xtei="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/tei"
+                              xmlns:xpefjt="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/job-ticket">
+                  <xhtml:h1/>
+                  <xhtml:p/>
+               </xhtml:section>
+            </documentation>
+            <namespaces>
+               <namespace prefix="c"
+                          value="http://www.w3.org/ns/xproc-step"/>
+               <namespace prefix="p"
+                          value="http://www.w3.org/ns/xproc"/>
+               <namespace prefix="xd2t"
+                          value="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/docx2tei"/>
+               <namespace prefix="xhtml"
+                          value="http://www.w3.org/1999/xhtml"/>
+               <namespace prefix="xlog"
+                          value="https://www.daliboris.cz/ns/xproc/logging/1.0"/>
+               <namespace prefix="xpef"
+                          value="https://www.daliboris.cz/ns/xproc/plays-encoding-framework"/>
+               <namespace prefix="xpefjt"
+                          value="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/job-ticket"/>
+               <namespace prefix="xpl"
+                          value="https://www.daliboris.cz/ns/xproc/pipeline"/>
+               <namespace prefix="xs"
+                          value="http://www.w3.org/2001/XMLSchema"/>
+               <namespace prefix="xtei"
+                          value="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/tei"/>
+               <namespace prefix="xml"
+                          value="http://www.w3.org/XML/1998/namespace"/>
+            </namespaces>
+            <imports>
+               <import href="../src/includes/log-xpc-lib/src/xproc/log-xpc-lib.xpl"/>
+               <import href="../src/xproc/docx2tei-lib.xpl"/>
+               <import href="../src/xproc/rochotius/docx2tei-rochotius-lib.xpl"/>
+               <import href="../src/xproc/tei-play-lib.xpl"/>
+            </imports>
+            <options>
+               <option name="debug-path"
+                       select="'../_debug'"
+                       as="xs:string?"/>
+               <option name="base-uri"
+                       as="xs:anyURI"
+                       select="static-base-uri()"/>
+               <option name="data-directory-path"
+                       as="xs:anyURI"
+                       select="'../data'"/>
+               <option name="data-file-path"
+                       as="xs:string"
+                       select="'../data/local.rochotius-comoedia-data.xml'"/>
+               <option name="output-directory-path"
+                       as="xs:string?"
+                       select="'../_output'"/>
+               <option name="output-file-name"
+                       as="xs:string?"
+                       select="'rochotius-comoedia'"/>
+            </options>
+            <ports>
+               <input port="source"
+                      primary="true"
+                      href="../_output/rochotius-comoedia/tei/rochotius-comoedia.xml"/>
+               <input port="job-ticket"
+                      primary="false"
+                      href="../data/rochotius-ticket.xml"/>
+               <output port="result"
+                       primary="true"/>
+            </ports>
+         </prolog>
+         <body>
+            <call step="p:variable"
+                  name="debug">
+               <parameter name="select"
+                          value="$debug-path || '' ne ''"/>
+            </call>
+            <call step="p:variable"
+                  name="debug-path-uri">
+               <parameter name="select"
+                          value="resolve-uri($debug-path, $base-uri)"/>
+            </call>
+            <call step="p:variable"
+                  name="steps">
+               <parameter name="select"
+                          value="/xpefjt:job-ticket/xpefjt:scenario/xpefjt:step"/>
+               <parameter name="pipe"
+                          value="job-ticket@tei2dracor"/>
+            </call>
+            <call step="p:variable"
+                  name="text-id">
+               <parameter name="select"
+                          value="/data/@id"/>
+               <parameter name="href"
+                          value="{$data-file-path}"/>
+            </call>
+            <call step="p:variable"
+                  name="source-debug-path">
+               <parameter name="select"
+                          value="if(empty($debug-path)) then () else $debug-path ||  '/' || $text-id"/>
+            </call>
+            <call step="xtei:convert">
+               <parameter name="output-directory-path"
+                          value="{$output-directory-path}"/>
+               <parameter name="data-file-path"
+                          value="{$data-file-path}"/>
+               <parameter name="debug-path"
+                          value="{$debug-path}"/>
+               <parameter name="base-uri"
+                          value="{$base-uri}"/>
+               <parameter name="output-file-name"
+                          value="{$output-file-name}"/>
+               <parameter name="target"
+                          value="DraCor"/>
+               <port name="source">
+                  <parameter name="pipe"
+                             value="source@tei2dracor"/>
+               </port>
+            </call>
+            <call step="xlog:store">
+               <parameter name="output-directory"
+                          value="{$output-directory-path}/{$text-id}/dracor"/>
+               <parameter name="base-uri"
+                          value="{$base-uri}"/>
+               <parameter name="debug"
+                          value="true"/>
+               <parameter name="file-name"
+                          value="{$output-file-name}.xml"/>
+            </call>
+            <call step="p:identity">
+               <port name="source">
+                  <parameter name="pipe"
+                             value="report"/>
+               </port>
+            </call>
+         </body>
+      </step>
+   </analysis>
+   <analysis file-name="setup.xpl"
+             path="file:///V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/run/setup.xpl"
+             xmlns="https://www.daliboris.cz/ns/xproc/analysis"
+             xmlns:xhtml="http://www.w3.org/1999/xhtml">
+      <step>
+         <prolog>
+            <documentation length="0">
+               <xhtml:section xmlns:xps="https://www.daliboris.cs/ns/xproc/project/setup">
+                  <xhtml:h2/>
+                  <xhtml:p/>
+               </xhtml:section>
+            </documentation>
+            <namespaces>
+               <namespace prefix="c"
+                          value="http://www.w3.org/ns/xproc-step"/>
+               <namespace prefix="p"
+                          value="http://www.w3.org/ns/xproc"/>
+               <namespace prefix="xhtml"
+                          value="http://www.w3.org/1999/xhtml"/>
+               <namespace prefix="xps"
+                          value="https://www.daliboris.cs/ns/xproc/project/setup"/>
+               <namespace prefix="xs"
+                          value="http://www.w3.org/2001/XMLSchema"/>
+               <namespace prefix="xml"
+                          value="http://www.w3.org/XML/1998/namespace"/>
+            </namespaces>
+            <imports>
+               <import href="../src/xproc/setup-lib.xpl"/>
+            </imports>
+            <options>
+               <option name="debug-path"
+                       select="()"
+                       as="xs:string?"/>
+               <option name="base-uri"
+                       as="xs:anyURI"
+                       select="static-base-uri()"/>
+               <option name="saxon-version"
+                       as="xs:string"
+                       select="'12.7'"/>
+               <option name="morgana-version"
+                       as="xs:string"
+                       select="'1.6.7'"/>
+            </options>
+            <ports>
+               <output port="result"
+                       primary="true"/>
+            </ports>
+         </prolog>
+         <body>
+            <call step="p:variable"
+                  name="debug">
+               <parameter name="select"
+                          value="$debug-path || '' ne ''"/>
+            </call>
+            <call step="p:variable"
+                  name="debug-path-uri">
+               <parameter name="select"
+                          value="resolve-uri($debug-path, $base-uri)"/>
+            </call>
+            <call step="xps:download-schemas"/>
+            <call step="xps:download-morgana">
+               <parameter name="version"
+                          value="{$morgana-version}"/>
+            </call>
+            <call step="xps:download-saxon">
+               <parameter name="version"
+                          value="{$saxon-version}"/>
+            </call>
+            <call step="xps:setup-morgana">
+               <parameter name="morgana-version"
+                          value="{$morgana-version}"/>
+               <parameter name="saxon-version"
+                          value="{$saxon-version}"/>
+            </call>
+            <call step="p:directory-list">
+               <parameter name="path"
+                          value="../"/>
+               <parameter name="max-depth"
+                          value="unbounded"/>
             </call>
          </body>
       </step>
