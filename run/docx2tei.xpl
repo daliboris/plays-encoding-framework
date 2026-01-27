@@ -24,7 +24,7 @@
  </p:documentation>
  
  <!-- INPUT PORTS -->
- <p:input  port="source" primary="true" href="../src/input/text/docx/latest/Rochotius-Comoedia.docx" />
+ <p:input  port="source" primary="true" href="../src/input/text/docx/theatrum-neolatinum/rochotius-iosephiados-comoedia.docx" />
  <!-- <p:input  port="source" primary="true" href="../src/input/text/docx/Rochotius_JC_edice_digitalni-2024-11-19.docx" content-type="application/json"  />-->
  <p:input  port="job-ticket" primary="false" href="../data/rochotius-ticket.xml" />
  
@@ -35,8 +35,8 @@
  <!-- OPTIONS -->
  <p:option name="debug-path" select="'../_debug'" as="xs:string?" />
  <p:option name="base-uri" as="xs:anyURI" select="static-base-uri()"/>
- <p:option name="data-directory-path" as="xs:anyURI"  select="'../data'" />
- <p:option name="data-file-path" as="xs:string" select="'../data/local.rochotius-iosephiados-comoedia-data.xml'" />
+ <p:option name="data-directory-path" as="xs:anyURI"  select="'../data/rochotius-iosephiados-comoedia'" />
+ <p:option name="data-file-path" as="xs:string" select="'../data/local.rochotius-iosephiados-comoedia.data.xml'" />
  <p:option name="output-directory-path" as="xs:string?" select="'../_output'" />
  <p:option name="output-file-name" as="xs:string?" select="'rochotius-iosephiados-comoedia'"  />
  
