@@ -53,6 +53,7 @@
   ':\.' : ':',
   '\s+:' : ':',
   '(\d)\s(\.)' : '$1$2 ',
+  '\sv-\s(\d+)' : ' v. $1',
   'https:\s//' : 'https://', 
   '\[\.\.\.?\]' : '[…]',
   (:'(\d),(\s+s\.)(\s\d)' : '$1, p.$3',:)
@@ -73,11 +74,29 @@
   'Frischlin,\sHildegardis,\sv\.\s548,\sp\.\s86' : 'Frischlin, Hildegardis, v. 548, p. 86.',
   'Frischlin,\sHildegardis,\sv\.\s329,\sp\.\s58' : 'Frischlin, Hildegardis, v. 329, p. 58.',
   'Buchanan,\sBaptistes,\sv\.\s757–9,\sp\.\s168' : 'Buchanan, Baptistes, v. 757–9, p. 168.',
+  'Buchanan,\sIephthe\s' : 'Buchanan, Iephthes ',
+  'Buchanan, Medea[,\.]\s' : 'Buchanan, Medea ',
+  'Frischlin,\sHelvetiosgermani' : 'Frischlin, Helvetiogermani',
+  'Frischlin,\sPriscianus\svapulans,\sv\s' : 'Frischlin, Priscianus vapulans v.',
+  'Frischlin,\sPriscianus\svapulans,' : 'Frischlin, Priscianus vapulans',
+  '(Frischlin,\s\w+\s)(\d+)' : '$1 v. $2',
+  '(Plautus,\s\w+\s)(\d+)' : '$1 v. $2',
+  '(,\sAmphitruo\s)(\d+)' : '$1 v. $2',
+  '(,\sPseudolus\s)(\d+)' : '$1 v. $2',
+  '(,\sHildegardis\s)(\d+)' : '$1 v. $2',
+  '(,\sMedea\s)(\d+)' : '$1 v. $2',
+  '(,\sPro\slena\sapologia\s)(\d+)' : '$1 v. $2',
+  '(,\sElegia\sde\sbello\sHelvetico\s)(\d+)' : '$1 v. $2',
+  '(,\sPriscianus\svapulans\s)(\d+)' : '$1 v. $2',
+  '(,\sIephthes\s)(\d+)' : '$1 v. $2',
+  '(,\sHelvetiogermani\s)(\d+)' : '$1 v. $2',
+  '(,\\sPro\slena\sapologia\s)(\d+)' : '$1 v. $2',
   '(Baptistes)(\.)(\sv\.)' : '$1,$3',
   '(,\s)(873–5)' : '$1v. $2',
   '\s[ps]-' : ' p.',
   'Hildegardis,\sB3r' : 'Hildegardis, B3r.',
-  '\s-\s' : ' – '
+  '\s-\s' : ' – ',
+  '\s\.\.' : '.'
   }"/>
  <xsl:variable name="replacement-regex" select="string-join(map:keys($replacements), '|')"/> 
  

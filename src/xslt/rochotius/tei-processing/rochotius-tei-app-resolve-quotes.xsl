@@ -26,7 +26,7 @@
 <!-- <xsl:variable name="biblio-regex" select="'(\p{Lu}\p{Ll}*),\s(\p{Lu}\p{Ll}.[^\s]*(\s[A-Za-z]+)?,?),\s(([A-Z]+[a-z]*\d+[rv])|(\p{Lu},\d)|(([vp]\.)?\s[-\d–]*[\s,]*)+)\.'"/>-->
 <!-- <xsl:variable name="biblio-regex" select="'(\p{Lu}\p{Ll}*),\s(\p{Lu}\p{Ll}.[^\s]*(\s[A-Z]+)?,?),\s(([A-Z]+[a-z]*\d+[rv])|(([vp]\.)?\s[-\d–]*[\s,]*)+)\.'"/>-->
  
- <xsl:template match="tei:app/tei:note">
+ <xsl:template match="tei:app/tei:note[tei:p]">
   <xsl:variable name="app" select="parent::tei:app"/>
   <xsl:variable name="text" select="../../(* except (tei:app, tei:note))/text() => string-join(' ')"/> <!-- TODO: celý rozsah mezi [] -->
   
@@ -55,7 +55,7 @@
         <xsl:analyze-string select="." regex="{$bibl-regex}">
          <xsl:matching-substring>
           <xsl:variable name="analyse" select="fn:analyze-string(., $bibl-regex)"/>
-          <tei:lbl>Cf.</tei:lbl>
+          <tei:label>Cf.</tei:label>
           <tei:bibl>
            <xsl:attribute name="type" select="'allusion'" />
            <tei:title><xsl:value-of select="$analyse//fn:group[@nr='3']"/></tei:title>, <tei:biblScope><xsl:value-of select="$analyse//fn:group[@nr='4'] || ' ' || $analyse//fn:group[@nr='5']"/></tei:biblScope>.</tei:bibl>

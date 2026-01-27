@@ -94,8 +94,7 @@ declare function local:exctract-lines($tei as element(tei:TEI)) as element(lines
  let $id := $tei//tei:text[1]/@xml:id
  let $items := $tei//tei:l
  
- return <lines xml:lang="{$lang}" xml:id="{$id}"> {
- for tumbling window $w in $items
+ let $groups := for tumbling window $w in $items
  start $s at $s-pos when $s[@n] or $s-pos = 1
  let $start := if($w[1]/@n) then xs:integer(translate($w[1]/@n, 'ab', '')) else 1
  return <group start="{$start}" count="{count($w)}">{
@@ -105,10 +104,36 @@ declare function local:exctract-lines($tei as element(tei:TEI)) as element(lines
    let $prev-speaker := $w[$i - 1]/preceding::tei:speaker[1] => local:get-speaker-name()
    let $prev-lines := $w[position() <=  $i]
    let $indent := local:compute-indent($prev-lines)
-  return <line position="{$s-pos + $i - 1}" n="{if($start-original) then $start-original else $start + sum($indent)}" indent="{$indent}" order="{$i}" speaker="{$speaker}" spaces="{$item/tei:space/@quantity}" id="{generate-id($item)}">{data($item/@n)}</line>
-    }</group> 
+  return <line n="{if($start-original) then $start-original else $start + sum($indent)}" position="{$s-pos + $i - 1}" indent="{$indent}" order="{$i}" speaker="{$speaker}" spaces="{$item/tei:space/@quantity}" id="{generate-id($item)}">{data($item/@n)}</line>
+    }</group>
+ let $groups := local:fix-line-numbers($groups)
+ return <lines xml:lang="{$lang}" xml:id="{$id}"> {
+  $groups
   } </lines>
  
+};
+
+declare function local:fix-line-numbers($input-groups as element(group)*) {
+  for $group in $input-groups
+    let $next-start := $group/@start + $group/@count
+    let $equal-lines := count($group/line) eq count(distinct-values($group/line/@n))
+  return if(xs:int($group/@count) gt 5 and xs:int($group/@count) lt 10) then
+    $group
+    else
+    element group {
+     $group/@*,
+     if($equal-lines) then
+      $group/*
+      else 
+        let $start := xs:int($group/line[1]/@n)  
+        for $line at $i in $group/line
+        return element line {
+        attribute n {$start + $i -1},
+          $line/@* except $line/@n,
+          $line/text()
+        }
+  }
+
 };
 
 declare function local:extract-speakers-2 ($lines as element(lines)*, $play-name-suffix as xs:string?) as element(speakers) 

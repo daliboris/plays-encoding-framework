@@ -98,7 +98,11 @@
   </p:xslt>
   <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml" step="25" />
 
-
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../xslt/docx/text-move-pb.xsl" />
+  </p:xslt>
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml" step="30" />
+  
 
   <!-- 
   <p:text-replace pattern="^\d+[\s\t]+" replacement="" flags="m"/>

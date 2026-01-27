@@ -15,18 +15,19 @@
  </xd:doc>
  
  <xsl:mode on-no-match="shallow-copy"/>
+ <xsl:mode on-no-match="shallow-copy" name="front"/>
  <xsl:output indent="true" />
-
+ <xsl:param name="head-text" select="('Dramatis personae', 'Dramatis personae.')" />
  
  <xsl:template match="tei:front" use-when="false()">
   <xsl:copy>
    <xsl:copy-of select="@*" />
    <xsl:copy-of select="*" />
-   <xsl:apply-templates select="../tei:body/tei:div[tei:head[. = 'Dramatis personae']]" mode="front"></xsl:apply-templates>
+   <xsl:apply-templates select="../tei:body/tei:div[tei:head[. = $head-text]]" mode="front"></xsl:apply-templates>
   </xsl:copy>
  </xsl:template>
  
- <xsl:template match="tei:div[tei:head[. = 'Dramatis personae']]" mode="front">
+ <xsl:template match="tei:div[tei:head[. = $head-text]]" mode="front">
   <xsl:copy>
    <xsl:copy-of select="@*" />
    <xsl:attribute name="type" select="'list-of-persons'"></xsl:attribute>
@@ -42,8 +43,8 @@
   <tei:p><xsl:apply-templates /></tei:p>
  </xsl:template>
  
- <xsl:template match="tei:div[tei:head[. = 'Dramatis personae']]" use-when="false()" />
- <xsl:template match="tei:div[tei:head[. = 'Dramatis personae']]">
+ <xsl:template match="tei:div[tei:head[. = $head-text]]" use-when="false()" />
+ <xsl:template match="tei:div[tei:head[. = $head-text]]">
   <xsl:apply-templates select="." mode="front" />
  </xsl:template>
  

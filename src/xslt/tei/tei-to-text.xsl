@@ -39,6 +39,7 @@
  <xsl:template match="tei:castItem/*/text()"><xsl:value-of select="."/></xsl:template>
  <xsl:template match="tei:supplied/text()"><xsl:text>[</xsl:text><xsl:value-of select="."/><xsl:text>]</xsl:text></xsl:template>
  <xsl:template match="tei:speaker/tei:persName/tei:supplied/text()" priority="2"><xsl:text>[</xsl:text><xsl:value-of select="."/><xsl:text>:]</xsl:text></xsl:template>
+ <xsl:template match="tei:speaker/tei:persName/tei:app/tei:lem/text()" priority="2"><xsl:text></xsl:text><xsl:value-of select="."/><xsl:text>:</xsl:text></xsl:template>
  <xsl:template match="tei:speaker/tei:persName/text()"><xsl:value-of select="."/><xsl:text>:</xsl:text></xsl:template>
  <xsl:template match="tei:speaker[not(tei:persName)]/text()"><xsl:value-of select="."/><xsl:text></xsl:text></xsl:template>
  <xsl:template match="tei:p/tei:persName/text()"><xsl:value-of select="."/></xsl:template>
@@ -49,6 +50,17 @@
  
  <xsl:template match="tei:pb">
   <xsl:choose>
+   <!--
+    <tei:pb n="C2r" xml:id="rochotius-gedeon-comoedia.la.C2r"/>
+    <tei:speaker>
+       <persName ref="#per.gedeon-ic-tnl">Gedeon</persName>
+    </tei:speaker>
+   -->
+   <xsl:when test="empty(following-sibling::text()[1][normalize-space() != '']) 
+     and following-sibling::node()[1][not(starts-with(., ' '))] 
+     and not(following-sibling::node()[1]/*[1][self::tei:space])">
+    <xsl:text>[</xsl:text><xsl:value-of select="@n"/><xsl:text>] </xsl:text>  
+   </xsl:when>
    <xsl:when test="empty(following-sibling::text()[1][normalize-space() != ''])">
     <xsl:text>[</xsl:text><xsl:value-of select="@n"/><xsl:text>]</xsl:text>  
    </xsl:when>

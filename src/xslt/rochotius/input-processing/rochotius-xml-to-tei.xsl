@@ -26,7 +26,10 @@
  <xsl:param name="sigla-regex" select="'\[([A-Z]+[a-z]*\d+[rv])\]'"/>
  <xsl:param name="scena-regex" select="'Actus ([IVX]+)\.\s+Scena ([IVX]+)'"/>
  <!-- <xsl:variable name="speaker-regex" select="'^\p{Lu}[\p{Ll}\[\]]+(\s+\p{Lu}[\p{Ll}\[\]]+)?:$'"/>-->
- <xsl:param name="speaker-regex" select="'^\[?\p{Lu}[\p{Ll}\[\]]+(\s+\p{Lu}[\p{Ll}\[\]]+)?:\]?$'"/>
+<!-- <xsl:param name="speaker-regex" select="'^\[?\p{Lu}[\p{Ll}\[\]]+(\s+\p{Lu}[\p{Ll}\[\]]+)?:\]?$'"/>-->
+ <xsl:variable name="speaker-name-regex" select="'\p{Lu}[\p{Ll}\[\]]+(\s+\p{Lu}[\p{Ll}\[\]]+)?:'"/>
+ <xsl:variable name="speaker-regex" select="'^' || $speaker-name-regex || '$'"/>
+ <xsl:variable name="speaker-supplied-regex" select="'^\[' || $speaker-name-regex || '?\]:?$'"/>
  
  <xsl:key name="comment" match="comment" use="@id" />
  <xsl:key name="footnote" match="footnote" use="@id" />
@@ -71,6 +74,36 @@
   <tei:speaker>
    <xsl:apply-templates />
   </tei:speaker>
+ </xsl:template>
+ 
+ <xsl:template match="Normální[matches( text[1] ! string-join(text(), '') ! normalize-space(), $speaker-supplied-regex)]" priority="4.5">
+  <tei:speaker>
+   <xsl:apply-templates  />
+  </tei:speaker>
+ </xsl:template>
+ 
+ <xsl:template match="Normální[.//text()[normalize-space() != ''][1][matches(fn:normalize-space(), $speaker-supplied-regex)]]" priority="5">
+  <tei:speaker>
+   <xsl:apply-templates  />
+  </tei:speaker>
+ </xsl:template>
+ 
+ <!--
+  <Normální spacing-after="0"
+             spacing-line="240"
+             spacing-lineRule="auto">
+      <text xml:space="preserve"><tab/><tab/><tab/>Mandavit: </text>
+      <comment-range type="start"
+                     id="122"/>
+      <text>humilis ut corda quorum pavor</text>
+   </Normální>
+ -->
+ <xsl:template match="Normální[text/tab]
+  [.//text()[normalize-space() != ''][1][matches(fn:normalize-space(), $speaker-regex)]]
+  [not(matches(normalize-space(string-join(node() except (footnote-reference, text[matches(., $sigla-regex)]))), $speaker-regex))]" priority="6">
+  <tei:l>
+   <xsl:apply-templates />
+  </tei:l>
  </xsl:template>
 
  <xsl:template match="Normální[@jc-val='center']" priority="2">
@@ -182,9 +215,12 @@
  <xsl:template match="text[@tei-data=('note','pc', 'wit')]" mode="realization" />
  
  <xsl:template match="text[@tei-data='note']" mode="app-note">
-  <tei:note><xsl:apply-templates /></tei:note>
+  <tei:note><xsl:call-template name="get-rendition-attribute" /><xsl:apply-templates /></tei:note>
  </xsl:template>
  
+ <xsl:template match="text[@tei-data='pc']" mode="app-note">
+  <tei:pc><xsl:call-template name="get-rendition-attribute" /><xsl:apply-templates /></tei:pc>
+ </xsl:template>
  
 
  <xsl:template match="footnote[contains(., ']')][not(contains(., '['))]" mode="realization" use-when="false()">
@@ -213,6 +249,9 @@
  
  <xsl:template match="text[@bold][matches(normalize-space(), $sigla-regex)]" priority="2">
   <tei:pb n="{analyze-string(normalize-space(), $sigla-regex)/fn:match/fn:group[1]}" />
+  <xsl:if test="tab">
+   <xsl:apply-templates select="tab" />
+  </xsl:if>
  </xsl:template>
  
   <xsl:template match="tab">
@@ -225,7 +264,7 @@
  
  <xsl:template match="Normální/*[last()][self::text[@xml:space][. = ' ']]" priority="3" />
  
- <xsl:template match="text[@xml:space][. = ' ']" priority="2">
+ <xsl:template match="text[@xml:space][. = ' ']" priority="2.5">
   <tei:hi>
    <xsl:copy-of select="@xml:space" />
    <xsl:apply-templates />
@@ -240,6 +279,12 @@
   <tei:hi rendition="{for $i in (@bold|@italic|@underline|@strike) return name($i)}">
    <xsl:apply-templates />
   </tei:hi>
+ </xsl:template>
+ 
+ <xsl:template name="get-rendition-attribute">
+  <xsl:if test="@bold|@italic|@underline|@strike">
+   <xsl:attribute name="rendition" select="for $i in (@bold|@italic|@underline|@strike) return name($i)" />
+  </xsl:if>
  </xsl:template>
  
  <xsl:template match="comment-range[@type='start']">
@@ -276,7 +321,19 @@
  
  <xsl:template match="annotation-reference" />
  
- <xsl:template match="hyperlink | Hyperlink">
+ <xsl:template match="hyperlink | Hyperlink" use-when="false()">
+  <xsl:apply-templates />
+ </xsl:template>
+ 
+ 
+ <xsl:template match="hyperlink">
+  <tei:ref>
+   <xsl:copy-of select="@target" />
+   <xsl:apply-templates />
+  </tei:ref>
+ </xsl:template>
+ 
+ <xsl:template match="hyperlink/Hyperlink">
   <xsl:apply-templates />
  </xsl:template>
  
