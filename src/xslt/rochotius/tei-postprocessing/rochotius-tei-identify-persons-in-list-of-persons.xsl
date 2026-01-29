@@ -26,9 +26,13 @@
  <xsl:variable name="full-suffix" select="concat('-',  $name-suffix, '-', $project-suffix)"/>
 
  <xsl:key name="person" match="tei:person" use="@xml:id" />
- <xsl:variable name="person-regex" select="'^(\p{Lu}\w+)[,\.]|(Artemona)|(Rosina)|(Thamar)'"/>
+ <xsl:variable name="person-regex" select="'^(Angelus\sPrologus|\p{Lu}\w+)(?:[,\.]?)'"/>
  
- <xsl:template match="tei:div[@type='list-of-persons']/tei:p/text()[matches(., $person-regex)]">
+ <xsl:template match="tei:div[@type='list-of-persons']/tei:p/text()
+  [not(preceding-sibling::node()[1][self::tei:space])]
+  [not(preceding-sibling::node()[1][self::tei:note])]
+  [not(preceding-sibling::node()[1][self::tei:app])]
+  [matches(., $person-regex)]">
   <xsl:variable name="text" select="analyze-string(., $person-regex)/fn:match/fn:group[1]"/>
   <xsl:variable name="text-after" select="substring-after(., $text)"/>
   <xsl:variable name="xml-id" select="tnf:get-valid-xml-id($text, 'per') || $full-suffix"/>
@@ -45,7 +49,7 @@
     <tei:ref target="#{$xml-id}" type="person"><xsl:value-of select="$text"/></tei:ref>
     <tei:note>
      <tei:person xml:id="{$xml-id}" sex="UNKNOWN">
-      <tei:persName xml:lang="cs" type="main"><xsl:value-of select="$text"/></tei:persName>
+      <tei:persName xml:lang="la" type="main"><xsl:value-of select="$text"/></tei:persName>
       <tei:note type="bio" />
      </tei:person>
     </tei:note>
