@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:tnf="https://www.daliboris.cz/ns/theatrum-neolatinum/xslt" stylesheet="../xslt/common/_tei-common-functions.xsl">
+  <x:scenario label="Scenario for testing function roman-to-arabic">
+    <x:call function="tnf:roman-to-arabic">
+      <x:param name="roman" select="'I'" />
+    </x:call>
+    <x:expect label="Single number I conversion" select="1" />
+  </x:scenario>
+  <x:scenario label="Scenario for testing function roman-to-arabic">
+    <x:call function="tnf:roman-to-arabic">
+      <x:param name="roman" select="'IV'" />
+    </x:call>
+    <x:expect label="Single number IV conversion" select="4" />
+  </x:scenario>
+  <x:scenario label="Scenario for testing function roman-to-arabic">
+    <x:call function="tnf:roman-to-arabic">
+      <x:param name="roman" select="'MCM'" />
+    </x:call>
+    <x:expect label="Number MCM conversion" select="1900" />
+  </x:scenario>
+</x:description>
