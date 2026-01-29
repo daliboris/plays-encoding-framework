@@ -382,10 +382,17 @@
   </p:xslt>
   <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="71" />
   
-  <xpef:identify-first-verses >
+  <p:variable name="divs" select="/data/divs/div" href="{$data-file-path-uri}"/>
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../../xslt/tei/tei-add-div-type.xsl" />
+   <p:with-option name="parameters" select="map {'divs' : $divs }" />
+  </p:xslt>
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="72" />
+  
+  <xpef:identify-first-verses>
    <p:with-input port="job-ticket" pipe="job-ticket@tei-postprocessing" />
   </xpef:identify-first-verses>
-  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="72" />
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="73" />
 
   <xpef:create-list-of-speakers doc-name="{$file-stem}" data-directory-path="{$data-directory-path}" data-file-path="{$data-file-path}" debug-path="{$debug-path}" base-uri="{$base-uri}">
    <p:with-input port="job-ticket" pipe="job-ticket@tei-postprocessing" />
