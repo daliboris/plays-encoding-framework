@@ -17,9 +17,9 @@
  </xd:doc>
  
  <xsl:mode on-no-match="shallow-copy"/>
- <xsl:param name="id-regex">^(#?\w+\W)(\w+)(.*)?$</xsl:param>
+ <xsl:param name="id-regex">^(#?\w+\W)([\w_]+)(.*)?$</xsl:param>
  
- <xsl:template match="tei:person/@xml:id[matches(., $id-regex)]">
+ <xsl:template match="tei:person/@xml:id[matches(., $id-regex)] | tei:personGrp/@xml:id[matches(., $id-regex)]">
   <xsl:attribute name="id" select="dcf:clean-id(.)" namespace="http://www.w3.org/XML/1998/namespace" />
  </xsl:template>
  
@@ -29,7 +29,7 @@
  
  <xsl:function name="dcf:clean-id" as="xs:string">
   <xsl:param name="text" as="xs:string" />
-  <xsl:value-of select="replace($text, $id-regex, '$2')"/>
+  <xsl:value-of select="replace($text, $id-regex, '$2') => replace('_', '-')"/>
  </xsl:function>
  
 </xsl:stylesheet>

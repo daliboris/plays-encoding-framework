@@ -19,7 +19,7 @@
  <xsl:output method="xml" indent="yes" />
  
  <xsl:template match="*">
-  <xsl:copy copy-namespaces="false">
+  <xsl:copy copy-namespaces="no">
    <xsl:copy-of select="@*" />
    <xsl:apply-templates />
   </xsl:copy>

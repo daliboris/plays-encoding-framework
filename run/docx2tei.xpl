@@ -92,6 +92,7 @@
  
  <xlog:store output-directory="{$output-directory-path}/{$text-id}/tei" base-uri="{$base-uri}" debug="true" file-name="{$output-file-name}.xml" />
 
+ <p:variable name="dracor-file-stem" select="if(/data/dracor/@file-stem) then /data/dracor/@file-stem else $output-file-name" href="{$data-file-path}" />
  <xtei:convert 
   output-directory-path="{$output-directory-path}" 
   data-file-path="{$data-file-path}" 
@@ -100,7 +101,7 @@
   output-file-name="{$output-file-name}" target="DraCor">
   <p:with-input port="source" pipe="result@tei" />
  </xtei:convert>
- <xlog:store output-directory="{$output-directory-path}/{$text-id}/dracor" base-uri="{$base-uri}" debug="true" file-name="{$output-file-name}.xml" />
+ <xlog:store output-directory="{$output-directory-path}/{$text-id}/dracor" base-uri="{$base-uri}" debug="true" file-name="{$dracor-file-stem}.xml" />
 
  <xtei:convert 
   output-directory-path="{$output-directory-path}" 

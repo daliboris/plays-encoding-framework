@@ -9,6 +9,7 @@
  
  
  <p:import href="common-lib.xpl" />
+
  
  <p:documentation>
   <xhtml:section>
@@ -41,11 +42,11 @@
   <p:variable name="debug-path-uri" select="resolve-uri($debug-path, $base-uri)" />
   <p:variable name="data-file-path-uri" select="resolve-uri($data-file-path, $base-uri)" />
   
-  <p:variable name="dracor-id" select="/data/@dracor-id" href="{$data-file-path-uri}" />
+  <p:variable name="dracor-id" select="/data/dracor/@id" href="{$data-file-path-uri}" />
   
   <!-- PIPELINE BODY -->
   
-  <p:add-attribute match="*[@xml:lang['la']]" attribute-name="xml:lang" attribute-value="lat" />
+  <p:add-attribute match="*[@xml:lang['la']]" attribute-name="xml:lang" attribute-value="lat" use-when="false()" />
   <p:delete match="tei:div[@type='editorial']" />
   <p:delete match="tei:fileDesc/tei:notesStmt" />
   <p:delete match="tei:sourceDesc/tei:listWit" />
@@ -72,13 +73,43 @@
    </p:with-input>
   </p:replace>
   
+  <!-- move divs to front -->
+  <p:insert match="tei:front" position="last-child">
+   <p:with-input port="insertion" select="//tei:body/tei:div[following-sibling::tei:div[@type='list-of-persons']]" pipe="source@tei-to-dracor" />
+  </p:insert>
+  <p:insert match="tei:front" position="last-child">
+   <p:with-input port="insertion" select="//tei:body/tei:div[@type='list-of-persons']" pipe="source@tei-to-dracor"/>
+  </p:insert>
+  
+  <p:delete match="tei:body/tei:div[following-sibling::tei:div[@type='list-of-persons']]" />
+  <p:delete match="tei:div[@type='list-of-persons']" />
+  
+  <!-- change divs to stage -->
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../xslt/dracor/tei-change-div-to-stage.xsl" />
+  </p:xslt>
+  
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../xslt/dracor/tei-change-argument-to-stage.xsl" />
+  </p:xslt>
+  
+  
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../xslt/dracor/tei-list-of-persons-to-castList.xsl" />
+   <p:with-option name="parameters" select="map {'parameter' : 'value' }" />
+  </p:xslt>
+  
   <p:replace match="tei:teiHeader" message="   ---- replacing teiHeader --- ">
    <p:with-input port="replacement" select="/data/dracor/tei:teiHeader" href="{$data-file-path-uri}" />
   </p:replace>
   <p:replace match="tei:listPerson" message="   ---- replacing listPerson --- ">
-   <p:with-input port="replacement" select="//tei:teiHeader//tei:listPerson[tei:person]" pipe="source@tei-to-dracor"/>
+   <p:with-input port="replacement" select="//tei:teiHeader//tei:listPerson[not(@xml:id)][tei:person]" pipe="source@tei-to-dracor"/>
   </p:replace>
+  <p:insert match="tei:listPerson" position="last-child">
+   <p:with-input port="insertion" select="//tei:teiHeader//tei:listPerson[@xml:id]/tei:person" pipe="source@tei-to-dracor" />
+  </p:insert>
 
+  <p:delete match="tei:listPerson[not(tei:person)]" />
   <p:delete match="tei:listPerson/tei:head[@xml:lang='cs']" use-when="false()" />
   <p:delete match="tei:listPerson/tei:head[@xml:lang]" />
   <p:delete match="tei:listPerson/tei:person/tei:persName[@xml:lang='cs']" />
@@ -86,10 +117,21 @@
   <p:delete match="tei:listPerson/tei:person/tei:persName/@type" />
   <p:delete match="tei:listPerson/tei:person/tei:occupation" />
   
-  <p:variable name="females" select="tokenize(/data/persons/females, '[,\s]')[.]" href="{$data-file-path-uri}"/>
+  <p:delete match="tei:sourceDesc/tei:listWit" />
   
-  <p:add-attribute match="tei:listPerson/tei:person[tei:persName[. = ('Melaenis', 'Rosina', 'Thamar', 'Artemona')]]" attribute-name="sex" attribute-value="FEMALE" />
+  <!--<p:variable name="females" select="tokenize(/data/persons/females, '[,\s]+')[.]" href="{$data-file-path-uri}"/>-->
+  <p:variable name="females" select="'(&#34;' || replace(/data/persons/females, ',\s+', '&#34;, &#34;') || '&#34;)'" href="{$data-file-path-uri}"/>
   
+  <!--<p:variable name="personGrps" select="tokenize(/data/persons/females, '[,\s]+')[.]" href="{$data-file-path-uri}"/>-->
+  <p:variable name="personGrps" select="'(&#34;' || replace(/data/persons/personGrp, ',\s+', '&#34;, &#34;') || '&#34;)'" href="{$data-file-path-uri}"/>
+  
+  <p:rename match="tei:listPerson/tei:person[tei:persName[. = {$personGrps}]]" new-name="tei:personGrp" />
+  
+  <p:variable name="persNames" select="//tei:listPerson/tei:person[tei:persName[. = $females]]"/>
+  
+  <p:add-attribute match="tei:listPerson/tei:person[tei:persName[. = {$females}]]" attribute-name="sex" attribute-value="FEMALE" message="   ---- replacing females : {string-join($females, '; ')}; $persNames: {count($persNames)} " />
+
+  <p:delete match="tei:TEI/tei:standOff" />
   <p:insert match="tei:teiHeader">
    <p:with-input port="insertion" select="/data/dracor/tei:standOff"  href="{$data-file-path-uri}" />
   </p:insert>
@@ -129,6 +171,14 @@
   <p:delete match="tei:emph/@rendition[. ='italic']" />-->
   
   <p:xslt>
+   <p:with-input port="stylesheet" href="../xslt/dracor/change-latin-numbers-to-arabic.xsl" />
+  </p:xslt>
+  
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../xslt/dracor/move-pb-outside.xsl" />
+  </p:xslt>
+    
+  <p:xslt>
    <p:with-input port="stylesheet" href="../xslt/dracor/rename-ids.xsl" />
   </p:xslt>
   <p:xslt>
@@ -140,6 +190,8 @@
   
   <!-- ??? -->
   <p:delete match="tei:space" />
+  
+  <!-- SKIP -->
   <p:delete match="tei:editionStmt" use-when="false()" />
   <!-- 
  <p:delete match="tei:publicationStmt/tei:pubPlace" />
@@ -147,6 +199,7 @@
   -->
   
   <!-- <p:add-attribute match="tei:availability" attribute-name="status" attribute-value="free" />-->
+  <!-- SKIP -->
   <p:replace match="tei:availability"  use-when="false()">
    <p:with-input port="replacement">
     <tei:availability status="free">
@@ -186,15 +239,22 @@
   </p:insert>
   
   <p:add-attribute match="tei:TEI" attribute-name="xml:id" attribute-value="{$dracor-id}" />
-  <p:insert match="tei:TEI" position="before">
+  <p:add-attribute match="tei:TEI" attribute-name="type" attribute-value="dracor" />
+  
+  <!-- SKIP -->
+  <p:insert match="tei:TEI" position="before" use-when="false()">
    <p:with-input port="insertion"><p:inline><?xml-model href="https://dracor.org/schema.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?></p:inline> </p:with-input>
   </p:insert>
   
   <p:unwrap match="tei:ref[starts-with(@target, '#')][. = 'Potipharis']" />
   <p:delete match="tei:note[tei:person][count(*) eq 1]" />
   <p:delete match="tei:person/tei:note[@type='bio']" />
-  
-  <xxml:clean-namespaces p:message="Dividing texts" />
+
+  <xxml:clean-namespaces p:message="   ---- cleaning namespaces" />
+  <xxml:remove-xinclude p:message="   ---- removing XInclude" />
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../xslt/common/xml-sort-attribute-order.xsl" />
+  </p:xslt>
   
    <p:identity />
  
