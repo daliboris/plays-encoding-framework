@@ -20,3 +20,7 @@ input
 
 # dowloaded MorganaXProc-IIIse files
 morgana
+
+# generated XSpec files
+src/tests/xspec
+src/tests/*.html
