@@ -33,6 +33,13 @@
  <xsl:template match="footnote-text/text[1][following-sibling::*[1][self::text[@italic='true']]]" mode="critical-apparatus">
   <text tei-data="lem"><xsl:copy-of select="@*" /><xsl:apply-templates /></text>
  </xsl:template>
+ <xsl:template match="footnote-text/text[1]
+  [following-sibling::*[1][self::text[@italic='true']]]
+  [following-sibling::*[2][self::text[contains(., $rigth-square-bracket)]]]
+  " 
+  mode="critical-apparatus" priority="2">
+  <text tei-data="lem"><xsl:copy-of select="@*" /><xsl:apply-templates /></text>
+ </xsl:template>
  
  <xsl:template match="footnote-text/text[contains(., $rigth-square-bracket)]" mode="critical-apparatus" priority="2">
   <xsl:variable name="prev" select="substring-before(., $rigth-square-bracket)"/>
