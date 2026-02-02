@@ -6,5 +6,6 @@
   <xpefjt:step name="xd2t:input-processing-rochotius" />
   <xpefjt:step name="xd2t:tei-processing-rochotius" />
   <xpefjt:step name="xd2t:tei-postprocessing-rochotius" />
+  <xpefjt:step name="xd2t:tei-postprocessing" />
  </xpefjt:scenario>
 </xpefjt:job-ticket>
