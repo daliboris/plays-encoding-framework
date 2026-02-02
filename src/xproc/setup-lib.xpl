@@ -163,9 +163,11 @@ _output
   <!-- OUTPUT PORTS -->
   <p:output port="result" sequence="true" />
   
-  <xps:download-file file-name="dracor-schema-v1.0.0-beta.4.rng" url="https://github.com/dracor-org/dracor-schema/releases/download/v1.0.0-beta.4/dracor-schema-v1.0.0-beta.4.rng" target-directory="../schema/rng" />
-  <xps:download-file file-name="dracor-schema-v1.0.0-beta.4.sch" url="https://github.com/dracor-org/dracor-schema/releases/download/v1.0.0-beta.4/dracor-schema-v1.0.0-beta.4.sch" target-directory="../schema/schematron" />
-  <xps:download-file file-name="dracor-schema-v1.0.0-beta.4.sch" url="https://github.com/dracor-org/dracor-schema/releases/download/v1.0.0-beta.4/dracor-schema-v1.0.0-beta.4.sch" target-directory="../schema/schematron" />
+  <p:option name="version" select="'1.1.0'" />
+  
+  <xps:download-file file-name="dracor-schema-{$version}.rng" url="https://github.com/dracor-org/dracor-schema/releases/download/{$version}/dracor-schema-{$version}.rng" target-directory="../schema/rng" />
+  <xps:download-file file-name="dracor-schema-{$version}.sch" url="https://github.com/dracor-org/dracor-schema/releases/download/{$version}/dracor-schema-{$version}.sch" target-directory="../schema/schematron" />
+  <xps:download-file file-name="dracor-schema-{$version}.sch" url="https://github.com/dracor-org/dracor-schema/releases/download/{$version}/dracor-schema-{$version}.sch" target-directory="../schema/schematron" />
   <xps:download-file file-name="hub.rng" url="https://raw.githubusercontent.com/le-tex/Hub/refs/heads/master/hub.rng" target-directory="../schema/rng" />
   <xps:download-file file-name="cssa-publisher-extensions.rng" url="https://raw.githubusercontent.com/le-tex/CSSa/6ea9e14d9ffe551f7bbdd8fe1e9db5830e28f85e/cssa-publisher-extensions.rng" target-directory="../schema/rng/css" />
   <xps:download-file file-name="cssa-rules.rng" url="https://raw.githubusercontent.com/le-tex/CSSa/6ea9e14d9ffe551f7bbdd8fe1e9db5830e28f85e/cssa-rules.rng" target-directory="../schema/rng/css" />
