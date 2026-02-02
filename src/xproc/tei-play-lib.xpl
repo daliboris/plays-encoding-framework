@@ -106,9 +106,11 @@
   <p:option name="data-file-path" as="xs:string?" />
   <p:option name="output-directory-path" as="xs:string?" />
   <p:option name="output-file-name" as="xs:string?" />
+  <p:option name="text-id" as="xs:string" required="true" />
   
   <!-- PIPELINE BODY -->
-  <xdc:tei-to-dracor data-file-path="{$data-file-path}" debug-path="{$debug-path}" base-uri="{$base-uri}">
+  
+  <xdc:tei-to-dracor data-file-path="{$data-file-path}" debug-path="{$debug-path}" base-uri="{$base-uri}" text-id="{$text-id}">
    <p:with-input pipe="source@postprocessing" />
   </xdc:tei-to-dracor>
   
@@ -147,6 +149,7 @@
   <p:option name="data-file-path" as="xs:string?" />
   <p:option name="output-directory-path" as="xs:string?" />
   <p:option name="output-file-name" as="xs:string?" />
+  <p:option name="text-id" as="xs:string" required="true" />
   <p:option name="target" as="xs:string*" values="('EVT', 'DraCor', 'text')" />
   
   <!-- VARIABLES -->
@@ -154,9 +157,11 @@
   <p:variable name="debug-path-uri" select="resolve-uri($debug-path, $base-uri)" />
   <p:variable name="output-directory-path-uri" select="resolve-uri($output-directory-path, $base-uri)" />
   
+  <!-- PIPELINE BODY -->
+  
   <p:choose>
    <p:when test="$target='DraCor'">
-    <xdc:tei-to-dracor data-file-path="{$data-file-path}"  debug-path="{$debug-path}" base-uri="{$base-uri}"/>
+    <xdc:tei-to-dracor data-file-path="{$data-file-path}"  debug-path="{$debug-path}" base-uri="{$base-uri}" text-id="{$text-id}"/>
    </p:when>
   </p:choose>
   

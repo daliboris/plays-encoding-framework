@@ -19,6 +19,7 @@
        (including any namespace prefix that is part of the attribute name). -->
   <xsl:template match="*">
     <xsl:copy>
+      <xsl:namespace name="" select="namespace-uri(.)" />
       <!-- Sort attributes by the result of name() → "prefix:localName" or just "localName" -->
       <xsl:apply-templates select="@*">
         <xsl:sort select="xsf:get-sorted-attribute-name(.)" />

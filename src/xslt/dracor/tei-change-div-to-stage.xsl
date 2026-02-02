@@ -15,27 +15,28 @@
     </xd:desc>
   </xd:doc>
   
+  <xsl:param name="finis-text" as="xs:string*" select="('FINIS.')" />
   <xsl:output indent="yes" />
   <xsl:strip-space elements="*"/>
   <xsl:mode on-no-match="shallow-copy" />
   <xsl:mode name="closer" on-no-match="shallow-copy" />
   <xsl:mode name="stage" on-no-match="shallow-copy" />
   
-  <xsl:template match="tei:body/tei:div[following-sibling::*[1][self::tei:head = 'FINIS.']]">
+  <xsl:template match="tei:body/tei:div/tei:div[last()][../following-sibling::*[1][self::tei:div[tei:head = $finis-text]]]">
     <xsl:copy>
       <xsl:copy-of select="@*" />
       <xsl:apply-templates />
-      <xsl:apply-templates select="preceding-sibling::*[1][self::tei:head = 'FINIS.']" mode="stage" />
+      <xsl:apply-templates select="../following-sibling::*[1][self::tei:div[tei:head = $finis-text]]" mode="stage" />
     </xsl:copy>
   </xsl:template>
   
-  <xsl:template match="tei:body/tei:div[tei:head = 'FINIS.']" />
+  <xsl:template match="tei:body/tei:div[tei:head = $finis-text]" />
   
-  <xsl:template match="tei:body/tei:div[tei:head = 'FINIS.']" mode="stage">
+  <xsl:template match="tei:body/tei:div[tei:head = $finis-text]" mode="stage">
     <stage><xsl:apply-templates mode="#current" /></stage>
   </xsl:template>
   
-  <xsl:template match="tei:body/tei:div[preceding-sibling::tei:div[tei:head = 'FINIS.']]">
+  <xsl:template match="tei:body/tei:div[preceding-sibling::tei:div[tei:head = $finis-text]]">
     <closer><xsl:apply-templates  mode="closer"/></closer>
   </xsl:template>
   

@@ -19,7 +19,7 @@
   <xsl:mode on-no-match="shallow-copy"/>
   <xsl:output indent="yes" />
   
-  <xsl:template match="tei:l[*[1][self::tei:pb]]">
+  <xsl:template match="tei:l[preceding-sibling::tei:l][*[1][self::tei:pb]]">
     <xsl:copy-of select="*[1][self::tei:pb]" />
     <xsl:copy>
       <xsl:copy-of select="@*" />
@@ -27,7 +27,17 @@
     </xsl:copy>
   </xsl:template>
   
-  <xsl:template match="tei:l/*[1][self::tei:pb]" />
+  <xsl:template match="tei:l[preceding-sibling::tei:l]/*[1][self::tei:pb]" />
+  
+  <xsl:template match="tei:div[*[1][self::tei:opener][*[1][self::tei:salute][*[1][self::tei:pb]]]]">
+    <xsl:copy-of select="*[1][self::tei:opener]/*[1][self::tei:salute]/*[1][self::tei:pb]" />
+    <xsl:copy>
+      <xsl:copy-of select="@*" />
+      <xsl:apply-templates />
+    </xsl:copy>
+  </xsl:template>
+  
+  <xsl:template match="tei:div/*[1][self::tei:opener]/*[1][self::tei:salute]/*[1][self::tei:pb]" />
   
   <xsl:template match="tei:div[*[1][self::tei:head][*[1][self::tei:pb]]]">
     <xsl:copy-of select="*[1][self::tei:head]/*[1][self::tei:pb]" />
@@ -38,6 +48,16 @@
   </xsl:template>
   
   <xsl:template match="tei:div/*[1][self::tei:head]/*[1][self::tei:pb]" />
+
+  <xsl:template match="tei:div[*[1][self::tei:l][*[1][self::tei:pb]]]" priority="2">
+    <xsl:copy-of select="*[1][self::tei:l]/*[1][self::tei:pb]" />
+    <xsl:copy>
+      <xsl:copy-of select="@*" />
+      <xsl:apply-templates />
+    </xsl:copy>
+  </xsl:template>
+  
+  <xsl:template match="tei:div/*[1][self::tei:l]/*[1][self::tei:pb]" priority="2" />
   
   <xsl:template match="tei:div[*[1][self::tei:p][*[1][self::tei:pb]]]">
     <xsl:copy-of select="*[1][self::tei:p]/*[1][self::tei:pb]" />

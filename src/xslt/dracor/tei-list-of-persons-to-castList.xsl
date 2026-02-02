@@ -30,7 +30,7 @@
   </xsl:template>
   
   <xsl:template match="tei:div[@type='list-of-persons']/tei:p/text()[normalize-space(.) != '']">
-    <roleDesc><xsl:apply-templates /></roleDesc>
+    <roleDesc><xsl:value-of select="." /></roleDesc>
   </xsl:template>
   
 </xsl:stylesheet>
