@@ -24,8 +24,8 @@
 	<p:option name="debug-path" select="()" as="xs:string?" />
 	<p:option name="base-uri" as="xs:anyURI" select="static-base-uri()"/>
 	
-	<p:option name="saxon-version" as="xs:string" select="'12.7'" />
-	<p:option name="morgana-version" as="xs:string" select="'1.6.7'" />
+	<p:option name="saxon-version" as="xs:string" select="'12.9'" />
+	<p:option name="morgana-version" as="xs:string" select="'1.8'" />
 
 	<!-- VARIABLES -->
 	<p:variable name="debug" select="$debug-path || '' ne ''" />
