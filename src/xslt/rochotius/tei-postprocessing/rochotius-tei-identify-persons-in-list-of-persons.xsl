@@ -26,12 +26,13 @@
  <xsl:variable name="full-suffix" select="concat('-',  $name-suffix, '-', $project-suffix)"/>
 
  <xsl:key name="person" match="tei:person" use="@xml:id" />
- <xsl:variable name="person-regex" select="'^(Angelus\sPrologus|\p{Lu}\w+)(?:[,\.]?)'"/>
+ <xsl:variable name="person-names" select="string-join(//tei:listPerson/tei:person/tei:persName ! replace(., ' ', '\\s'), '|')"/>
+ <xsl:variable name="person-regex" select="'^(' || $person-names || 'Angelus\sPrologus|\p{Lu}\w+)(?:[,\.]?)'"/>
  
  <xsl:template match="tei:div[@type='list-of-persons']/tei:p/text()
-  [not(preceding-sibling::node()[1][self::tei:space])]
+  (:[not(preceding-sibling::node()[1][self::tei:space])]
   [not(preceding-sibling::node()[1][self::tei:note])]
-  [not(preceding-sibling::node()[1][self::tei:app])]
+  [not(preceding-sibling::node()[1][self::tei:app])]:)
   [matches(., $person-regex)]">
   <xsl:variable name="text" select="analyze-string(., $person-regex)/fn:match/fn:group[1]"/>
   <xsl:variable name="text-after" select="substring-after(., $text)"/>

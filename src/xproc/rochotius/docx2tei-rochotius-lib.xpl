@@ -59,7 +59,7 @@
   
   <p:variable name="output-temp-directory" select="if(empty($debug-path)) 
    then () 
-   else $debug-path || '/' || $file-stem || '/' || 'input-processing'" />
+   else $debug-path || '/' || $file-stem || '/' || 'input-processing-rochotius'" />
   
   <p:identity message="{$debug-path} {$text-id} {$file-stem} => {$output-temp-directory} {resolve-uri($output-temp-directory, $base-uri)}"></p:identity>
   
@@ -191,7 +191,7 @@
  
   <p:variable name="output-temp-directory" select="if(empty($debug-path)) 
    then () 
-   else $debug-path || '/' || $file-stem || '/' || 'tei-processing'" />
+   else $debug-path || '/' || $file-stem || '/' || 'tei-processing-rochotius'" />
   
   <p:identity message="{$debug-path} {$text-id} {$file-stem} => {$output-temp-directory} {resolve-uri($output-temp-directory, $base-uri)}"></p:identity>
   
@@ -262,7 +262,7 @@
 <!--  <p:variable name="file-stem" select="tokenize(tokenize(resolve-uri(base-uri(/), $base-uri), '/')[last()], '\.')[position() lt last()] => string-join('.')" />-->
   <p:variable name="file-stem" select="$text-id" />
   
-  <p:variable name="output-temp-directory" select="$debug-path || '/' || $file-stem || '/' || 'tei-postprocessing'" />
+  <p:variable name="output-temp-directory" select="$debug-path || '/' || $file-stem || '/' || 'tei-postprocessing-rochotius'" />
   
   <xlog:log message="Postprocessing {$file-stem}" debug="{$debug}" format="text" p:use-when="false()" >
    <p:with-input port="log"><p:empty /></p:with-input>

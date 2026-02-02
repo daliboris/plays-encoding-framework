@@ -16,19 +16,36 @@
   </xd:doc>
   
   <xsl:param name="divs" required="yes" />
+  <xsl:param name="specific-type" as="xs:string*" select="('dedication', 'epigraph')" />
   
   <xsl:mode on-no-match="shallow-copy"/>
   <xsl:mode on-no-match="shallow-copy" name="sp"/>
+  <xsl:mode on-no-match="shallow-copy" name="opener"/>
+  <xsl:mode on-no-match="shallow-skip" name="closer"/>
+  <xsl:mode on-no-match="shallow-copy" name="epigraph"/>
+  <xsl:mode on-no-match="shallow-skip" name="epigraph-bibl"/>
   
-  <xsl:variable name="div-heads" select="$divs/head"/>
+  <xsl:strip-space elements="*"/>
+  <xsl:output indent="yes" />
   
-  <xsl:template match="tei:div[tei:head = $div-heads]">
-    <xsl:variable name="head" select="tei:head" />
-    <xsl:variable name="div" select="$divs[. = $head]" />
-    <xsl:copy>
+  <xsl:variable name="div-heads" select="$divs/*[1]"/>
+  
+  <xsl:template match="tei:div[*[1]/text()[normalize-space()!=''][1]/normalize-space() = $div-heads]">
+    <xsl:variable name="head" select="*[1]" />
+    <xsl:variable name="head-text" select="$head/text()[normalize-space()!=''][1]/normalize-space()" />
+    <xsl:variable name="div" select="$divs[*[1] = $head-text]" />
+    <xsl:variable name="element-name" select="if($div/@type= ('titlePage', 'epigraph')) then $div/@type else name()" />
+<!--    <xsl:variable name="element-name" select="name()"/>-->
+    
+    <xsl:element name="{$element-name}">
       <xsl:copy-of select="@*" />
-      <xsl:copy-of select="$div/@*" />
+      <xsl:if test="$element-name = 'tei:div'">
+        <xsl:copy-of select="$div/@*" />        
+      </xsl:if>
       <xsl:choose>
+        <xsl:when test="$div/@type = 'titlePage'">
+          <xsl:copy-of select="$div/*[1]/following-sibling::node()" />
+        </xsl:when>
         <xsl:when test="$div/sp[@who]">
           <xsl:copy-of select="$head" />
           <sp>
@@ -36,16 +53,47 @@
             <xsl:apply-templates mode="sp" />
           </sp>
         </xsl:when>
+        <xsl:when test="$div/@type = 'dedication'">
+          <xsl:apply-templates mode="opener" />
+          <xsl:if test="tei:p[not(ancestor::tei:note)]">
+            <closer><salute><xsl:apply-templates mode="closer" /></salute></closer>  
+          </xsl:if>
+        </xsl:when>
+        <xsl:when test="$div/@type = 'epigraph'">
+          <cit>
+            <quote><xsl:apply-templates mode="epigraph" /></quote>
+            <bibl><xsl:apply-templates mode="epigraph-bibl" /></bibl>
+          </cit>
+        </xsl:when>
         <xsl:otherwise>
           <xsl:apply-templates />
         </xsl:otherwise>
       </xsl:choose>
-      
-    </xsl:copy>
-
+    </xsl:element>
     
   </xsl:template>
   
   <xsl:template match="tei:head" mode="sp" />
+  
+  <xsl:template match="tei:head" mode="opener">
+    <opener><salute><xsl:apply-templates mode="#current" /></salute></opener>
+  </xsl:template>
+  <xsl:template match="tei:p[not(ancestor::tei:note)]" mode="opener" />
+  
+  <xsl:template match="tei:p[not(ancestor::tei:note)]" mode="closer">
+    <xsl:if test="position() ne 1 and position() != last()"><lb /></xsl:if>
+    <xsl:apply-templates /><xsl:if test="position() != last()"><xsl:text> </xsl:text></xsl:if>
+  </xsl:template>
+  
+  <xsl:template match="tei:head" mode="epigraph">
+    <p><xsl:apply-templates /></p>
+  </xsl:template>
+  
+  <xsl:template match="tei:p[not(ancestor::tei:note)]" mode="epigraph" />
+  
+  <xsl:template match="tei:p[not(ancestor::tei:note)]" mode="epigraph-bibl">
+    <xsl:if test="position() ne 1 and position() != last()"><lb /></xsl:if>
+    <xsl:apply-templates /><xsl:if test="position() != last()"><xsl:text> </xsl:text></xsl:if>
+  </xsl:template>
   
 </xsl:stylesheet>

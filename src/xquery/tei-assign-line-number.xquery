@@ -6,6 +6,7 @@ xquery version "3.1" encoding "utf-8";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare default collation "http://www.w3.org/2013/collation/UCA?lang=cs-CZ";
 
+declare variable $fix-line-numbers as xs:boolean external; 
 
 declare function local:clean-name($name as xs:string?) as xs:string? 
 {
@@ -107,33 +108,36 @@ declare function local:exctract-lines($tei as element(tei:TEI)) as element(lines
   return <line n="{if($start-original) then $start-original else $start + sum($indent)}" position="{$s-pos + $i - 1}" indent="{$indent}" order="{$i}" speaker="{$speaker}" spaces="{$item/tei:space/@quantity}" id="{generate-id($item)}">{data($item/@n)}</line>
     }</group>
  let $groups := local:fix-line-numbers($groups)
- return <lines xml:lang="{$lang}" xml:id="{$id}"> {
+ return <lines xml:lang="{$lang}" xml:id="{$id}" fix-line-numbers="{$fix-line-numbers}"> {
   $groups
   } </lines>
  
 };
 
 declare function local:fix-line-numbers($input-groups as element(group)*) {
-  for $group in $input-groups
-    let $next-start := $group/@start + $group/@count
-    let $equal-lines := count($group/line) eq count(distinct-values($group/line/@n))
-  return if(xs:int($group/@count) gt 5 and xs:int($group/@count) lt 10) then
-    $group
-    else
-    element group {
-     $group/@*,
-     if($equal-lines) then
-      $group/*
-      else 
-        let $start := xs:int($group/line[1]/@n)  
-        for $line at $i in $group/line
-        return element line {
-        attribute n {$start + $i -1},
-          $line/@* except $line/@n,
-          $line/text()
-        }
-  }
 
+  if($fix-line-numbers) then
+
+    for $group in $input-groups
+      let $next-start := $group/@start + $group/@count
+      let $equal-lines := count($group/line) eq count(distinct-values($group/line/@n))
+    return if(xs:int($group/@count) gt 5 and xs:int($group/@count) lt 10) then
+      $group
+      else
+      element group {
+       $group/@*,
+       if($equal-lines) then
+        $group/*
+        else 
+          let $start := xs:int($group/line[1]/@n)  
+          for $line at $i in $group/line
+          return element line {
+          attribute n {$start + $i -1},
+            $line/@* except $line/@n,
+            $line/text()
+          }
+    }
+  else $input-groups
 };
 
 declare function local:extract-speakers-2 ($lines as element(lines)*, $play-name-suffix as xs:string?) as element(speakers) 

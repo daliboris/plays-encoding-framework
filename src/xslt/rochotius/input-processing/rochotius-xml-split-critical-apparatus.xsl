@@ -108,7 +108,7 @@
  
  <xsl:template match="text[not(@italic)]
   [preceding-sibling::*[1][self::text[contains(., $rigth-square-bracket)]]]
-  [following-sibling::*[1][self::text[@italic='true']]]" mode="critical-apparatus">
+  [following-sibling::*[1][self::text[@italic='true']]]" mode="critical-apparatus" priority="2">
   <xsl:copy>
    <xsl:attribute name="tei-data" select="'rdg'" />
    <xsl:copy-of select="@*" />

@@ -19,7 +19,7 @@
  
  <xsl:template match="tei:front">
   <xsl:copy>
-   <xsl:for-each-group select="*" group-adjacent="if(self::tei:l) then 1 else 0">
+   <xsl:for-each-group select="*" group-adjacent="if(self::tei:l or self::tei:p[@rend='right']) then 1 else 0">
     <xsl:choose>
      <xsl:when test=".[self::tei:l]">
       <tei:div>
