@@ -31,7 +31,7 @@
       <xsl:sort select="." />
       <xsl:variable name="id" select="."/>
       <xsl:variable name="speaker" select="key('speeches', $id, $text)[1]/tei:speaker"/>
-      <person xml:id="{substring-after($id, '#')}" sex="" role="">
+      <person xml:id="{substring-after($id, '#')}">
        <persName><xsl:value-of select="$speaker"/></persName>
       </person>
      </xsl:for-each>

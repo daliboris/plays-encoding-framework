@@ -198,12 +198,13 @@
   <p:variable name="debug" select="$debug-path || '' ne ''" />
   <p:variable name="debug-path-uri" select="resolve-uri($debug-path, $base-uri)" />
 
+  <p:variable name="active-debug-path" select="if(empty($debug-path)) then () else $debug-path ||  '/' || $output-file-name" />
   
   <!-- PIPELINE BODY -->
   <p:xslt name="tei-to-text">
    <p:with-input port="stylesheet" href="../xslt/tei/tei-to-text.xsl" />
   </p:xslt>
-  <xlog:store output-directory="{$debug-path}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$output-file-name}.txt" step="1" />
+  <xlog:store output-directory="{$active-debug-path}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$output-file-name}.txt" step="1" />
   
   <p:file-create-tempfile delete-on-exit="true" suffix=".txt"/>
   <p:variable name="href-tempfile-uri" select="xs:anyURI(.)"/>
@@ -216,7 +217,7 @@
    <p:with-input port="stylesheet" href="../xslt/docx/text-clean-lines.xsl" />
    <p:with-option name="parameters" select="map {'href' : $href-tempfile-uri }" />
   </p:xslt>
-  <xlog:store output-directory="{$debug-path}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$output-file-name}.xml" step="5" />
+  <xlog:store output-directory="{$active-debug-path}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$output-file-name}.xml" step="5" />
   
   
 
