@@ -19,7 +19,7 @@
  <xsl:import href="_dracor-xml-to-tei-text.xsl"/>
  
  <xsl:template match="/">
-  <TEI xml:id="neolatXXXXXX" xmlns="http://www.tei-c.org/ns/1.0" xml:lang="lat">
+  <TEI xmlns="http://www.tei-c.org/ns/1.0" type="dracor" xml:id="neolatXXXXXX" xml:lang="la">
    <xsl:apply-templates select="/body/table[1]" />
    <xsl:apply-templates select="/body" />
   </TEI>

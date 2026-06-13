@@ -24,7 +24,7 @@
  <xsl:variable name="multiple-items-separator-regex">;\s</xsl:variable>
  <xsl:variable name="year-regex">^\d{4}$</xsl:variable>
  <xsl:variable name="not-before-after-regex">^not\sbefore\s(\d{4}),\snot\safter\s(\d{4})$</xsl:variable>
- <xsl:variable name="author-persName-default-lang">lat</xsl:variable>
+ <xsl:variable name="author-persName-default-lang">la</xsl:variable>
 
  <xsl:variable name="rows" as="map(xs:string, xs:integer)">
   <xsl:map>
@@ -165,12 +165,9 @@
       <xsl:with-param name="row-key" select="'publisher'" /> <!-- DraCor -->
      </xsl:apply-templates>
      <availability>
-      <licence>
-       <xsl:apply-templates select="." mode="element">
-        <xsl:with-param name="row-key" select="'licence-of-the-tei-file'" />
-       </xsl:apply-templates>
-      </licence>
-      
+      <xsl:apply-templates select="." mode="element">
+       <xsl:with-param name="row-key" select="'licence-of-the-tei-file'" />
+      </xsl:apply-templates>
       <xsl:if test="not(xpef:is-empty($copyright-of-the-source-text-edition))">
        <p xmlns="http://www.tei-c.org/ns/1.0">
         <xsl:text>Copyright of the text edition (c) </xsl:text>
@@ -311,7 +308,7 @@
    </xsl:when>
    <xsl:when test="xpef:is-empty($cell)" />
    <xsl:when test="$row-key = 'work-title'">
-    <title xmlns="http://www.tei-c.org/ns/1.0" type="main">
+    <title xmlns="http://www.tei-c.org/ns/1.0">
      <xsl:apply-templates select="$cell" mode="tei" />
     </title>
    </xsl:when>
@@ -468,9 +465,10 @@
    </xsl:when>
    <xsl:when test="$row-key = 'licence-of-the-tei-file'">
     <!-- hardcoded -->
-    <ab xmlns="http://www.tei-c.org/ns/1.0"><xsl:value-of select="$licence-of-tei-file"/></ab>
-    <!-- hardcoded -->
-    <ref xmlns="http://www.tei-c.org/ns/1.0" target="{$licence-of-tei-file-url}">Licence</ref>
+    <licence xmlns="http://www.tei-c.org/ns/1.0">
+     <xsl:attribute name="target" select="$licence-of-tei-file-url"/>
+     <xsl:value-of select="$licence-of-tei-file"/>
+    </licence>
    </xsl:when>
    <xsl:when test="$row-key = 'copyright-of-the-source-text-edition'">
     <xsl:apply-templates select="$cell" mode="tei" />

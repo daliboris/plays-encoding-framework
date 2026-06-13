@@ -44,8 +44,8 @@
   <p:variable name="dracor-id" select="/data/@dracor-id" href="{$data-file-path-uri}" />
   
   <!-- PIPELINE BODY -->
-  
-  <p:add-attribute match="*[@xml:lang['la']]" attribute-name="xml:lang" attribute-value="lat" />
+
+  <p:add-attribute match="*[@xml:lang['la']]" attribute-name="xml:lang" attribute-value="la" />
   <p:delete match="tei:div[@type='editorial']" />
   <p:delete match="tei:fileDesc/tei:notesStmt" />
   <p:delete match="tei:sourceDesc/tei:listWit" />
