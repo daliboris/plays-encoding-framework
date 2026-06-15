@@ -168,7 +168,7 @@
   <p:variable name="debug-path-uri" select="resolve-uri($debug-path, $base-uri)" />
   <p:variable name="data-file-path-uri" select="resolve-uri($data-file-path, $base-uri)" />
 
-  <p:variable name="log-output-directory" select="$debug-path || '/' || $text-id || '/' || '/tei-postprocessing/'" />
+  <p:variable name="log-output-directory" select="$debug-path || '/' || $text-id || '/' || 'tei-postprocessing/'" />
   <p:variable name="log-file-name" select="$text-id || '.xml'" />
   
   <!-- PIPELINE BODY -->

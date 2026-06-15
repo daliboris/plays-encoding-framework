@@ -45,7 +45,7 @@
 
   <!-- VARIABLES -->
   <p:variable name="debug" select="$debug-path || '' ne ''" />
-  <p:variable name="debug-path-uri" select="resolve-uri($debug-path, $base-uri)" />
+  <p:variable name="debug-path-uri" select="if(empty($debug-path)) then () else p:urify($debug-path, $base-uri)" />
   
   
   <!-- PIPELINE BODY -->
@@ -77,7 +77,7 @@
   
   <!-- VARIABLES -->
   <p:variable name="debug" select="$debug-path || '' ne ''" />
-  <p:variable name="debug-path-uri" select="resolve-uri($debug-path, $base-uri)" />
+  <p:variable name="debug-path-uri" select="if(empty($debug-path)) then () else p:urify($debug-path, $base-uri)" />
   
   
   <!-- PIPELINE BODY -->
@@ -154,8 +154,8 @@
   
   <!-- VARIABLES -->
   <p:variable name="debug" select="$debug-path || '' ne ''" />
-  <p:variable name="debug-path-uri" select="resolve-uri($debug-path, $base-uri)" />
-  <p:variable name="output-directory-path-uri" select="resolve-uri($output-directory-path, $base-uri)" />
+  <p:variable name="debug-path-uri" select="if(empty($debug-path)) then () else p:urify($debug-path, $base-uri)" />
+  <p:variable name="output-directory-path-uri" select="p:urify($output-directory-path, $base-uri)" />
   
   <!-- PIPELINE BODY -->
   
@@ -196,7 +196,7 @@
   
   <!-- VARIABLES -->
   <p:variable name="debug" select="$debug-path || '' ne ''" />
-  <p:variable name="debug-path-uri" select="resolve-uri($debug-path, $base-uri)" />
+  <p:variable name="debug-path-uri" select="if(empty($debug-path)) then () else p:urify($debug-path, $base-uri)" />
 
   <p:variable name="active-debug-path" select="if(empty($debug-path)) then () else $debug-path ||  '/' || $output-file-name" />
   
