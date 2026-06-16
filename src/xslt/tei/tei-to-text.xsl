@@ -28,7 +28,7 @@
   <xsl:apply-templates />
  </xsl:template>
  
- <xsl:template match="tei:div | tei:l | tei:p | tei:head | tei:speaker | tei:stage | tei:castItem | tei:titlePart | tei:docImprint | tei:salute">
+ <xsl:template match="tei:div | tei:l | tei:p | tei:head | tei:speaker | tei:stage | tei:castItem | tei:titlePart | tei:docImprint | tei:salute |  tei:epigraph">
   <xsl:apply-templates />
   <xsl:value-of select="$new-line"/>
  </xsl:template>
@@ -54,6 +54,7 @@
  <xsl:template match="tei:titlePart/text()"><xsl:value-of select="."/></xsl:template>
  <xsl:template match="tei:docImprint/text()"><xsl:value-of select="."/></xsl:template>
  <xsl:template match="tei:salute/text()"><xsl:value-of select="."/></xsl:template>
+ <xsl:template match="tei:cit/tei:bibl/text()"><xsl:value-of select="."/></xsl:template>
  
  <xsl:template match="tei:pb">
   <xsl:choose>
