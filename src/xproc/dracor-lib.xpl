@@ -126,17 +126,21 @@
   <p:replace match="tei:teiHeader" message="   ---- replacing teiHeader --- ">
    <p:with-input port="replacement" select="/data/dracor/tei:teiHeader" href="{$data-file-path-uri}" />
   </p:replace>
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="16" />
+  
   <p:replace match="tei:listPerson" message="   ---- replacing listPerson --- ">
    <p:with-input port="replacement" select="//tei:teiHeader//tei:listPerson[not(@xml:id)][tei:person]" pipe="source@tei-to-dracor"/>
   </p:replace>
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="17" />
+  
   <p:insert match="tei:listPerson" position="last-child">
    <p:with-input port="insertion" select="//tei:teiHeader//tei:listPerson[@xml:id]/tei:person" pipe="source@tei-to-dracor" />
   </p:insert>
-  
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="18" />
+
   <p:insert match="tei:listPerson" position="last-child">
    <p:with-input port="insertion" select="/data/persons/tei:person"  href="{$data-file-path-uri}" />
   </p:insert>
-  
   <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="20" />
   
 
