@@ -24,10 +24,12 @@
  <xsl:param name="text-filename" select="concat($text-id, '.text.xml')"/>
  <xsl:param name="id-format" select="'000000'"/>
  <xsl:param name="sigla-regex" select="'\[([A-Z]+[a-z]*\d+[rv])\]'"/>
+ <xsl:param name="pagina-regex" select="'^/?p\.\s(\d+)/?$'"/>
  <xsl:param name="scena-regex" select="'Actus ([IVX]+)\.\s+Scena ([IVX]+)'"/>
  <!-- <xsl:variable name="speaker-regex" select="'^\p{Lu}[\p{Ll}\[\]]+(\s+\p{Lu}[\p{Ll}\[\]]+)?:$'"/>-->
 <!-- <xsl:param name="speaker-regex" select="'^\[?\p{Lu}[\p{Ll}\[\]]+(\s+\p{Lu}[\p{Ll}\[\]]+)?:\]?$'"/>-->
- <xsl:variable name="speaker-name-regex" select="'\p{Lu}[\p{Ll}\[\]]+(\s+\p{Lu}[\p{Ll}\[\]]+)?:'"/>
+<!-- <xsl:variable name="speaker-name-regex" select="'\p{Lu}[\p{Ll}\[\]]+(\s+\p{Lu}[\p{Ll}\[\]]+)?:'"/>-->
+ <xsl:variable name="speaker-name-regex" select="'\p{Lu}[\p{Ll}\[\]]+((\.|\s+\d|\p{Lu}[\p{Ll}\[\]]+))?:'"/>
  <xsl:variable name="speaker-regex" select="'^' || $speaker-name-regex || '$'"/>
  <xsl:variable name="speaker-supplied-regex" select="'^\[' || $speaker-name-regex || '?\]:?$'"/>
  
@@ -123,6 +125,11 @@
   </tei:argument>
  </xsl:template>
  
+ <xsl:template match="Normální[@jc-val='center'][text[@italic]]" priority="3">
+  <tei:argument>
+   <tei:p><xsl:apply-templates /></tei:p>
+  </tei:argument>
+ </xsl:template>
 
  <xsl:template match="Normální[not(.//tab)]">
   <tei:p>
@@ -252,6 +259,10 @@
   <xsl:if test="tab">
    <xsl:apply-templates select="tab" />
   </xsl:if>
+ </xsl:template>
+ 
+ <xsl:template match="text/text()[1][matches(normalize-space(), $pagina-regex)][not(ancestor::footnote or ancestor::comment)]" priority="2">
+  <tei:pb n="{analyze-string(normalize-space(), $pagina-regex)/fn:match/fn:group[1]}" />
  </xsl:template>
  
   <xsl:template match="tab">

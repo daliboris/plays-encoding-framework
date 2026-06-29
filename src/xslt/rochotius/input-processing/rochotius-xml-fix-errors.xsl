@@ -96,7 +96,8 @@
   '\s[ps]-' : ' p.',
   'Hildegardis,\sB3r' : 'Hildegardis, B3r.',
   '\s-\s' : ' – ',
-  '\s\.\.' : '.'
+  '\s\.\.' : '.',
+  '\s+' : ' '
   }"/>
  <xsl:variable name="replacement-regex" select="string-join(map:keys($replacements), '|')"/> 
  
@@ -298,5 +299,5 @@
    </text>
   </xsl:copy>
  </xsl:template>
-
+ 
 </xsl:stylesheet>

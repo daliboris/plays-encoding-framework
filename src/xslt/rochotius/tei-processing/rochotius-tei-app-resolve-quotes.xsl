@@ -20,8 +20,10 @@
  <xsl:output method="xml" indent="yes" />
  
  <xsl:variable name="variant-delimiters-regex" select="'([\|&lt;=])'"/>
- <xsl:variable name="biblio-regex" select="'(\p{Lu}\p{Ll}*),\s(\p{Lu}\p{Ll}.[^\s]*(\s[A-Za-z]+)*,?),?\s?(([A-Z]*\s?[-\d–,^\s]+([vp]\.)?\s[-\d–]*)|([A-Z]+[a-z]*\d+[rv])|(\p{Lu},\d)|(([vp]\.)?\s[-\d–]*[\s,]*)+)\.'"/>
- <xsl:variable name="bibl-regex" select="'(Allusion:\s)(Cf\.\s)(Vulg\s)(\p{Lu}\p{Ll}*)\s(\d+,[-\d–]*)\.'"/>
+ <xsl:variable name="biblio-regex" select="'(\p{Lu}\p{Ll}*),\s(\p{Lu}\p{Ll}.[^\s]*(\s[A-Za-z]+)*,?),?\s?(([A-Z]*\s?[-\d–,^\s]+([vp]\.)?\s[-\d–]*)|([A-Z]+[a-z]*\d+[rv])|(\p{Lu},\d)|(([vp]\.)?\s[-\d–]*[\s,]*)+|([-,\d–])+|(\sel\.\s[VI]+)|(\(fragm\.\s[\d,p\.\s]+\)))\.'"/>
+<!-- <xsl:variable name="biblio-regex" select="'(\p{Lu}\p{Ll}*),\s(\p{Lu}\p{Ll}.[^\s]*(\s[A-Za-z]+)*,?),?\s?(([A-Z]*\s?[-\d–,^\s]+([vp]\.)?\s[-\d–]*)|([A-Z]+[a-z]*\d+[rv])|(\p{Lu},\d)|(([vp]\.)?\s[-\d–]*[\s,]*)+)\.'"/>-->
+<!-- <xsl:variable name="bibl-regex" select="'(Allusion:\s)(Cf\.\s)(Vulg\s)(\p{Lu}\p{Ll}*)\s(\d+,[-\d–]*)\.'"/>-->
+ <xsl:variable name="bibl-regex" select="'(Allusion:\s)(Cf\.\s)(Vulg\s)(\p{Lu}\p{Ll}*)\s(\d+?,?\s?[-,\d–]*)\.'"/>
  
 <!-- <xsl:variable name="biblio-regex" select="'(\p{Lu}\p{Ll}*),\s(\p{Lu}\p{Ll}.[^\s]*(\s[A-Za-z]+)?,?),\s(([A-Z]+[a-z]*\d+[rv])|(\p{Lu},\d)|(([vp]\.)?\s[-\d–]*[\s,]*)+)\.'"/>-->
 <!-- <xsl:variable name="biblio-regex" select="'(\p{Lu}\p{Ll}*),\s(\p{Lu}\p{Ll}.[^\s]*(\s[A-Z]+)?,?),\s(([A-Z]+[a-z]*\d+[rv])|(([vp]\.)?\s[-\d–]*[\s,]*)+)\.'"/>-->
@@ -71,7 +73,7 @@
         <xsl:analyze-string select="." regex="{$biblio-regex}">
          <xsl:matching-substring>
           <xsl:variable name="analyse" select="fn:analyze-string(., $biblio-regex)"/>
-          <tei:bibl><tei:author><xsl:value-of select="$analyse//fn:group[@nr='1']"/></tei:author>, <tei:title><xsl:value-of select="$analyse//fn:group[@nr='2']"/></tei:title>, <tei:biblScope><xsl:value-of select="$analyse//fn:group[@nr='4']"/></tei:biblScope>.</tei:bibl>
+          <tei:bibl><tei:author><xsl:value-of select="$analyse//fn:group[@nr='1']"/></tei:author><tei:pc>, </tei:pc><tei:title><xsl:value-of select="$analyse//fn:group[@nr='2'] => replace(',$', '')"/></tei:title><tei:pc>, </tei:pc><tei:biblScope><xsl:value-of select="$analyse//fn:group[@nr='4']"/></tei:biblScope><tei:pc>.</tei:pc></tei:bibl>
          </xsl:matching-substring>
          <xsl:non-matching-substring>
           <xsl:call-template name="analyze-quotation">
