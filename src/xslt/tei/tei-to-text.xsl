@@ -24,8 +24,11 @@
   <xsl:apply-templates select="//tei:text" />
  </xsl:template>
 
+ <xsl:template match="tei:opener[tei:salute]">
+  <xsl:apply-templates />
+ </xsl:template>
  
- <xsl:template match="tei:div | tei:l | tei:p | tei:head | tei:speaker | tei:stage | tei:castItem | tei:titlePart | tei:docImprint">
+ <xsl:template match="tei:div | tei:l | tei:p | tei:head | tei:speaker | tei:stage | tei:castItem | tei:titlePart | tei:docImprint | tei:salute |  tei:epigraph">
   <xsl:apply-templates />
   <xsl:value-of select="$new-line"/>
  </xsl:template>
@@ -39,16 +42,33 @@
  <xsl:template match="tei:castItem/*/text()"><xsl:value-of select="."/></xsl:template>
  <xsl:template match="tei:supplied/text()"><xsl:text>[</xsl:text><xsl:value-of select="."/><xsl:text>]</xsl:text></xsl:template>
  <xsl:template match="tei:speaker/tei:persName/tei:supplied/text()" priority="2"><xsl:text>[</xsl:text><xsl:value-of select="."/><xsl:text>:]</xsl:text></xsl:template>
- <xsl:template match="tei:speaker/tei:persName/text()"><xsl:value-of select="."/><xsl:text>:</xsl:text></xsl:template>
+ <xsl:template match="tei:speaker/tei:persName[text()[1][normalize-space() != '']]/tei:supplied/text()" priority="3"><xsl:text>[</xsl:text><xsl:value-of select="."/><xsl:text>]:</xsl:text></xsl:template>
+ <!-- <xsl:template match="tei:speaker/tei:persName/tei:app/tei:lem/text()" priority="2"><xsl:text>[</xsl:text><xsl:value-of select="."/><xsl:text></xsl:text>]:</xsl:template>-->
+ <xsl:template match="tei:speaker/tei:persName/tei:app/tei:lem/text()" priority="2"><xsl:text></xsl:text><xsl:value-of select="."/><xsl:text></xsl:text>:</xsl:template>
+ <xsl:template match="tei:speaker/tei:persName[tei:supplied]/text()"><xsl:value-of select="."/></xsl:template>
+ <xsl:template match="tei:speaker/tei:persName[not(tei:supplied)]/text()"><xsl:value-of select="."/><xsl:text>:</xsl:text></xsl:template>
  <xsl:template match="tei:speaker[not(tei:persName)]/text()"><xsl:value-of select="."/><xsl:text></xsl:text></xsl:template>
  <xsl:template match="tei:p/tei:persName/text()"><xsl:value-of select="."/></xsl:template>
  <xsl:template match="tei:foreign/text()"><xsl:value-of select="."/></xsl:template>
  
  <xsl:template match="tei:titlePart/text()"><xsl:value-of select="."/></xsl:template>
  <xsl:template match="tei:docImprint/text()"><xsl:value-of select="."/></xsl:template>
+ <xsl:template match="tei:salute/text()"><xsl:value-of select="."/></xsl:template>
+ <xsl:template match="tei:cit/tei:bibl/text()"><xsl:value-of select="."/></xsl:template>
  
  <xsl:template match="tei:pb">
   <xsl:choose>
+   <!--
+    <tei:pb n="C2r" xml:id="rochotius-gedeon-comoedia.la.C2r"/>
+    <tei:speaker>
+       <persName ref="#per.gedeon-ic-tnl">Gedeon</persName>
+    </tei:speaker>
+   -->
+   <xsl:when test="empty(following-sibling::text()[1][normalize-space() != '']) 
+     and following-sibling::node()[1][not(starts-with(., ' '))] 
+     and not(following-sibling::node()[1]/*[1][self::tei:space])">
+    <xsl:text>[</xsl:text><xsl:value-of select="@n"/><xsl:text>] </xsl:text>  
+   </xsl:when>
    <xsl:when test="empty(following-sibling::text()[1][normalize-space() != ''])">
     <xsl:text>[</xsl:text><xsl:value-of select="@n"/><xsl:text>]</xsl:text>  
    </xsl:when>

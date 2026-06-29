@@ -56,7 +56,7 @@
   <dxd:get-ooxml-content content="document" debug-path="{$debug-path}" base-uri="{$base-uri}" />
   <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml" step="1" />
 
-  <dxd:process-revisions-ooxml operation="accept" debug-path="{$debug-path}" base-uri="{$base-uri}" />
+  <dxd:process-revisions operation="accept" debug-path="{$debug-path}" base-uri="{$base-uri}" />
   <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml" step="5" />
 
   <p:xslt name="character-maps">
@@ -98,7 +98,11 @@
   </p:xslt>
   <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml" step="25" />
 
-
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../xslt/docx/text-move-pb.xsl" />
+  </p:xslt>
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml" step="30" />
+  
 
   <!-- 
   <p:text-replace pattern="^\d+[\s\t]+" replacement="" flags="m"/>
@@ -227,6 +231,7 @@
 
   <p:variable name="file-stem" select="$doc-name" />
   <p:variable name="listPerson-in-data-file-exists" select="doc($data-file-path-uri)/data/tei:listPerson[1][tei:person]" />
+  
 
   <p:identity name="original" message="   ... tei-assign-line-number: {base-uri(/)}" />
 
@@ -248,17 +253,18 @@
 
    </p:when>
    <p:otherwise>
-    <p:xquery message=" ---- applying tei-assign-line-number.xquery">
+    
+    <p:variable name="fix-line-numbers" select="/data/@fix-line-numbers = 'true'" href="{$data-file-path-uri}" />
+    <p:xquery message=" ---- applying tei-assign-line-number.xquery; $fix-line-numbers = {$fix-line-numbers} ">
      <p:with-input port="query" href="../xquery/tei-assign-line-number.xquery" />
+     <p:with-option name="parameters" select="map {'fix-line-numbers' : $fix-line-numbers }" />
     </p:xquery>
     <p:store href="{$line-numbers-file-path-uri}" message=" ---- storing {$line-numbers-file-path-uri}" />
 
     <p:xslt>
      <p:with-input port="source" pipe="source@creating-list-of-speakers" />
      <p:with-input port="stylesheet" href="../xslt/common/tei-assign-line-number-iterating.xsl" />
-     <p:with-option name="parameters" select="map {
-     'line-numbers-file-path' : $line-numbers-file-path-uri
-     }" />
+     <p:with-option name="parameters" select="map {'line-numbers-file-path' : $line-numbers-file-path-uri}" />
     </p:xslt>
    </p:otherwise>
   </p:choose>
@@ -298,37 +304,7 @@
 
  </p:declare-step>
 
- <p:declare-step type="xpef:remove-xinclude" name="removing-xinclude">
-  <p:documentation>
-   <xhtml:section>
-    <xhtml:h2>input-processing</xhtml:h2>
-    <xhtml:p />
-   </xhtml:section>
-  </p:documentation>
-
-  <!-- INPUT PORTS -->
-  <p:input port="source" primary="true" sequence="true" />
-  <p:input port="ticket-in" primary="false" sequence="true">
-   <p:empty />
-  </p:input>
-
-  <!-- OUTPUT PORTS -->
-  <p:output port="result" primary="true" sequence="true" />
-  <p:output port="ticket-out" primary="false" sequence="true" pipe="ticket-in@removing-xinclude" />
-
-  <!-- OPTIONS -->
-  <p:option name="debug-path" select="()" as="xs:string?" />
-  <p:option name="base-uri" as="xs:anyURI" select="static-base-uri()" />
-
-  <!-- VARIABLES -->
-  <p:variable name="debug" select="$debug-path || '' ne ''" />
-  <p:variable name="debug-path-uri" select="resolve-uri($debug-path, $base-uri)" />
-
-  <p:xslt>
-   <p:with-input port="stylesheet" href="../xslt/common/xml-remove-xinclude.xsl" />
-  </p:xslt>
-
- </p:declare-step>
+ 
 
 
 </p:library>

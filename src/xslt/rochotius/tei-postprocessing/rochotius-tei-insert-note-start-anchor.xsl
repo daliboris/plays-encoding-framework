@@ -21,15 +21,27 @@
 
  <xsl:template match="text()[normalize-space() != ''][following-sibling::node()[1][self::tei:note[@xml:id]]]">
   <xsl:variable name="note" select="following-sibling::node()[1]"/>
+  <xsl:variable name="text" select="."/>
   <xsl:choose>
-   <xsl:when test="contains(., ' ')">
-    <xsl:variable name="parts" select="let $text := . return let $spaces := index-of(string-to-codepoints($text), 32) return
+   <xsl:when test="$text = ' L. P. '">
+    <tei:hi xml:space="preserve"> </tei:hi>
+    <tei:anchor type="delimiter" subtype="note-start" n="{$note/@n}" xml:id="{$note/@xml:id}.start" /><xsl:value-of select="substring-after($text, ' ') => normalize-space()"/>
+   </xsl:when>
+   <xsl:when test="contains($text, ' ')">
+    <xsl:variable name="parts" select="let $spaces := index-of(string-to-codepoints($text), 32) return
      if(empty($spaces)) then $text else if($spaces[last()] = string-length($text)) then (substring($text, 1, $spaces[last() - 1]), substring($text, $spaces[last() - 1]  + 1)) else (substring($text, 1, $spaces[last()]), substring($text, $spaces[last()]  + 1))"/>
     <xsl:for-each select="$parts">
-     <xsl:if test="position() = last()">
-      <tei:anchor type="delimiter" subtype="note-start" n="{$note/@n}" xml:id="{$note/@xml:id}.start" />
-     </xsl:if>
-     <xsl:value-of select="."/>
+     <xsl:choose>
+      <xsl:when test="position() = 1 and . = ' '">
+       <tei:hi xml:space="preserve"> </tei:hi>
+      </xsl:when>
+      <xsl:otherwise>
+       <xsl:if test="position() = last()">
+        <tei:anchor type="delimiter" subtype="note-start" n="{$note/@n}" xml:id="{$note/@xml:id}.start" />
+       </xsl:if>
+       <xsl:value-of select="."/>       
+      </xsl:otherwise>
+     </xsl:choose>
     </xsl:for-each>
    </xsl:when>
    <xsl:otherwise>

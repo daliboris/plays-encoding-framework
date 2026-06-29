@@ -46,11 +46,21 @@
  
  <xsl:template name="add-part-attribute">
   <xsl:param name="line" as="element(line)"/>
+  <xsl:variable name="prev" select="if($line/preceding::line[1]) then xs:int($line/preceding::line[1]/@n) else 0"/>
+  <xsl:variable name="next" select="if($line/following::line[1]) then xs:int($line/following::line[1]/@n) else 9999"/>
+  <xsl:variable name="curr" select="xs:int($line/@n)"/>
   <xsl:choose>
    <xsl:when test="$line/@indent != '0' and ends-with($line/@indent, '0')">
     <xsl:choose>
-     <xsl:when test="$line/@n = $line/following-sibling::line[1]/@n">
+     <xsl:when test="$curr + 1 = $next and $curr = $prev">
+      <xsl:attribute name="part" select="'F'" />
+     </xsl:when>
+     <xsl:when test="$curr - 1 = $prev and $curr + 1 = $next">
+     </xsl:when>
+     <xsl:when test="$curr = $next">
       <xsl:attribute name="part" select="'M'" />
+     </xsl:when>
+     <xsl:when test="$curr gt 1 and $next eq 1">
      </xsl:when>
      <xsl:otherwise>
       <xsl:attribute name="part" select="'F'" />

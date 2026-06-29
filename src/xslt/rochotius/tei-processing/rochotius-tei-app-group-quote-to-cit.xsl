@@ -15,7 +15,7 @@
  </xd:doc>
  <xsl:mode on-no-match="shallow-copy"/>
  
- <xsl:template match="tei:app/tei:note">
+ <xsl:template match="tei:app[not(tei:lem)]/tei:note">
   <xsl:copy>
    <xsl:copy-of select="@*" />
    <xsl:for-each-group select="*" group-adjacent="if(self::tei:quote or self::tei:seg or self::tei:bibl) 

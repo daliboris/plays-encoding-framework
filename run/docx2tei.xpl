@@ -24,9 +24,9 @@
  </p:documentation>
  
  <!-- INPUT PORTS -->
- <p:input  port="source" primary="true" href="../src/input/text/docx/latest/Rochotius-Comoedia.docx" />
+ <p:input  port="source" primary="true" href="../src/input/text/docx/theatrum-neolatinum/rochotius-iosephiados-comoedia.docx" />
  <!-- <p:input  port="source" primary="true" href="../src/input/text/docx/Rochotius_JC_edice_digitalni-2024-11-19.docx" content-type="application/json"  />-->
- <p:input  port="job-ticket" primary="false" href="../data/rochotius-ticket.xml" />
+ <p:input  port="job-ticket" primary="false" href="../data/rochotius-iosephiados-comoedia/rochotius-iosephiados-comoedia.ticket.xml" />
  
  
  <!-- OUTPUT PORTS -->
@@ -35,9 +35,9 @@
  <!-- OPTIONS -->
  <p:option name="debug-path" select="'../_debug'" as="xs:string?" />
  <p:option name="base-uri" as="xs:anyURI" select="static-base-uri()"/>
- <p:option name="data-directory-path" as="xs:anyURI"  select="'../data'" />
- <p:option name="data-file-path" as="xs:string" select="'../data/local.rochotius-iosephiados-comoedia-data.xml'" />
- <p:option name="output-directory-path" as="xs:string?" select="'../_output'" />
+ <p:option name="data-directory-path" as="xs:anyURI"  select="'../data/rochotius-iosephiados-comoedia'" />
+ <p:option name="data-file-path" as="xs:string" select="'../data/rochotius-iosephiados-comoedia/local.rochotius-iosephiados-comoedia.data.xml'" />
+ <p:option name="output-directory-path" as="xs:string?" select="'../output'" />
  <p:option name="output-file-name" as="xs:string?" select="'rochotius-iosephiados-comoedia'"  />
  
  <!-- VARIABLES -->
@@ -88,25 +88,40 @@
   </p:when> 
  </p:choose>
  
+ <p:choose>
+  <p:when test="$steps[@name='xd2t:tei-postprocessing']">
+   <xd2t:tei-postprocessing debug-path="{$source-debug-path}" base-uri="{$base-uri}" 
+    data-directory-path="{$data-directory-path}" 
+    data-file-path="{$data-file-path}" 
+    text-id="{$text-id}">
+    <p:with-input port="job-ticket" pipe="job-ticket@docx2tei" />
+   </xd2t:tei-postprocessing>
+   <xlog:store output-directory="{$debug-path}/{$text-id}/tei-postprocessing-rochotius" base-uri="{$base-uri}" debug="{$debug}" file-name="{$output-file-name}.xml" step="1" />
+  </p:when> 
+ </p:choose>
+ 
  <p:identity name="tei" />
  
  <xlog:store output-directory="{$output-directory-path}/{$text-id}/tei" base-uri="{$base-uri}" debug="true" file-name="{$output-file-name}.xml" />
 
+ <p:variable name="dracor-file-stem" select="if(/data/dracor/@file-stem) then /data/dracor/@file-stem else $output-file-name" href="{$data-file-path}" />
  <xtei:convert 
   output-directory-path="{$output-directory-path}" 
-  data-file-path="{$data-file-path}" 
+  data-file-path="{$data-file-path}"
+  text-id="{$text-id}"
   debug-path="{$debug-path}" 
   base-uri="{$base-uri}" 
   output-file-name="{$output-file-name}" target="DraCor">
   <p:with-input port="source" pipe="result@tei" />
  </xtei:convert>
- <xlog:store output-directory="{$output-directory-path}/{$text-id}/dracor" base-uri="{$base-uri}" debug="true" file-name="{$output-file-name}.xml" />
+ <xlog:store output-directory="{$output-directory-path}/{$text-id}/dracor" base-uri="{$base-uri}" debug="true" file-name="{$dracor-file-stem}.xml" />
 
  <xtei:convert 
   output-directory-path="{$output-directory-path}" 
   data-file-path="{$data-file-path}" 
   debug-path="{$debug-path}" 
   base-uri="{$base-uri}" 
+  text-id="{$text-id}"
   output-file-name="{$output-file-name}" target="text">
   <p:with-input port="source" pipe="result@tei" />
  </xtei:convert>

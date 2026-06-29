@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:tnf="https://www.daliboris.cz/ns/theatrum-neolatinum/xslt" stylesheet="../xslt/common/_tei-common-functions.xsl">
+  <x:scenario label="Scenario for testing function get-valid-id">
+    <x:call function="tnf:get-valid-id">
+      <x:param name="text" select="'Angelus Prologus'" />
+    </x:call>
+    <x:expect label="all letters lowercase, space replaced by minus" select="'angelus_prologus'" />
+  </x:scenario>
+
+  <x:scenario label="Scenario for testing function remove-diacritics">
+    <x:call function="tnf:remove-diacritics">
+      <x:param name="text" select="'žák'" />
+    </x:call>
+    <x:expect label="caron and accent removed" select="'zak'" />
+  </x:scenario>
+
+  <x:scenario label="Scenario for testing function get-valid-xml-id">
+    <x:call function="tnf:get-valid-xml-id">
+      <x:param name="text" select="'Angelus Prologus'" />
+      <x:param name="type" select="'per'" />
+    </x:call>
+    <x:expect label="all letters lowercase, space replaced by minus, type as prefix with dot" select="'per.angelus_prologus'" />
+  </x:scenario>
+</x:description>

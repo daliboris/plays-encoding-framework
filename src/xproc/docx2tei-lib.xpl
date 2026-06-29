@@ -138,6 +138,46 @@
   <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="22" />
     
  </p:declare-step>
+ 
+ <!-- STEP -->
+ <p:declare-step type="xd2t:tei-postprocessing" name="tei-postprocessing">
+  
+  <p:documentation>
+   <xhtml:section>
+    <xhtml:h2></xhtml:h2>
+    <xhtml:p></xhtml:p>
+   </xhtml:section>
+  </p:documentation>
+  
+  <!-- INPUT PORTS -->
+  <p:input  port="source" primary="true" />
+  <p:input  port="job-ticket" primary="false" />
+  
+  <!-- OUTPUT PORTS -->
+  <p:output port="result" primary="true" />
+  
+  <!-- OPTIONS -->
+  <p:option name="debug-path" select="()" as="xs:string?" />
+  <p:option name="base-uri" as="xs:anyURI" select="static-base-uri()"/>
+  <p:option name="data-file-path" as="xs:string?" />
+  <p:option name="data-directory-path" as="xs:anyURI" required="true" />
+  <p:option name="text-id" as="xs:string" required="true"/>
+  
+  <!-- VARIABLES -->
+  <p:variable name="debug" select="$debug-path || '' ne ''" />
+  <p:variable name="debug-path-uri" select="resolve-uri($debug-path, $base-uri)" />
+  <p:variable name="data-file-path-uri" select="resolve-uri($data-file-path, $base-uri)" />
+
+  <p:variable name="log-output-directory" select="$debug-path || '/' || $text-id || '/' || 'tei-postprocessing/'" />
+  <p:variable name="log-file-name" select="$text-id || '.xml'" />
+  
+  <!-- PIPELINE BODY -->
+  
+  <p:delete match="tei:div[not(node())]" />
+  
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="1" />
+  
+ </p:declare-step>
 
  <!-- STEP -->
  <p:declare-step type="xd2t:convert" name="conversion">

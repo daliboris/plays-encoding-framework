@@ -516,6 +516,25 @@
                   <call step="p:xslt">
                      <port name="stylesheet">
                         <parameter name="href"
+                                   value="../xslt/docx2dracor/xml/xml-fix-element-combinations.xsl"
+                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/docx2dracor/xml/xml-fix-element-combinations.xsl"/>
+                     </port>
+                  </call>
+                  <call step="xlog:store">
+                     <parameter name="output-directory"
+                                value="{$log-output-directory}"/>
+                     <parameter name="base-uri"
+                                value="{$base-uri}"/>
+                     <parameter name="file-name"
+                                value="{$log-file-name}"/>
+                     <parameter name="debug"
+                                value="{$debug}"/>
+                     <parameter name="step"
+                                value="31"/>
+                  </call>
+                  <call step="p:xslt">
+                     <port name="stylesheet">
+                        <parameter name="href"
                                    value="../xslt/docx2tei/xml/xml-group-elements-to-div.xsl"
                                    path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/docx2tei/xml/xml-group-elements-to-div.xsl"/>
                      </port>
@@ -535,11 +554,15 @@
                   <call step="p:variable"
                         name="sections">
                      <parameter name="select"
-                                value="count(//div/DraCor-additions[matches(normalize-space(), '^/(.+)_start/$')])"/>
+                                value="count(//div/DraCor-additions[matches(normalize-space(), '^/(.+)_start(=.*)?/$')])"/>
                   </call>
                   <call step="xd2dc:apply-xslt">
                      <parameter name="repeat"
                                 value="{$sections}"/>
+                     <parameter name="debug-path"
+                                value="{$debug-path}"/>
+                     <parameter name="base-uri"
+                                value="{$base-uri}"/>
                      <port name="stylesheet">
                         <parameter name="href"
                                    value="../xslt/docx2tei/xml/xml-group-div-start-to-end.xsl"
@@ -561,6 +584,10 @@
                   <call step="xd2dc:apply-xslt">
                      <parameter name="repeat"
                                 value="2"/>
+                     <parameter name="debug-path"
+                                value="{$debug-path}"/>
+                     <parameter name="base-uri"
+                                value="{$base-uri}"/>
                      <port name="stylesheet">
                         <parameter name="href"
                                    value="../xslt/docx2tei/xml/xml-group-elements-to-div.xsl"
@@ -762,8 +789,8 @@
                   <call step="p:xslt">
                      <port name="stylesheet">
                         <parameter name="href"
-                                   value="../xslt/docx2dracor/tei-processing/dracor-tei-convert-to-lb.xsl"
-                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/docx2dracor/tei-processing/dracor-tei-convert-to-lb.xsl"/>
+                                   value="../xslt/docx2dracor/tei-processing/dracor-tei-move-lb.n-attribute.xsl"
+                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/docx2dracor/tei-processing/dracor-tei-move-lb.n-attribute.xsl"/>
                      </port>
                   </call>
                   <call step="xlog:store">
@@ -781,8 +808,27 @@
                   <call step="p:xslt">
                      <port name="stylesheet">
                         <parameter name="href"
-                                   value="../xslt/docx2dracor/tei-processing/tei-add-castList.xsl"
-                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/docx2dracor/tei-processing/tei-add-castList.xsl"/>
+                                   value="../xslt/docx2dracor/tei-processing/dracor-tei-convert-to-lb.xsl"
+                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/docx2dracor/tei-processing/dracor-tei-convert-to-lb.xsl"/>
+                     </port>
+                  </call>
+                  <call step="xlog:store">
+                     <parameter name="output-directory"
+                                value="{$log-output-directory}"/>
+                     <parameter name="base-uri"
+                                value="{$base-uri}"/>
+                     <parameter name="file-name"
+                                value="{$log-file-name}"/>
+                     <parameter name="debug"
+                                value="{$debug}"/>
+                     <parameter name="step"
+                                value="3"/>
+                  </call>
+                  <call step="p:xslt">
+                     <port name="stylesheet">
+                        <parameter name="href"
+                                   value="../xslt/docx2dracor/tei-processing/tei-add-castItem.xsl"
+                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/docx2dracor/tei-processing/tei-add-castItem.xsl"/>
                      </port>
                   </call>
                   <call step="xlog:store">
@@ -838,6 +884,25 @@
                   <call step="p:xslt">
                      <port name="stylesheet">
                         <parameter name="href"
+                                   value="../xslt/docx2dracor/tei-processing/tei-split-line-with-speakers.xsl"
+                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/docx2dracor/tei-processing/tei-split-line-with-speakers.xsl"/>
+                     </port>
+                  </call>
+                  <call step="xlog:store">
+                     <parameter name="output-directory"
+                                value="{$log-output-directory}"/>
+                     <parameter name="base-uri"
+                                value="{$base-uri}"/>
+                     <parameter name="file-name"
+                                value="{$log-file-name}"/>
+                     <parameter name="debug"
+                                value="{$debug}"/>
+                     <parameter name="step"
+                                value="16"/>
+                  </call>
+                  <call step="p:xslt">
+                     <port name="stylesheet">
+                        <parameter name="href"
                                    value="../xslt/docx2dracor/tei-processing/tei-insert-speaker.xsl"
                                    path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/docx2dracor/tei-processing/tei-insert-speaker.xsl"/>
                      </port>
@@ -852,7 +917,7 @@
                      <parameter name="debug"
                                 value="{$debug}"/>
                      <parameter name="step"
-                                value="16"/>
+                                value="17"/>
                   </call>
                   <call step="p:xslt">
                      <port name="stylesheet">
@@ -1041,6 +1106,12 @@
                                 value="http://www.w3.org/XML/1998/namespace"/>
                   </namespaces>
                   <options>
+                     <option name="debug-path"
+                             select="()"
+                             as="xs:string?"/>
+                     <option name="base-uri"
+                             as="xs:anyURI"
+                             select="static-base-uri()"/>
                      <option name="repeat"
                              select="1"
                              as="xs:integer"/>
@@ -1055,6 +1126,35 @@
                   </ports>
                </prolog>
                <body>
+                  <call step="p:variable"
+                        name="debug">
+                     <parameter name="select"
+                                value="$debug-path || '' ne ''"/>
+                  </call>
+                  <call step="p:variable"
+                        name="debug-path-uri">
+                     <parameter name="select"
+                                value="resolve-uri($debug-path, $base-uri)"/>
+                  </call>
+                  <call step="dxfs:document-file-info"
+                        name="info"/>
+                  <call step="p:variable"
+                        name="file">
+                     <parameter name="select"
+                                value="/fs:file"/>
+                     <parameter name="pipe"
+                                value="report@info"/>
+                  </call>
+                  <call step="p:variable"
+                        name="log-output-directory">
+                     <parameter name="select"
+                                value="$debug-path || '/apply-xslt/' || $file/@stem"/>
+                  </call>
+                  <call step="p:variable"
+                        name="log-file-name">
+                     <parameter name="select"
+                                value="$file/@stem || '.xml'"/>
+                  </call>
                   <call step="p:choose"
                         length="1">
                      <call step="p:when">
@@ -2217,6 +2317,14 @@
                      <parameter name="href"
                                 value="{$data-file-path-uri}"/>
                   </call>
+                  <call step="p:add-attribute">
+                     <parameter name="match"
+                                value="*[@xml:lang['la']]"/>
+                     <parameter name="attribute-name"
+                                value="xml:lang"/>
+                     <parameter name="attribute-value"
+                                value="lat"/>
+                  </call>
                   <call step="p:delete">
                      <parameter name="match"
                                 value="tei:div[@type='editorial']"/>
@@ -2232,22 +2340,6 @@
                   <call step="p:delete">
                      <parameter name="match"
                                 value="tei:sourceDesc/tei:msDesc"/>
-                  </call>
-                  <call step="p:delete">
-                     <parameter name="match"
-                                value="tei:listPerson/tei:head[@xml:lang='cs']"/>
-                  </call>
-                  <call step="p:delete">
-                     <parameter name="match"
-                                value="tei:listPerson/tei:head/@xml:lang"/>
-                  </call>
-                  <call step="p:delete">
-                     <parameter name="match"
-                                value="tei:listPerson/tei:person/tei:persName[@xml:lang='cs']"/>
-                  </call>
-                  <call step="p:delete">
-                     <parameter name="match"
-                                value="tei:listPerson/tei:person/tei:occupation"/>
                   </call>
                   <call step="p:replace">
                      <parameter name="match"
@@ -2270,6 +2362,77 @@
      
        
    </call>
+                  <call step="p:replace">
+                     <parameter name="match"
+                                value="tei:teiHeader"/>
+                     <port name="replacement">
+                        <parameter name="select"
+                                   value="/data/dracor/tei:teiHeader"/>
+                        <parameter name="href"
+                                   value="{$data-file-path-uri}"/>
+                     </port>
+                  </call>
+                  <call step="p:replace">
+                     <parameter name="match"
+                                value="tei:listPerson"/>
+                     <port name="replacement">
+                        <parameter name="select"
+                                   value="//tei:teiHeader//tei:listPerson[tei:person]"/>
+                        <parameter name="pipe"
+                                   value="source@tei-to-dracor"/>
+                     </port>
+                  </call>
+                  <call step="p:delete">
+                     <parameter name="match"
+                                value="tei:listPerson/tei:head[@xml:lang='cs']"/>
+                     <parameter name="use-when"
+                                value="false()"/>
+                  </call>
+                  <call step="p:delete">
+                     <parameter name="match"
+                                value="tei:listPerson/tei:head[@xml:lang]"/>
+                  </call>
+                  <call step="p:delete">
+                     <parameter name="match"
+                                value="tei:listPerson/tei:person/tei:persName[@xml:lang='cs']"/>
+                  </call>
+                  <call step="p:delete">
+                     <parameter name="match"
+                                value="tei:listPerson/tei:person/tei:persName/@xml:lang"/>
+                  </call>
+                  <call step="p:delete">
+                     <parameter name="match"
+                                value="tei:listPerson/tei:person/tei:persName/@type"/>
+                  </call>
+                  <call step="p:delete">
+                     <parameter name="match"
+                                value="tei:listPerson/tei:person/tei:occupation"/>
+                  </call>
+                  <call step="p:variable"
+                        name="females">
+                     <parameter name="select"
+                                value="tokenize(/data/persons/females, '[,\s]')[.]"/>
+                     <parameter name="href"
+                                value="{$data-file-path-uri}"/>
+                  </call>
+                  <call step="p:add-attribute">
+                     <parameter name="match"
+                                value="tei:listPerson/tei:person[tei:persName[. = ('Melaenis', 'Rosina', 'Thamar', 'Artemona')]]"/>
+                     <parameter name="attribute-name"
+                                value="sex"/>
+                     <parameter name="attribute-value"
+                                value="FEMALE"/>
+                  </call>
+                  <call step="p:insert">
+                     <parameter name="match"
+                                value="tei:teiHeader"/>
+                     <port name="insertion">
+                        <parameter name="select"
+                                   value="/data/dracor/tei:standOff"/>
+                        <parameter name="href"
+                                   value="{$data-file-path-uri}"/>
+                     </port>
+                  </call>
                   <call step="p:delete">
                      <parameter name="match"
                                 value="tei:encodingDesc"/>
@@ -2328,17 +2491,29 @@
                   </call>
                   <call step="p:delete">
                      <parameter name="match"
-                                value="tei:anchor/@subtype"/>
+                                value="tei:anchor"/>
                   </call>
                   <call step="p:unwrap">
                      <parameter name="match"
                                 value="tei:supplied"/>
+                  </call>
+                  <call step="p:unwrap">
+                     <parameter name="match"
+                                value="tei:hi[@rendition='normal'][. = ' ']"/>
                   </call>
                   <call step="p:rename">
                      <parameter name="match"
                                 value="tei:hi"/>
                      <parameter name="new-name"
                                 value="tei:emph"/>
+                  </call>
+                  <call step="p:delete">
+                     <parameter name="match"
+                                value="tei:note[@n]"/>
+                  </call>
+                  <call step="p:delete">
+                     <parameter name="match"
+                                value="tei:note[not(@n)]"/>
                   </call>
                   <call step="p:add-attribute">
                      <parameter name="match"
@@ -2347,6 +2522,8 @@
                                 value="place"/>
                      <parameter name="attribute-value"
                                 value="foot"/>
+                     <parameter name="use-when"
+                                value="false()"/>
                   </call>
                   <call step="p:add-attribute">
                      <parameter name="match"
@@ -2364,6 +2541,27 @@
                      <parameter name="new-name"
                                 value="rend"/>
                   </call>
+                  <call step="p:xslt">
+                     <port name="stylesheet">
+                        <parameter name="href"
+                                   value="../xslt/dracor/rename-ids.xsl"
+                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/dracor/rename-ids.xsl"/>
+                     </port>
+                  </call>
+                  <call step="p:xslt">
+                     <port name="stylesheet">
+                        <parameter name="href"
+                                   value="../xslt/dracor/move-finis-to-stage.xsl"
+                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/dracor/move-finis-to-stage.xsl"/>
+                     </port>
+                  </call>
+                  <call step="p:xslt">
+                     <port name="stylesheet">
+                        <parameter name="href"
+                                   value="../xslt/dracor/remove-trailing-spaces.xsl"
+                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/dracor/remove-trailing-spaces.xsl"/>
+                     </port>
+                  </call>
                   <call step="p:delete">
                      <parameter name="match"
                                 value="tei:space"/>
@@ -2371,10 +2569,14 @@
                   <call step="p:delete">
                      <parameter name="match"
                                 value="tei:editionStmt"/>
+                     <parameter name="use-when"
+                                value="false()"/>
                   </call>
                   <call step="p:replace">
                      <parameter name="match"
                                 value="tei:availability"/>
+                     <parameter name="use-when"
+                                value="false()"/>
                      <port name="replacement"/>
     
      
@@ -5394,6 +5596,25 @@
                   <call step="p:xslt">
                      <port name="stylesheet">
                         <parameter name="href"
+                                   value="../xslt/docx/docx-remove-dracor-metadata.xsl"
+                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/docx/docx-remove-dracor-metadata.xsl"/>
+                     </port>
+                  </call>
+                  <call step="xlog:store">
+                     <parameter name="output-directory"
+                                value="{$output-temp-directory}"/>
+                     <parameter name="base-uri"
+                                value="{$base-uri}"/>
+                     <parameter name="debug"
+                                value="{$debug}"/>
+                     <parameter name="file-name"
+                                value="{$file-stem}.xml"/>
+                     <parameter name="step"
+                                value="10"/>
+                  </call>
+                  <call step="p:xslt">
+                     <port name="stylesheet">
+                        <parameter name="href"
                                    value="../xslt/docx/docx-document-to-text.xsl"
                                    path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/docx/docx-document-to-text.xsl"/>
                      </port>
@@ -5408,7 +5629,7 @@
                      <parameter name="file-name"
                                 value="{$file-stem}.txt"/>
                      <parameter name="step"
-                                value="10"/>
+                                value="15"/>
                   </call>
                   <call step="p:file-create-tempfile">
                      <parameter name="delete-on-exit"
@@ -5448,7 +5669,45 @@
                      <parameter name="file-name"
                                 value="{$file-stem}.xml"/>
                      <parameter name="step"
-                                value="15"/>
+                                value="20"/>
+                  </call>
+                  <call step="p:xslt">
+                     <port name="stylesheet">
+                        <parameter name="href"
+                                   value="../xslt/common/xml-fix-common-text-errors.xsl"
+                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/common/xml-fix-common-text-errors.xsl"/>
+                     </port>
+                  </call>
+                  <call step="xlog:store">
+                     <parameter name="output-directory"
+                                value="{$output-temp-directory}"/>
+                     <parameter name="base-uri"
+                                value="{$base-uri}"/>
+                     <parameter name="debug"
+                                value="{$debug}"/>
+                     <parameter name="file-name"
+                                value="{$file-stem}.xml"/>
+                     <parameter name="step"
+                                value="25"/>
+                  </call>
+                  <call step="p:xslt">
+                     <port name="stylesheet">
+                        <parameter name="href"
+                                   value="../xslt/docx/text-move-pb.xsl"
+                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/docx/text-move-pb.xsl"/>
+                     </port>
+                  </call>
+                  <call step="xlog:store">
+                     <parameter name="output-directory"
+                                value="{$output-temp-directory}"/>
+                     <parameter name="base-uri"
+                                value="{$base-uri}"/>
+                     <parameter name="debug"
+                                value="{$debug}"/>
+                     <parameter name="file-name"
+                                value="{$file-stem}.xml"/>
+                     <parameter name="step"
+                                value="30"/>
                   </call>
                </body>
             </step>
@@ -5635,6 +5894,65 @@
                   <call step="p:identity"/>
                </body>
             </step>
+            <step type="xpef:identify-first-verses"
+                  name="identifying-first-verses">
+               <prolog>
+                  <namespaces>
+                     <namespace prefix="dxar"
+                                value="https://www.daliboris.cz/ns/xproc/archive"/>
+                     <namespace prefix="dxd"
+                                value="https://www.daliboris.cz/ns/xproc/docx"/>
+                     <namespace prefix="p"
+                                value="http://www.w3.org/ns/xproc"/>
+                     <namespace prefix="tei"
+                                value="http://www.tei-c.org/ns/1.0"/>
+                     <namespace prefix="xhtml"
+                                value="http://www.w3.org/1999/xhtml"/>
+                     <namespace prefix="xlog"
+                                value="https://www.daliboris.cz/ns/xproc/logging/1.0"/>
+                     <namespace prefix="xpef"
+                                value="https://www.daliboris.cz/ns/xproc/plays-encoding-framework"/>
+                     <namespace prefix="xpefc"
+                                value="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/common"/>
+                     <namespace prefix="xpl"
+                                value="https://www.daliboris.cz/ns/xproc/pipeline"/>
+                     <namespace prefix="xs"
+                                value="http://www.w3.org/2001/XMLSchema"/>
+                     <namespace prefix="xsl"
+                                value="http://www.w3.org/1999/XSL/Transform"/>
+                     <namespace prefix="xml"
+                                value="http://www.w3.org/XML/1998/namespace"/>
+                  </namespaces>
+                  <options>
+                     <option name="debug-path"
+                             select="()"
+                             as="xs:string?"/>
+                     <option name="base-uri"
+                             as="xs:anyURI"
+                             select="static-base-uri()"/>
+                  </options>
+                  <ports>
+                     <input port="source"
+                            primary="true"/>
+                     <input port="job-ticket"
+                            primary="false"/>
+                     <output port="result"
+                             primary="true"/>
+                     <output port="job-ticket-out"
+                             primary="false"
+                             pipe="job-ticket@identifying-first-verses"/>
+                  </ports>
+               </prolog>
+               <body>
+                  <call step="p:xslt">
+                     <port name="stylesheet">
+                        <parameter name="href"
+                                   value="../xslt/common/tei/tei-postprocessing/tei-identify-first-verses.xsl"
+                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/common/tei/tei-postprocessing/tei-identify-first-verses.xsl"/>
+                     </port>
+                  </call>
+               </body>
+            </step>
             <step type="xpef:create-list-of-speakers"
                   name="creating-list-of-speakers">
                <prolog>
@@ -5699,7 +6017,12 @@
                   <call step="p:variable"
                         name="line-numbers-file-path">
                      <parameter name="select"
-                                value="concat($data-directory-path, '/', $doc-name, '-line-numbers.xml')"/>
+                                value="concat($data-directory-path, '/local.', $doc-name, '.line-numbers.xml')"/>
+                  </call>
+                  <call step="p:variable"
+                        name="line-numbers-file-path-uri">
+                     <parameter name="select"
+                                value="resolve-uri($line-numbers-file-path, $base-uri)"/>
                   </call>
                   <call step="p:variable"
                         name="output-temp-directory">
@@ -5716,13 +6039,33 @@
                      <parameter name="select"
                                 value="$doc-name"/>
                   </call>
+                  <call step="p:variable"
+                        name="listPerson-in-data-file-exists">
+                     <parameter name="select"
+                                value="doc($data-file-path-uri)/data/tei:listPerson[1][tei:person]"/>
+                  </call>
                   <call step="p:identity"
                         name="original"/>
                   <call step="p:choose"
                         length="1">
                      <call step="p:when">
                         <parameter name="test"
-                                   value="false()"/>
+                                   value="$listPerson-in-data-file-exists"/>
+                        <call step="p:xslt">
+                           <port name="source">
+                              <parameter name="pipe"
+                                         value="source@creating-list-of-speakers"/>
+                           </port>
+                           <port name="stylesheet">
+                              <parameter name="href"
+                                         value="../xslt/common/tei-assign-line-number-iterating.xsl"
+                                         path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/common/tei-assign-line-number-iterating.xsl"/>
+                           </port>
+                           <parameter name="parameters"
+                                      value="map {      'line-numbers-file-path' : $data-file-path-uri      }"/>
+                        </call>
+                     </call>
+                     <call step="p:otherwise">
                         <call step="p:xquery">
                            <port name="query">
                               <parameter name="href"
@@ -5741,22 +6084,7 @@
                                          path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/common/tei-assign-line-number-iterating.xsl"/>
                            </port>
                            <parameter name="parameters"
-                                      value="map {      'line-numbers-file-path' : $data-file-path-uri      }"/>
-                        </call>
-                     </call>
-                     <call step="p:otherwise">
-                        <call step="p:xslt">
-                           <port name="source">
-                              <parameter name="pipe"
-                                         value="source@creating-list-of-speakers"/>
-                           </port>
-                           <port name="stylesheet">
-                              <parameter name="href"
-                                         value="../xslt/common/tei-assign-line-number-iterating.xsl"
-                                         path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/common/tei-assign-line-number-iterating.xsl"/>
-                           </port>
-                           <parameter name="parameters"
-                                      value="map {      'line-numbers-file-path' : $data-file-path-uri      }"/>
+                                      value="map {      'line-numbers-file-path' : $line-numbers-file-path-uri      }"/>
                         </call>
                      </call>
                   </call>
@@ -5768,7 +6096,7 @@
                            length="1">
                         <call step="p:when">
                            <parameter name="test"
-                                      value="false()"/>
+                                      value="$listPerson-in-data-file-exists"/>
                         </call>
                         <call step="p:otherwise">
                         </call>
@@ -5818,6 +6146,105 @@
                                 value="{$file-stem}.xml"/>
                      <parameter name="step"
                                 value="10"/>
+                  </call>
+               </body>
+            </step>
+            <step type="xpef:remove-xinclude"
+                  name="removing-xinclude">
+               <prolog>
+                  <documentation length="16">
+                     <xhtml:section xmlns:xpef="https://www.daliboris.cz/ns/xproc/plays-encoding-framework"
+                                    xmlns:xpefc="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/common"
+                                    xmlns:dxar="https://www.daliboris.cz/ns/xproc/archive"
+                                    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                                    xmlns:dxd="https://www.daliboris.cz/ns/xproc/docx"
+                                    xmlns:xlog="https://www.daliboris.cz/ns/xproc/logging/1.0"
+                                    xmlns:xpl="https://www.daliboris.cz/ns/xproc/pipeline"
+                                    xmlns:tei="http://www.tei-c.org/ns/1.0">
+                        <xhtml:h2>input-processing</xhtml:h2>
+                        <xhtml:p/>
+                     </xhtml:section>
+                  </documentation>
+                  <namespaces>
+                     <namespace prefix="dxar"
+                                value="https://www.daliboris.cz/ns/xproc/archive"/>
+                     <namespace prefix="dxd"
+                                value="https://www.daliboris.cz/ns/xproc/docx"/>
+                     <namespace prefix="p"
+                                value="http://www.w3.org/ns/xproc"/>
+                     <namespace prefix="tei"
+                                value="http://www.tei-c.org/ns/1.0"/>
+                     <namespace prefix="xhtml"
+                                value="http://www.w3.org/1999/xhtml"/>
+                     <namespace prefix="xlog"
+                                value="https://www.daliboris.cz/ns/xproc/logging/1.0"/>
+                     <namespace prefix="xpef"
+                                value="https://www.daliboris.cz/ns/xproc/plays-encoding-framework"/>
+                     <namespace prefix="xpefc"
+                                value="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/common"/>
+                     <namespace prefix="xpl"
+                                value="https://www.daliboris.cz/ns/xproc/pipeline"/>
+                     <namespace prefix="xs"
+                                value="http://www.w3.org/2001/XMLSchema"/>
+                     <namespace prefix="xsl"
+                                value="http://www.w3.org/1999/XSL/Transform"/>
+                     <namespace prefix="xml"
+                                value="http://www.w3.org/XML/1998/namespace"/>
+                  </namespaces>
+                  <options>
+                     <option name="debug-path"
+                             select="()"
+                             as="xs:string?"/>
+                     <option name="base-uri"
+                             as="xs:anyURI"
+                             select="static-base-uri()"/>
+                  </options>
+                  <ports>
+                     <input port="source"
+                            primary="true"
+                            sequence="true"/>
+                     <input port="ticket-in"
+                            primary="false"
+                            sequence="true"/>
+                     <output port="result"
+                             primary="true"
+                             sequence="true"/>
+                     <output port="ticket-out"
+                             primary="false"
+                             sequence="true"
+                             pipe="ticket-in@removing-xinclude"/>
+                  </ports>
+               </prolog>
+               <body>
+                  <documentation length="16">
+                     <xhtml:section xmlns:xpef="https://www.daliboris.cz/ns/xproc/plays-encoding-framework"
+                                    xmlns:xpefc="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/common"
+                                    xmlns:dxar="https://www.daliboris.cz/ns/xproc/archive"
+                                    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                                    xmlns:dxd="https://www.daliboris.cz/ns/xproc/docx"
+                                    xmlns:xlog="https://www.daliboris.cz/ns/xproc/logging/1.0"
+                                    xmlns:xpl="https://www.daliboris.cz/ns/xproc/pipeline"
+                                    xmlns:tei="http://www.tei-c.org/ns/1.0">
+                        <xhtml:h2>input-processing</xhtml:h2>
+                        <xhtml:p/>
+                     </xhtml:section>
+                  </documentation>
+                  <call step="p:variable"
+                        name="debug">
+                     <parameter name="select"
+                                value="$debug-path || '' ne ''"/>
+                  </call>
+                  <call step="p:variable"
+                        name="debug-path-uri">
+                     <parameter name="select"
+                                value="resolve-uri($debug-path, $base-uri)"/>
+                  </call>
+                  <call step="p:xslt">
+                     <port name="stylesheet">
+                        <parameter name="href"
+                                   value="../xslt/common/xml-remove-xinclude.xsl"
+                                   path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/common/xml-remove-xinclude.xsl"/>
+                     </port>
                   </call>
                </body>
             </step>
@@ -5987,6 +6414,549 @@
                                    value="../xslt/common/add-persName-to-speaker.xsl"
                                    path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/common/add-persName-to-speaker.xsl"/>
                      </port>
+                  </call>
+               </body>
+            </step>
+         </body>
+      </library>
+   </analysis>
+   <analysis file-name="setup-lib.xpl"
+             path="file:///V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xproc/setup-lib.xpl"
+             xmlns="https://www.daliboris.cz/ns/xproc/analysis"
+             xmlns:xhtml="http://www.w3.org/1999/xhtml">
+      <library>
+         <prolog>
+            <documentation length="0">
+               <xhtml:section xmlns:xps="https://www.daliboris.cs/ns/xproc/project/setup">
+                  <xhtml:h1/>
+                  <xhtml:p/>
+               </xhtml:section>
+            </documentation>
+            <namespaces>
+               <namespace prefix="c"
+                          value="http://www.w3.org/ns/xproc-step"/>
+               <namespace prefix="p"
+                          value="http://www.w3.org/ns/xproc"/>
+               <namespace prefix="xhtml"
+                          value="http://www.w3.org/1999/xhtml"/>
+               <namespace prefix="xps"
+                          value="https://www.daliboris.cs/ns/xproc/project/setup"/>
+               <namespace prefix="xs"
+                          value="http://www.w3.org/2001/XMLSchema"/>
+               <namespace prefix="xml"
+                          value="http://www.w3.org/XML/1998/namespace"/>
+            </namespaces>
+         </prolog>
+         <body>
+            <documentation length="0">
+               <xhtml:section xmlns:xps="https://www.daliboris.cs/ns/xproc/project/setup">
+                  <xhtml:h1/>
+                  <xhtml:p/>
+               </xhtml:section>
+            </documentation>
+            <step type="xps:create-directories">
+               <prolog>
+                  <namespaces>
+                     <namespace prefix="c"
+                                value="http://www.w3.org/ns/xproc-step"/>
+                     <namespace prefix="p"
+                                value="http://www.w3.org/ns/xproc"/>
+                     <namespace prefix="xhtml"
+                                value="http://www.w3.org/1999/xhtml"/>
+                     <namespace prefix="xps"
+                                value="https://www.daliboris.cs/ns/xproc/project/setup"/>
+                     <namespace prefix="xs"
+                                value="http://www.w3.org/2001/XMLSchema"/>
+                     <namespace prefix="xml"
+                                value="http://www.w3.org/XML/1998/namespace"/>
+                  </namespaces>
+               </prolog>
+               <body>
+                  <call step="p:file-mkdir">
+                     <parameter name="href"
+                                value="../../doc"
+                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/doc"/>
+                  </call>
+                  <call step="p:file-mkdir">
+                     <parameter name="href"
+                                value="../../run"
+                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/run"/>
+                  </call>
+                  <call step="p:file-mkdir">
+                     <parameter name="href"
+                                value="../../input/text/docx"
+                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/input/text/docx"/>
+                  </call>
+                  <call step="p:file-mkdir">
+                     <parameter name="href"
+                                value="../../input/text/hub"
+                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/input/text/hub"/>
+                  </call>
+                  <call step="p:file-mkdir">
+                     <parameter name="href"
+                                value="../../input/text/tei"
+                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/input/text/tei"/>
+                  </call>
+                  <call step="p:file-mkdir">
+                     <parameter name="href"
+                                value="../../output"
+                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/output"/>
+                  </call>
+                  <call step="p:file-mkdir">
+                     <parameter name="href"
+                                value="../_debug"
+                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/_debug"/>
+                  </call>
+                  <call step="p:file-mkdir">
+                     <parameter name="href"
+                                value="../_temp"
+                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/_temp"/>
+                  </call>
+                  <call step="p:file-mkdir">
+                     <parameter name="href"
+                                value="../etalon"
+                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/etalon"/>
+                  </call>
+                  <call step="p:file-mkdir">
+                     <parameter name="href"
+                                value="../schema/schematron"
+                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/schema/schematron"/>
+                  </call>
+                  <call step="p:file-mkdir">
+                     <parameter name="href"
+                                value="../schema/xsd"
+                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/schema/xsd"/>
+                  </call>
+                  <call step="p:file-mkdir">
+                     <parameter name="href"
+                                value="../schema/rng"
+                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/schema/rng"/>
+                  </call>
+                  <call step="p:file-mkdir">
+                     <parameter name="href"
+                                value="../settings"
+                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/settings"/>
+                  </call>
+                  <call step="p:file-mkdir">
+                     <parameter name="href"
+                                value="../morgana"
+                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/morgana"/>
+                  </call>
+                  <call step="p:file-mkdir">
+                     <parameter name="href"
+                                value="../tests"
+                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/tests"/>
+                  </call>
+                  <call step="p:file-mkdir">
+                     <parameter name="href"
+                                value="../input/text/docx"
+                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/input/text/docx"/>
+                  </call>
+                  <call step="p:file-mkdir">
+                     <parameter name="href"
+                                value="../input/text/xml"
+                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/input/text/xml"/>
+                  </call>
+                  <call step="p:file-mkdir">
+                     <parameter name="href"
+                                value="../input/text/hub"
+                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/input/text/hub"/>
+                  </call>
+                  <call step="p:file-mkdir">
+                     <parameter name="href"
+                                value="../output/text/tei"
+                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/output/text/tei"/>
+                  </call>
+                  <call step="p:file-mkdir">
+                     <parameter name="href"
+                                value="../xslt"
+                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt"/>
+                  </call>
+                  <call step="p:file-mkdir">
+                     <parameter name="href"
+                                value="../xquery"
+                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xquery"/>
+                  </call>
+               </body>
+            </step>
+            <step type="xps:create-gitignore">
+               <prolog>
+                  <namespaces>
+                     <namespace prefix="c"
+                                value="http://www.w3.org/ns/xproc-step"/>
+                     <namespace prefix="p"
+                                value="http://www.w3.org/ns/xproc"/>
+                     <namespace prefix="xhtml"
+                                value="http://www.w3.org/1999/xhtml"/>
+                     <namespace prefix="xps"
+                                value="https://www.daliboris.cs/ns/xproc/project/setup"/>
+                     <namespace prefix="xs"
+                                value="http://www.w3.org/2001/XMLSchema"/>
+                     <namespace prefix="xml"
+                                value="http://www.w3.org/XML/1998/namespace"/>
+                  </namespaces>
+               </prolog>
+               <body>
+                  <call step="p:file-info">
+                     <parameter name="href"
+                                value="../../.gitignore"
+                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/.gitignore"/>
+                     <parameter name="fail-on-error"
+                                value="false"/>
+                  </call>
+                  <call step="p:variable"
+                        name="file-exists">
+                     <parameter name="select"
+                                value="exists(/c:file)"/>
+                  </call>
+                  <call step="p:if">
+                     <parameter name="test"
+                                value="not($file-exists)"/>
+    
+     
+# directories with temporary files
+_debug
+_temp
+_output
+
+# editor settings and directories
+.vscode
+.vs
+*.code-workspace
+
+# local files with local settings
+*local*
+			
+    
+   </call>
+               </body>
+            </step>
+            <step type="xps:download-morgana">
+               <prolog>
+                  <namespaces>
+                     <namespace prefix="c"
+                                value="http://www.w3.org/ns/xproc-step"/>
+                     <namespace prefix="p"
+                                value="http://www.w3.org/ns/xproc"/>
+                     <namespace prefix="xhtml"
+                                value="http://www.w3.org/1999/xhtml"/>
+                     <namespace prefix="xps"
+                                value="https://www.daliboris.cs/ns/xproc/project/setup"/>
+                     <namespace prefix="xs"
+                                value="http://www.w3.org/2001/XMLSchema"/>
+                     <namespace prefix="xml"
+                                value="http://www.w3.org/XML/1998/namespace"/>
+                  </namespaces>
+                  <options>
+                     <option name="version"
+                             as="xs:string"
+                             required="true"/>
+                  </options>
+                  <ports>
+                     <input port="source"
+                            sequence="true"/>
+                     <output port="result"
+                             sequence="true"/>
+                  </ports>
+               </prolog>
+               <body>
+                  <call step="p:variable"
+                        name="file-name">
+                     <parameter name="select"
+                                value="'MorganaXProc-IIIse-' || $version || '.zip'"/>
+                  </call>
+                  <call step="p:file-info">
+                     <parameter name="href"
+                                value="../morgana/{$file-name}"/>
+                     <parameter name="fail-on-error"
+                                value="false"/>
+                  </call>
+                  <call step="p:variable"
+                        name="file-exists">
+                     <parameter name="select"
+                                value="exists(/c:file)"/>
+                  </call>
+                  <call step="p:if">
+                     <parameter name="test"
+                                value="not($file-exists)"/>
+                  </call>
+                  <call step="p:load">
+                     <parameter name="href"
+                                value="../morgana/{$file-name}"/>
+                  </call>
+                  <call step="p:unarchive">
+                     <parameter name="relative-to"
+                                value="{p:document-property(/, 'base-uri')}"/>
+                     <parameter name="exclude-filter"
+                                value="^__MACOSX/"/>
+                  </call>
+                  <call step="p:for-each"/>
+                  <call step="p:sink"/>
+                  <call step="p:directory-list">
+                     <parameter name="path"
+                                value="../morgana"/>
+                     <parameter name="max-depth"
+                                value="unbounded"/>
+                  </call>
+               </body>
+            </step>
+            <step type="xps:setup-morgana">
+               <prolog>
+                  <namespaces>
+                     <namespace prefix="c"
+                                value="http://www.w3.org/ns/xproc-step"/>
+                     <namespace prefix="p"
+                                value="http://www.w3.org/ns/xproc"/>
+                     <namespace prefix="xhtml"
+                                value="http://www.w3.org/1999/xhtml"/>
+                     <namespace prefix="xps"
+                                value="https://www.daliboris.cs/ns/xproc/project/setup"/>
+                     <namespace prefix="xs"
+                                value="http://www.w3.org/2001/XMLSchema"/>
+                     <namespace prefix="xml"
+                                value="http://www.w3.org/XML/1998/namespace"/>
+                  </namespaces>
+                  <options>
+                     <option name="saxon-version"
+                             as="xs:string"
+                             required="true"/>
+                     <option name="morgana-version"
+                             as="xs:string"
+                             required="true"/>
+                  </options>
+               </prolog>
+               <body>
+                  <call step="p:file-copy">
+                     <parameter name="href"
+                                value="../_temp/saxon/saxon-he-{$saxon-version}.jar"/>
+                     <parameter name="target"
+                                value="../morgana/MorganaXProc-IIIse-{$morgana-version}/MorganaXProc-IIIse_lib/saxon-he-{$saxon-version}.jar"/>
+                  </call>
+                  <call step="p:file-copy">
+                     <parameter name="href"
+                                value="../_temp/saxon/saxon-he-xqj-{$saxon-version}.jar"/>
+                     <parameter name="target"
+                                value="../morgana/MorganaXProc-IIIse-{$morgana-version}/MorganaXProc-IIIse_lib/saxon-he-xqj-{$saxon-version}.jar"/>
+                  </call>
+               </body>
+            </step>
+            <step type="xps:download-saxon">
+               <prolog>
+                  <namespaces>
+                     <namespace prefix="c"
+                                value="http://www.w3.org/ns/xproc-step"/>
+                     <namespace prefix="p"
+                                value="http://www.w3.org/ns/xproc"/>
+                     <namespace prefix="xhtml"
+                                value="http://www.w3.org/1999/xhtml"/>
+                     <namespace prefix="xps"
+                                value="https://www.daliboris.cs/ns/xproc/project/setup"/>
+                     <namespace prefix="xs"
+                                value="http://www.w3.org/2001/XMLSchema"/>
+                     <namespace prefix="xml"
+                                value="http://www.w3.org/XML/1998/namespace"/>
+                  </namespaces>
+                  <options>
+                     <option name="version"
+                             as="xs:string"
+                             required="true"/>
+                  </options>
+                  <ports>
+                     <input port="source"
+                            sequence="true"/>
+                     <output port="result"
+                             sequence="true"/>
+                  </ports>
+               </prolog>
+               <body>
+                  <call step="p:variable"
+                        name="url-version">
+                     <parameter name="select"
+                                value="replace($version, '\.', '-')"/>
+                  </call>
+                  <call step="p:variable"
+                        name="file-name">
+                     <parameter name="select"
+                                value="'SaxonHE' || $version || 'J.zip'"/>
+                  </call>
+                  <call step="p:variable"
+                        name="url-file-name">
+                     <parameter name="select"
+                                value="'SaxonHE' || $url-version || 'J.zip'"/>
+                  </call>
+                  <call step="p:file-info">
+                     <parameter name="href"
+                                value="../_temp/saxon/{$file-name}"/>
+                     <parameter name="fail-on-error"
+                                value="false"/>
+                  </call>
+                  <call step="p:variable"
+                        name="file-exists">
+                     <parameter name="select"
+                                value="exists(/c:file)"/>
+                  </call>
+                  <call step="p:if">
+                     <parameter name="test"
+                                value="not($file-exists)"/>
+                  </call>
+                  <call step="p:load">
+                     <parameter name="href"
+                                value="..//_temp/saxon/{$file-name}"/>
+                  </call>
+                  <call step="p:unarchive">
+                     <parameter name="relative-to"
+                                value="{p:document-property(/, 'base-uri')}"/>
+                  </call>
+                  <call step="p:for-each"/>
+                  <call step="p:sink"/>
+                  <call step="p:directory-list">
+                     <parameter name="path"
+                                value="../_temp/saxon"/>
+                     <parameter name="max-depth"
+                                value="unbounded"/>
+                  </call>
+               </body>
+            </step>
+            <step type="xps:download-schemas">
+               <prolog>
+                  <namespaces>
+                     <namespace prefix="c"
+                                value="http://www.w3.org/ns/xproc-step"/>
+                     <namespace prefix="p"
+                                value="http://www.w3.org/ns/xproc"/>
+                     <namespace prefix="xhtml"
+                                value="http://www.w3.org/1999/xhtml"/>
+                     <namespace prefix="xps"
+                                value="https://www.daliboris.cs/ns/xproc/project/setup"/>
+                     <namespace prefix="xs"
+                                value="http://www.w3.org/2001/XMLSchema"/>
+                     <namespace prefix="xml"
+                                value="http://www.w3.org/XML/1998/namespace"/>
+                  </namespaces>
+                  <ports>
+                     <output port="result"
+                             sequence="true"/>
+                  </ports>
+               </prolog>
+               <body>
+                  <call step="xps:download-file">
+                     <parameter name="file-name"
+                                value="dracor-schema-v1.0.0-beta.4.rng"/>
+                     <parameter name="url"
+                                value="https://github.com/dracor-org/dracor-schema/releases/download/v1.0.0-beta.4/dracor-schema-v1.0.0-beta.4.rng"/>
+                     <parameter name="target-directory"
+                                value="../schema/rng"/>
+                  </call>
+                  <call step="xps:download-file">
+                     <parameter name="file-name"
+                                value="dracor-schema-v1.0.0-beta.4.sch"/>
+                     <parameter name="url"
+                                value="https://github.com/dracor-org/dracor-schema/releases/download/v1.0.0-beta.4/dracor-schema-v1.0.0-beta.4.sch"/>
+                     <parameter name="target-directory"
+                                value="../schema/schematron"/>
+                  </call>
+                  <call step="xps:download-file">
+                     <parameter name="file-name"
+                                value="dracor-schema-v1.0.0-beta.4.sch"/>
+                     <parameter name="url"
+                                value="https://github.com/dracor-org/dracor-schema/releases/download/v1.0.0-beta.4/dracor-schema-v1.0.0-beta.4.sch"/>
+                     <parameter name="target-directory"
+                                value="../schema/schematron"/>
+                  </call>
+                  <call step="xps:download-file">
+                     <parameter name="file-name"
+                                value="hub.rng"/>
+                     <parameter name="url"
+                                value="https://raw.githubusercontent.com/le-tex/Hub/refs/heads/master/hub.rng"/>
+                     <parameter name="target-directory"
+                                value="../schema/rng"/>
+                  </call>
+                  <call step="xps:download-file">
+                     <parameter name="file-name"
+                                value="cssa-publisher-extensions.rng"/>
+                     <parameter name="url"
+                                value="https://raw.githubusercontent.com/le-tex/CSSa/6ea9e14d9ffe551f7bbdd8fe1e9db5830e28f85e/cssa-publisher-extensions.rng"/>
+                     <parameter name="target-directory"
+                                value="../schema/rng/css"/>
+                  </call>
+                  <call step="xps:download-file">
+                     <parameter name="file-name"
+                                value="cssa-rules.rng"/>
+                     <parameter name="url"
+                                value="https://raw.githubusercontent.com/le-tex/CSSa/6ea9e14d9ffe551f7bbdd8fe1e9db5830e28f85e/cssa-rules.rng"/>
+                     <parameter name="target-directory"
+                                value="../schema/rng/css"/>
+                  </call>
+                  <call step="xps:download-file">
+                     <parameter name="file-name"
+                                value="css.rng"/>
+                     <parameter name="url"
+                                value="https://raw.githubusercontent.com/le-tex/CSSa/6ea9e14d9ffe551f7bbdd8fe1e9db5830e28f85e/css.rng"/>
+                     <parameter name="target-directory"
+                                value="../schema/rng/css"/>
+                  </call>
+                  <call step="xps:download-file">
+                     <parameter name="file-name"
+                                value="docbook.rng"/>
+                     <parameter name="url"
+                                value="https://raw.githubusercontent.com/le-tex/Hub/refs/heads/master/dbk/docbook.rng"/>
+                     <parameter name="target-directory"
+                                value="../schema/rng/dbk"/>
+                  </call>
+                  <call step="p:directory-list">
+                     <parameter name="path"
+                                value="../schema"/>
+                     <parameter name="max-depth"
+                                value="unbounded"/>
+                  </call>
+               </body>
+            </step>
+            <step type="xps:download-file">
+               <prolog>
+                  <namespaces>
+                     <namespace prefix="c"
+                                value="http://www.w3.org/ns/xproc-step"/>
+                     <namespace prefix="p"
+                                value="http://www.w3.org/ns/xproc"/>
+                     <namespace prefix="xhtml"
+                                value="http://www.w3.org/1999/xhtml"/>
+                     <namespace prefix="xps"
+                                value="https://www.daliboris.cs/ns/xproc/project/setup"/>
+                     <namespace prefix="xs"
+                                value="http://www.w3.org/2001/XMLSchema"/>
+                     <namespace prefix="xml"
+                                value="http://www.w3.org/XML/1998/namespace"/>
+                  </namespaces>
+                  <options>
+                     <option name="file-name"
+                             as="xs:string"/>
+                     <option name="url"
+                             as="xs:anyURI"/>
+                     <option name="target-directory"
+                             as="xs:string"/>
+                  </options>
+                  <ports>
+                     <input port="source"
+                            sequence="true"/>
+                     <output port="result"
+                             sequence="true"/>
+                  </ports>
+               </prolog>
+               <body>
+                  <call step="p:file-info">
+                     <parameter name="href"
+                                value="{$target-directory}/{$file-name}"/>
+                     <parameter name="fail-on-error"
+                                value="false"/>
+                  </call>
+                  <call step="p:variable"
+                        name="file-exists">
+                     <parameter name="select"
+                                value="exists(/c:file)"/>
+                  </call>
+                  <call step="p:if">
+                     <parameter name="test"
+                                value="not($file-exists)"/>
                   </call>
                </body>
             </step>
@@ -6452,6 +7422,8 @@
                      <option name="base-uri"
                              as="xs:anyURI"
                              select="static-base-uri()"/>
+                     <option name="output-file-name"
+                             as="xs:string?"/>
                   </options>
                   <ports>
                      <input port="source"
@@ -6461,12 +7433,34 @@
                   </ports>
                </prolog>
                <body>
+                  <call step="p:variable"
+                        name="debug">
+                     <parameter name="select"
+                                value="$debug-path || '' ne ''"/>
+                  </call>
+                  <call step="p:variable"
+                        name="debug-path-uri">
+                     <parameter name="select"
+                                value="resolve-uri($debug-path, $base-uri)"/>
+                  </call>
                   <call step="p:xslt">
                      <port name="stylesheet">
                         <parameter name="href"
                                    value="../xslt/tei/tei-to-text.xsl"
                                    path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt/tei/tei-to-text.xsl"/>
                      </port>
+                  </call>
+                  <call step="xlog:store">
+                     <parameter name="output-directory"
+                                value="{$debug-path}"/>
+                     <parameter name="base-uri"
+                                value="{$base-uri}"/>
+                     <parameter name="debug"
+                                value="{$debug}"/>
+                     <parameter name="file-name"
+                                value="{$output-file-name}.txt"/>
+                     <parameter name="step"
+                                value="1"/>
                   </call>
                   <call step="p:file-create-tempfile">
                      <parameter name="delete-on-exit"
@@ -6496,594 +7490,21 @@
                      <parameter name="parameters"
                                 value="map {'href' : $href-tempfile-uri }"/>
                   </call>
+                  <call step="xlog:store">
+                     <parameter name="output-directory"
+                                value="{$debug-path}"/>
+                     <parameter name="base-uri"
+                                value="{$base-uri}"/>
+                     <parameter name="debug"
+                                value="{$debug}"/>
+                     <parameter name="file-name"
+                                value="{$output-file-name}.xml"/>
+                     <parameter name="step"
+                                value="5"/>
+                  </call>
                </body>
             </step>
          </body>
       </library>
-   </analysis>
-   <analysis file-name="xproc-project-setup.xpl"
-             path="file:///V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xproc/xproc-project-setup.xpl"
-             xmlns="https://www.daliboris.cz/ns/xproc/analysis"
-             xmlns:xhtml="http://www.w3.org/1999/xhtml">
-      <step>
-         <prolog>
-            <documentation length="0">
-               <xhtml:section xmlns:xps="https://www.daliboris.cs/ns/xproc/project/setup">
-                  <xhtml:h2/>
-                  <xhtml:p/>
-               </xhtml:section>
-            </documentation>
-            <namespaces>
-               <namespace prefix="c"
-                          value="http://www.w3.org/ns/xproc-step"/>
-               <namespace prefix="p"
-                          value="http://www.w3.org/ns/xproc"/>
-               <namespace prefix="xhtml"
-                          value="http://www.w3.org/1999/xhtml"/>
-               <namespace prefix="xps"
-                          value="https://www.daliboris.cs/ns/xproc/project/setup"/>
-               <namespace prefix="xs"
-                          value="http://www.w3.org/2001/XMLSchema"/>
-               <namespace prefix="xml"
-                          value="http://www.w3.org/XML/1998/namespace"/>
-            </namespaces>
-            <options>
-               <option name="debug-path"
-                       select="()"
-                       as="xs:string?"/>
-               <option name="base-uri"
-                       as="xs:anyURI"
-                       select="static-base-uri()"/>
-               <option name="saxon-version"
-                       as="xs:string"
-                       select="'12.3'"/>
-               <option name="morgana-version"
-                       as="xs:string"
-                       select="'1.6.4'"/>
-            </options>
-            <ports>
-               <output port="result"
-                       primary="true"/>
-            </ports>
-         </prolog>
-         <body>
-            <step type="xps:create-directories">
-               <prolog>
-                  <namespaces>
-                     <namespace prefix="c"
-                                value="http://www.w3.org/ns/xproc-step"/>
-                     <namespace prefix="p"
-                                value="http://www.w3.org/ns/xproc"/>
-                     <namespace prefix="xhtml"
-                                value="http://www.w3.org/1999/xhtml"/>
-                     <namespace prefix="xps"
-                                value="https://www.daliboris.cs/ns/xproc/project/setup"/>
-                     <namespace prefix="xs"
-                                value="http://www.w3.org/2001/XMLSchema"/>
-                     <namespace prefix="xml"
-                                value="http://www.w3.org/XML/1998/namespace"/>
-                  </namespaces>
-               </prolog>
-               <body>
-                  <call step="p:file-mkdir">
-                     <parameter name="href"
-                                value="../../doc"
-                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/doc"/>
-                  </call>
-                  <call step="p:file-mkdir">
-                     <parameter name="href"
-                                value="../../run"
-                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/run"/>
-                  </call>
-                  <call step="p:file-mkdir">
-                     <parameter name="href"
-                                value="../../input/text/docx"
-                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/input/text/docx"/>
-                  </call>
-                  <call step="p:file-mkdir">
-                     <parameter name="href"
-                                value="../../input/text/hub"
-                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/input/text/hub"/>
-                  </call>
-                  <call step="p:file-mkdir">
-                     <parameter name="href"
-                                value="../../input/text/tei"
-                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/input/text/tei"/>
-                  </call>
-                  <call step="p:file-mkdir">
-                     <parameter name="href"
-                                value="../../output"
-                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/output"/>
-                  </call>
-                  <call step="p:file-mkdir">
-                     <parameter name="href"
-                                value="../_debug"
-                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/_debug"/>
-                  </call>
-                  <call step="p:file-mkdir">
-                     <parameter name="href"
-                                value="../_temp"
-                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/_temp"/>
-                  </call>
-                  <call step="p:file-mkdir">
-                     <parameter name="href"
-                                value="../etalon"
-                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/etalon"/>
-                  </call>
-                  <call step="p:file-mkdir">
-                     <parameter name="href"
-                                value="../schema/schematron"
-                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/schema/schematron"/>
-                  </call>
-                  <call step="p:file-mkdir">
-                     <parameter name="href"
-                                value="../schema/xsd"
-                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/schema/xsd"/>
-                  </call>
-                  <call step="p:file-mkdir">
-                     <parameter name="href"
-                                value="../schema/rng"
-                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/schema/rng"/>
-                  </call>
-                  <call step="p:file-mkdir">
-                     <parameter name="href"
-                                value="../settings"
-                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/settings"/>
-                  </call>
-                  <call step="p:file-mkdir">
-                     <parameter name="href"
-                                value="../morgana"
-                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/morgana"/>
-                  </call>
-                  <call step="p:file-mkdir">
-                     <parameter name="href"
-                                value="../tests"
-                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/tests"/>
-                  </call>
-                  <call step="p:file-mkdir">
-                     <parameter name="href"
-                                value="../input/text/docx"
-                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/input/text/docx"/>
-                  </call>
-                  <call step="p:file-mkdir">
-                     <parameter name="href"
-                                value="../input/text/xml"
-                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/input/text/xml"/>
-                  </call>
-                  <call step="p:file-mkdir">
-                     <parameter name="href"
-                                value="../input/text/hub"
-                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/input/text/hub"/>
-                  </call>
-                  <call step="p:file-mkdir">
-                     <parameter name="href"
-                                value="../output/text/tei"
-                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/output/text/tei"/>
-                  </call>
-                  <call step="p:file-mkdir">
-                     <parameter name="href"
-                                value="../xslt"
-                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xslt"/>
-                  </call>
-                  <call step="p:file-mkdir">
-                     <parameter name="href"
-                                value="../xquery"
-                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/src/xquery"/>
-                  </call>
-               </body>
-            </step>
-            <step type="xps:create-gitignore">
-               <prolog>
-                  <namespaces>
-                     <namespace prefix="c"
-                                value="http://www.w3.org/ns/xproc-step"/>
-                     <namespace prefix="p"
-                                value="http://www.w3.org/ns/xproc"/>
-                     <namespace prefix="xhtml"
-                                value="http://www.w3.org/1999/xhtml"/>
-                     <namespace prefix="xps"
-                                value="https://www.daliboris.cs/ns/xproc/project/setup"/>
-                     <namespace prefix="xs"
-                                value="http://www.w3.org/2001/XMLSchema"/>
-                     <namespace prefix="xml"
-                                value="http://www.w3.org/XML/1998/namespace"/>
-                  </namespaces>
-               </prolog>
-               <body>
-                  <call step="p:file-info">
-                     <parameter name="href"
-                                value="../../.gitignore"
-                                path="file:/V:/Projekty/Github/Daliboris/DraCor/plays-encoding-framework/.gitignore"/>
-                     <parameter name="fail-on-error"
-                                value="false"/>
-                  </call>
-                  <call step="p:variable"
-                        name="file-exists">
-                     <parameter name="select"
-                                value="exists(/c:file)"/>
-                  </call>
-                  <call step="p:if">
-                     <parameter name="test"
-                                value="not($file-exists)"/>
-		
-			
-# directories with temporary files
-_debug
-_temp
-
-# editor settings and directories
-.vscode
-.vs
-*.code-workspace
-
-# local files with local settings
-*local*
-			
-		
-	</call>
-               </body>
-            </step>
-            <step type="xps:download-morgana">
-               <prolog>
-                  <namespaces>
-                     <namespace prefix="c"
-                                value="http://www.w3.org/ns/xproc-step"/>
-                     <namespace prefix="p"
-                                value="http://www.w3.org/ns/xproc"/>
-                     <namespace prefix="xhtml"
-                                value="http://www.w3.org/1999/xhtml"/>
-                     <namespace prefix="xps"
-                                value="https://www.daliboris.cs/ns/xproc/project/setup"/>
-                     <namespace prefix="xs"
-                                value="http://www.w3.org/2001/XMLSchema"/>
-                     <namespace prefix="xml"
-                                value="http://www.w3.org/XML/1998/namespace"/>
-                  </namespaces>
-                  <options>
-                     <option name="version"
-                             as="xs:string"
-                             required="true"/>
-                  </options>
-                  <ports>
-                     <input port="source"
-                            sequence="true"/>
-                     <output port="result"
-                             sequence="true"/>
-                  </ports>
-               </prolog>
-               <body>
-                  <call step="p:variable"
-                        name="file-name">
-                     <parameter name="select"
-                                value="'MorganaXProc-IIIse-' || $version || '.zip'"/>
-                  </call>
-                  <call step="p:file-info">
-                     <parameter name="href"
-                                value="../morgana/{$file-name}"/>
-                     <parameter name="fail-on-error"
-                                value="false"/>
-                  </call>
-                  <call step="p:variable"
-                        name="file-exists">
-                     <parameter name="select"
-                                value="exists(/c:file)"/>
-                  </call>
-                  <call step="p:if">
-                     <parameter name="test"
-                                value="not($file-exists)"/>
-                  </call>
-                  <call step="p:load">
-                     <parameter name="href"
-                                value="../morgana/{$file-name}"/>
-                  </call>
-                  <call step="p:unarchive">
-                     <parameter name="relative-to"
-                                value="{p:document-property(/, 'base-uri')}"/>
-                     <parameter name="exclude-filter"
-                                value="^__MACOSX/"/>
-                  </call>
-                  <call step="p:for-each"/>
-                  <call step="p:sink"/>
-                  <call step="p:directory-list">
-                     <parameter name="path"
-                                value="../morgana"/>
-                     <parameter name="max-depth"
-                                value="unbounded"/>
-                  </call>
-               </body>
-            </step>
-            <step type="xps:setup-morgana">
-               <prolog>
-                  <namespaces>
-                     <namespace prefix="c"
-                                value="http://www.w3.org/ns/xproc-step"/>
-                     <namespace prefix="p"
-                                value="http://www.w3.org/ns/xproc"/>
-                     <namespace prefix="xhtml"
-                                value="http://www.w3.org/1999/xhtml"/>
-                     <namespace prefix="xps"
-                                value="https://www.daliboris.cs/ns/xproc/project/setup"/>
-                     <namespace prefix="xs"
-                                value="http://www.w3.org/2001/XMLSchema"/>
-                     <namespace prefix="xml"
-                                value="http://www.w3.org/XML/1998/namespace"/>
-                  </namespaces>
-                  <options>
-                     <option name="saxon-version"
-                             as="xs:string"
-                             required="true"/>
-                     <option name="morgana-version"
-                             as="xs:string"
-                             required="true"/>
-                  </options>
-               </prolog>
-               <body>
-                  <call step="p:file-copy">
-                     <parameter name="href"
-                                value="../_temp/saxon/saxon-he-{$saxon-version}.jar"/>
-                     <parameter name="target"
-                                value="../morgana/MorganaXProc-IIIse-{$morgana-version}/MorganaXProc-IIIse_lib/saxon-he-{$saxon-version}.jar"/>
-                  </call>
-                  <call step="p:file-copy">
-                     <parameter name="href"
-                                value="../_temp/saxon/saxon-he-xqj-{$saxon-version}.jar"/>
-                     <parameter name="target"
-                                value="../morgana/MorganaXProc-IIIse-{$morgana-version}/MorganaXProc-IIIse_lib/saxon-he-xqj-{$saxon-version}.jar"/>
-                  </call>
-               </body>
-            </step>
-            <step type="xps:download-saxon">
-               <prolog>
-                  <namespaces>
-                     <namespace prefix="c"
-                                value="http://www.w3.org/ns/xproc-step"/>
-                     <namespace prefix="p"
-                                value="http://www.w3.org/ns/xproc"/>
-                     <namespace prefix="xhtml"
-                                value="http://www.w3.org/1999/xhtml"/>
-                     <namespace prefix="xps"
-                                value="https://www.daliboris.cs/ns/xproc/project/setup"/>
-                     <namespace prefix="xs"
-                                value="http://www.w3.org/2001/XMLSchema"/>
-                     <namespace prefix="xml"
-                                value="http://www.w3.org/XML/1998/namespace"/>
-                  </namespaces>
-                  <options>
-                     <option name="version"
-                             as="xs:string"
-                             required="true"/>
-                  </options>
-                  <ports>
-                     <input port="source"
-                            sequence="true"/>
-                     <output port="result"
-                             sequence="true"/>
-                  </ports>
-               </prolog>
-               <body>
-                  <call step="p:variable"
-                        name="url-version">
-                     <parameter name="select"
-                                value="replace($version, '\.', '-')"/>
-                  </call>
-                  <call step="p:variable"
-                        name="file-name">
-                     <parameter name="select"
-                                value="'SaxonHE' || $version || 'J.zip'"/>
-                  </call>
-                  <call step="p:variable"
-                        name="url-file-name">
-                     <parameter name="select"
-                                value="'SaxonHE' || $url-version || 'J.zip'"/>
-                  </call>
-                  <call step="p:file-info">
-                     <parameter name="href"
-                                value="../_temp/saxon/{$file-name}"/>
-                     <parameter name="fail-on-error"
-                                value="false"/>
-                  </call>
-                  <call step="p:variable"
-                        name="file-exists">
-                     <parameter name="select"
-                                value="exists(/c:file)"/>
-                  </call>
-                  <call step="p:if">
-                     <parameter name="test"
-                                value="not($file-exists)"/>
-                  </call>
-                  <call step="p:load">
-                     <parameter name="href"
-                                value="..//_temp/saxon/{$file-name}"/>
-                  </call>
-                  <call step="p:unarchive">
-                     <parameter name="relative-to"
-                                value="{p:document-property(/, 'base-uri')}"/>
-                  </call>
-                  <call step="p:for-each"/>
-                  <call step="p:sink"/>
-                  <call step="p:directory-list">
-                     <parameter name="path"
-                                value="../_temp/saxon"/>
-                     <parameter name="max-depth"
-                                value="unbounded"/>
-                  </call>
-               </body>
-            </step>
-            <step type="xps:download-schemas">
-               <prolog>
-                  <namespaces>
-                     <namespace prefix="c"
-                                value="http://www.w3.org/ns/xproc-step"/>
-                     <namespace prefix="p"
-                                value="http://www.w3.org/ns/xproc"/>
-                     <namespace prefix="xhtml"
-                                value="http://www.w3.org/1999/xhtml"/>
-                     <namespace prefix="xps"
-                                value="https://www.daliboris.cs/ns/xproc/project/setup"/>
-                     <namespace prefix="xs"
-                                value="http://www.w3.org/2001/XMLSchema"/>
-                     <namespace prefix="xml"
-                                value="http://www.w3.org/XML/1998/namespace"/>
-                  </namespaces>
-                  <ports>
-                     <output port="result"
-                             sequence="true"/>
-                  </ports>
-               </prolog>
-               <body>
-                  <call step="xps:download-file">
-                     <parameter name="file-name"
-                                value="dracor-schema-v1.0.0-beta.4.rng"/>
-                     <parameter name="url"
-                                value="https://github.com/dracor-org/dracor-schema/releases/download/v1.0.0-beta.4/dracor-schema-v1.0.0-beta.4.rng"/>
-                     <parameter name="target-directory"
-                                value="../schema/rng"/>
-                  </call>
-                  <call step="xps:download-file">
-                     <parameter name="file-name"
-                                value="dracor-schema-v1.0.0-beta.4.sch"/>
-                     <parameter name="url"
-                                value="https://github.com/dracor-org/dracor-schema/releases/download/v1.0.0-beta.4/dracor-schema-v1.0.0-beta.4.sch"/>
-                     <parameter name="target-directory"
-                                value="../schema/schematron"/>
-                  </call>
-                  <call step="xps:download-file">
-                     <parameter name="file-name"
-                                value="dracor-schema-v1.0.0-beta.4.sch"/>
-                     <parameter name="url"
-                                value="https://github.com/dracor-org/dracor-schema/releases/download/v1.0.0-beta.4/dracor-schema-v1.0.0-beta.4.sch"/>
-                     <parameter name="target-directory"
-                                value="../schema/schematron"/>
-                  </call>
-                  <call step="xps:download-file">
-                     <parameter name="file-name"
-                                value="hub.rng"/>
-                     <parameter name="url"
-                                value="https://raw.githubusercontent.com/le-tex/Hub/refs/heads/master/hub.rng"/>
-                     <parameter name="target-directory"
-                                value="../schema/rng"/>
-                  </call>
-                  <call step="xps:download-file">
-                     <parameter name="file-name"
-                                value="cssa-publisher-extensions.rng"/>
-                     <parameter name="url"
-                                value="https://raw.githubusercontent.com/le-tex/CSSa/6ea9e14d9ffe551f7bbdd8fe1e9db5830e28f85e/cssa-publisher-extensions.rng"/>
-                     <parameter name="target-directory"
-                                value="../schema/rng/css"/>
-                  </call>
-                  <call step="xps:download-file">
-                     <parameter name="file-name"
-                                value="cssa-rules.rng"/>
-                     <parameter name="url"
-                                value="https://raw.githubusercontent.com/le-tex/CSSa/6ea9e14d9ffe551f7bbdd8fe1e9db5830e28f85e/cssa-rules.rng"/>
-                     <parameter name="target-directory"
-                                value="../schema/rng/css"/>
-                  </call>
-                  <call step="xps:download-file">
-                     <parameter name="file-name"
-                                value="css.rng"/>
-                     <parameter name="url"
-                                value="https://raw.githubusercontent.com/le-tex/CSSa/6ea9e14d9ffe551f7bbdd8fe1e9db5830e28f85e/css.rng"/>
-                     <parameter name="target-directory"
-                                value="../schema/rng/css"/>
-                  </call>
-                  <call step="xps:download-file">
-                     <parameter name="file-name"
-                                value="docbook.rng"/>
-                     <parameter name="url"
-                                value="https://raw.githubusercontent.com/le-tex/Hub/refs/heads/master/dbk/docbook.rng"/>
-                     <parameter name="target-directory"
-                                value="../schema/rng/dbk"/>
-                  </call>
-                  <call step="p:directory-list">
-                     <parameter name="path"
-                                value="../schema"/>
-                     <parameter name="max-depth"
-                                value="unbounded"/>
-                  </call>
-               </body>
-            </step>
-            <step type="xps:download-file">
-               <prolog>
-                  <namespaces>
-                     <namespace prefix="c"
-                                value="http://www.w3.org/ns/xproc-step"/>
-                     <namespace prefix="p"
-                                value="http://www.w3.org/ns/xproc"/>
-                     <namespace prefix="xhtml"
-                                value="http://www.w3.org/1999/xhtml"/>
-                     <namespace prefix="xps"
-                                value="https://www.daliboris.cs/ns/xproc/project/setup"/>
-                     <namespace prefix="xs"
-                                value="http://www.w3.org/2001/XMLSchema"/>
-                     <namespace prefix="xml"
-                                value="http://www.w3.org/XML/1998/namespace"/>
-                  </namespaces>
-                  <options>
-                     <option name="file-name"
-                             as="xs:string"/>
-                     <option name="url"
-                             as="xs:anyURI"/>
-                     <option name="target-directory"
-                             as="xs:string"/>
-                  </options>
-                  <ports>
-                     <input port="source"
-                            sequence="true"/>
-                     <output port="result"
-                             sequence="true"/>
-                  </ports>
-               </prolog>
-               <body>
-                  <call step="p:file-info">
-                     <parameter name="href"
-                                value="{$target-directory}/{$file-name}"/>
-                     <parameter name="fail-on-error"
-                                value="false"/>
-                  </call>
-                  <call step="p:variable"
-                        name="file-exists">
-                     <parameter name="select"
-                                value="exists(/c:file)"/>
-                  </call>
-                  <call step="p:if">
-                     <parameter name="test"
-                                value="not($file-exists)"/>
-                  </call>
-               </body>
-            </step>
-            <call step="p:variable"
-                  name="debug">
-               <parameter name="select"
-                          value="$debug-path || '' ne ''"/>
-            </call>
-            <call step="p:variable"
-                  name="debug-path-uri">
-               <parameter name="select"
-                          value="resolve-uri($debug-path, $base-uri)"/>
-            </call>
-            <call step="xps:create-directories"/>
-            <call step="xps:download-morgana">
-               <parameter name="version"
-                          value="{$morgana-version}"/>
-            </call>
-            <call step="xps:download-saxon">
-               <parameter name="version"
-                          value="{$saxon-version}"/>
-            </call>
-            <call step="xps:setup-morgana">
-               <parameter name="morgana-version"
-                          value="{$morgana-version}"/>
-               <parameter name="saxon-version"
-                          value="{$saxon-version}"/>
-            </call>
-            <call step="p:directory-list">
-               <parameter name="path"
-                          value="../"/>
-               <parameter name="max-depth"
-                          value="unbounded"/>
-            </call>
-         </body>
-      </step>
    </analysis>
 </xpan:report>

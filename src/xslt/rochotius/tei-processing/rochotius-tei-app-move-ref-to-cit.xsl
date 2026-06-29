@@ -18,7 +18,7 @@
  <xsl:mode on-no-match="shallow-copy"/>
  <xsl:output indent="true" />
  
- <xsl:template match="tei:app/tei:note/tei:cit">
+ <xsl:template match="tei:app[not(tei:lem)]/tei:note/tei:cit">
   <xsl:variable name="author-to-ref" select="map {
    'Frischlin' : '/frisc',
    'Plautus' : 'permalink=Plaut',
@@ -64,7 +64,7 @@
   </xsl:choose>
  </xsl:template>
  
- <xsl:template match="tei:app/tei:note">
+ <xsl:template match="tei:app[not(tei:lem)]/tei:note">
   <xsl:variable name="refs" select="tei:ref"/>
   <xsl:variable name="cits" select="tei:cit"/>
   <xsl:choose>
