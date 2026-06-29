@@ -3,8 +3,12 @@
  <!-- rochotius-comoedia-xml-to-tei.xsl + rochotius-xml-to-tei-teiHeaders.xsl -->
  <xpefjt:scenario name="dingenauer-tobias-junior" input-file-mask="dingenauer-tobias-junior\.docx">
   <xpefjt:step name="xd2t:input-processing" />
-  <xpefjt:step name="xd2t:input-processing-dingenauer-tobias-junior" />
+<!--  <xpefjt:step name="xd2t:input-processing-dingenauer-tobias-junior" />
   <xpefjt:step name="xd2t:tei-processing-dingenauer-tobias-junior" />
-  <xpefjt:step name="xd2t:tei-postprocessing-dingenauer-tobias-junior" />
+  <xpefjt:step name="xd2t:tei-postprocessing-dingenauer-tobias-junior" />-->
+  <xpefjt:step name="xd2t:input-processing-rochotius" />
+  <xpefjt:step name="xd2t:tei-processing-rochotius" />
+  <xpefjt:step name="xd2t:tei-postprocessing-rochotius" />
+  <xpefjt:step name="xd2t:tei-postprocessing" />
  </xpefjt:scenario>
 </xpefjt:job-ticket>
