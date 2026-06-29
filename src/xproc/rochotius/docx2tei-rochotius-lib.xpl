@@ -85,6 +85,11 @@
    <p:with-input port="stylesheet" href="../../xslt/rochotius/input-processing/rochotius-xml-fix-errors.xsl" />
   </p:xslt>   
   <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml" step="15" />
+  
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../../xslt/aquila/input-processing/aquila-xml-endnotes-to-footnotes.xsl" />
+  </p:xslt>   
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml" step="16" />
 
   <p:xslt>
    <p:with-input port="stylesheet" href="../../xslt/rochotius/input-processing/rochotius-xml-split-critical-apparatus.xsl" />
@@ -119,16 +124,21 @@
    <p:with-option name="parameters" select="map {'text-id' : $text-id, 'teiHeader' : $teiHeader }" />
   </p:xslt>
   <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="1"  />
+
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../../xslt/aquila/input-processing/identify-speaker-within-l.xsl" />
+  </p:xslt>
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="5" />
   
   <p:xslt>
    <p:with-input port="stylesheet" href="../../xslt/rochotius/input-processing/rochotius-remove-bold-from-head.xsl" />
   </p:xslt>
-  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="2" />
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="10" />
   
   <p:xslt>
    <p:with-input port="stylesheet" href="../../xslt/rochotius/input-processing/rochotius-comoedia-tei-replace-text-by-critical-apparatus.xsl" />
   </p:xslt>
-  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="3" />
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="15" />
   
  
  </p:declare-step>
