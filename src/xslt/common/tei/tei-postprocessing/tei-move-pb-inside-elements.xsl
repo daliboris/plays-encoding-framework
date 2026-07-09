@@ -35,7 +35,10 @@
   <xsl:variable name="pb" select="preceding::*[1][self::tei:pb]"/>
   <xsl:copy>
    <xsl:copy-of select="@*" />
-   <xsl:copy-of select="$pb" />
+   <!-- aquila-tobeus, C1r -->
+   <xsl:if test="(count($pb/ancestor::tei:div) ge count(ancestor::tei:div) )">
+    <xsl:copy-of select="$pb" /> 
+   </xsl:if>
    <xsl:apply-templates />
   </xsl:copy>
  </xsl:template>
