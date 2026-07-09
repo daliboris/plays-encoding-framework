@@ -54,6 +54,7 @@
     <div class="container">
      <xsl:apply-templates select="/tei:teiCorpus/tei:TEI/tei:text[@n=('Text edice')]/tei:body" /> 
      <xsl:apply-templates select="/tei:teiCorpus/tei:TEI/tei:text[@n=('Překlad')]/tei:body" /> 
+     <xsl:apply-templates select="/tei:TEI/tei:text/tei:body" /> 
     </div>
    </body>
   </html>
