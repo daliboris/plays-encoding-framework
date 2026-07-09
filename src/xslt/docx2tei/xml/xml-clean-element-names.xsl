@@ -29,4 +29,25 @@
    <xsl:apply-templates/>
   </annotation-text>
  </xsl:template>
+ 
+ <!-- kolcava-veritas -->
+ <xsl:template match="Title | heading-1">
+  <Normální spacing-after="0"
+            spacing-line="240"
+            spacing-lineRule="auto"
+            jc-val="center">
+   <xsl:apply-templates />
+  </Normální>
+ </xsl:template>
+
+ <xsl:template match="Title/text | heading-1/text">
+  <text>
+   <xsl:copy-of select="@*" />
+   <xsl:attribute name="bold" select="'true'" />
+   <xsl:apply-templates />
+  </text>
+   
+ </xsl:template>
+ 
+
 </xsl:stylesheet>
