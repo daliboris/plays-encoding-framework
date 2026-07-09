@@ -244,7 +244,8 @@
   <p:xslt>
    <p:with-input port="stylesheet" href="../xslt/dracor/move-pb-outside.xsl" />
   </p:xslt>
-    
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="40" />
+  
   <p:xslt>
    <p:with-input port="stylesheet" href="../xslt/dracor/rename-ids.xsl" />
   </p:xslt>
