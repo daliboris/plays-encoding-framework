@@ -24,7 +24,7 @@
  <xsl:param name="text-filename" select="concat($text-id, '.text.xml')"/>
  <xsl:param name="id-format" select="'000000'"/>
  <xsl:param name="sigla-regex" select="'\[([A-Z]+[a-z]*\d+[rv])\]'"/>
- <xsl:param name="pagina-regex" select="'^/?p\.\s(\d+)/?$'"/>
+ <xsl:param name="pagina-regex" select="'^[\[/]?p\.\s(\d+)[/\[]?$'"/>
  <xsl:param name="scena-regex" select="'Actus ([IVX]+)\.\s+Scena ([IVX]+)'"/>
  <!-- <xsl:variable name="speaker-regex" select="'^\p{Lu}[\p{Ll}\[\]]+(\s+\p{Lu}[\p{Ll}\[\]]+)?:$'"/>-->
 <!-- <xsl:param name="speaker-regex" select="'^\[?\p{Lu}[\p{Ll}\[\]]+(\s+\p{Lu}[\p{Ll}\[\]]+)?:\]?$'"/>-->
