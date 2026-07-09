@@ -109,44 +109,55 @@
   <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="25" />
   
   <p:xslt>
-   <p:with-input port="stylesheet" href="../xslt/docx2tei/xml/xml-fix-element-combinations.xsl" />
+   <p:with-input port="stylesheet" href="../xslt/docx2tei/xml/xml-unify-page-number.xsl" />
   </p:xslt>
   <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="30" />
   
   <p:xslt>
+   <p:with-input port="stylesheet" href="../xslt/docx2tei/xml/xml-unify-line-number.xsl" />
+  </p:xslt>
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="35" />
+  
+
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../xslt/docx2tei/xml/xml-fix-element-combinations.xsl" />
+  </p:xslt>
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="40" />
+  
+  <p:xslt>
    <p:with-input port="stylesheet" href="../xslt/docx2dracor/xml/xml-fix-element-combinations.xsl" />
   </p:xslt>
-  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="31" />
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="45" />
   
   
   <p:xslt>
    <p:with-input port="stylesheet" href="../xslt/docx2tei/xml/xml-group-elements-to-div.xsl" />
   </p:xslt>
-  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="35" />
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="50" />
   
   <p:variable name="sections" select="count(//div/DraCor-additions[matches(normalize-space(), '^/(.+)_start(=.*)?/$')])" />
   
   <xd2dc:apply-xslt repeat="{$sections}" debug-path="{$debug-path}" base-uri="{$base-uri}" >
    <p:with-input port="stylesheet" href="../xslt/docx2tei/xml/xml-group-div-start-to-end.xsl" />
   </xd2dc:apply-xslt>
-  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="40" />
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="55" />
 
   
   <xd2dc:apply-xslt repeat="2" debug-path="{$debug-path}" base-uri="{$base-uri}">
    <p:with-input port="stylesheet" href="../xslt/docx2tei/xml/xml-group-elements-to-div.xsl" />
   </xd2dc:apply-xslt>
-  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="45" />
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="60" />
   
   
   <p:xslt use-when="false()">
    <p:with-input port="stylesheet" href="../xslt/docx2tei/xml/xml-group-elements-to-div.xsl" />
   </p:xslt>
-  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="45" />
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="60" />
   
   <p:xslt use-when="false()">
    <p:with-input port="stylesheet" href="../xslt/docx2tei/xml/xml-group-elements-to-div.xsl" />
   </p:xslt>
-  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="50" />
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="65" />
   
   
  </p:declare-step>
