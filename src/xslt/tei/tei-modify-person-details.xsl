@@ -4,7 +4,6 @@
  xmlns:math="http://www.w3.org/2005/xpath-functions/math"
  xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl"
  xmlns:tei="http://www.tei-c.org/ns/1.0"
- xmlns="http://www.tei-c.org/ns/1.0"
  exclude-result-prefixes="xs math xd tei"
  version="3.0">
 
@@ -34,7 +33,7 @@
  
  <xsl:template match="tei:person[not(matches(tei:persName, $person-regex))]">
   <xsl:variable name="id" select="@xml:id"/>
-  <xsl:variable name="existing-external" select="$persons[@xml:id = $id]"/>
+  <xsl:variable name="existing-external" select="$persons[@xml:id = $id]" as="element(tei:person)?"/>
   <xsl:choose>
    <xsl:when test="exists($existing-external)">
     <xsl:copy>
