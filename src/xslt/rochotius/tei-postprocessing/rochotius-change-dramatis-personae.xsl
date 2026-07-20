@@ -30,7 +30,7 @@
  <xsl:template match="tei:div[tei:head[. = $head-text]]" mode="front">
   <xsl:copy>
    <xsl:copy-of select="@*" />
-   <xsl:attribute name="type" select="'list-of-persons'"></xsl:attribute>
+   <xsl:attribute name="type" select="'list-of-persons'" />
    <xsl:apply-templates mode="#current" />
   </xsl:copy>
  </xsl:template>
