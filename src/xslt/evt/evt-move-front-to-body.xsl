@@ -4,6 +4,7 @@
  xmlns:math="http://www.w3.org/2005/xpath-functions/math"
  xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl"
  xmlns:tei="http://www.tei-c.org/ns/1.0"
+ xmlns="http://www.tei-c.org/ns/1.0"
  xmlns:xml="http://www.w3.org/XML/1998/namespace"
  exclude-result-prefixes="xs math xd"
  version="3.0">
@@ -16,6 +17,7 @@
  </xd:doc>
  
  <xsl:output method="xml" indent="yes"/>
+ <xsl:mode on-no-match="shallow-copy" name="body"/>
  <xsl:mode on-no-match="shallow-copy"/>
  
  <xsl:template match="tei:body">
@@ -27,7 +29,7 @@
   
  </xsl:template>
  
- <xsl:template match="tei:front" mode="body">
+ <xsl:template match="tei:front[not(tei:titlePage)]" mode="body">
   <xsl:element name="div" namespace="http://www.tei-c.org/ns/1.0">
    <xsl:attribute name="type" select="'title'" />
    <xsl:attribute name="n" select="'&#160;'" />
@@ -52,21 +54,44 @@
   </xsl:element>
  </xsl:template>
  
+ <xsl:template match="tei:front[tei:titlePage]" mode="body">
+  <xsl:apply-templates mode="#current" />
+ </xsl:template>
+ 
+ <xsl:template match="tei:titlePage" mode="body">
+  <xsl:element name="div" namespace="http://www.tei-c.org/ns/1.0">
+   <xsl:attribute name="type" select="'title'" />
+   <xsl:attribute name="n" select="'&#160;'" />
+   <xsl:attribute name="resp" select="'#Boris'" />
+   <xsl:apply-templates mode="#current" />
+  </xsl:element>
+ </xsl:template>
+ 
  <xsl:template match="tei:docTitle" mode="body">
   <xsl:apply-templates mode="#current" />
  </xsl:template>
  
  <xsl:template match="tei:titlePart" mode="body">
-  <tei:head>
+  <head>
    <xsl:copy-of select="@*" />
    <xsl:apply-templates mode="#current" />
-  </tei:head>
+  </head>
+ </xsl:template>
+ 
+ <xsl:template match="tei:docImprint" mode="body">
+  <bibl><xsl:apply-templates mode="#current" /></bibl>
  </xsl:template>
  
  <xsl:template match="tei:performance" mode="body">
-  <tei:div n="performace">
+  <div type="{local-name()}">
    <xsl:apply-templates />
-  </tei:div>
+  </div>
+ </xsl:template>
+ 
+ <xsl:template match="tei:epigraph" mode="body">
+  <div type="{local-name()}">
+   <xsl:apply-templates />
+  </div>
  </xsl:template>
  
  <xsl:template match="tei:pb" mode="body" />
