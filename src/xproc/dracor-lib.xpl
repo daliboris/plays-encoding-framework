@@ -153,11 +153,11 @@
   <p:delete match="tei:listPerson/tei:head[@xml:lang]" />
   <p:delete match="tei:listPerson/tei:person/tei:persName[@xml:lang='cs']" />
   <p:delete match="tei:listPerson/tei:person/tei:persName/@xml:lang" />
-  <p:delete match="tei:listPerson/tei:person/tei:persName/@type" />
+  <p:delete match="tei:listPerson/tei:person/tei:persName[@type != 'variant']/@type" />
   <p:delete match="tei:listPerson/tei:person/tei:occupation" />
 
-  <p:delete match="tei:listPerson/tei:personGrp/tei:persName/@xml:lang" />
-  <p:delete match="tei:listPerson/tei:personGrp/tei:persName/@type" />
+  <p:delete match="tei:listPerson/tei:personGrp/tei:name/@xml:lang" />
+  <p:delete match="tei:listPerson/tei:personGrp/tei:name[@type != 'variant']/@type" />
   <p:delete match="tei:listPerson/tei:personGrp/tei:occupation" />
   
   <p:delete match="tei:sourceDesc/tei:listWit" />
@@ -226,14 +226,19 @@
   
   <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="30" />
   
-  <p:variable name="fixes" select="/data/dracor/fixes/fix" href="{$data-file-path-uri}"/>
+  <p:variable name="fixes" select="/data/dracor/fixes[not(@match)]/fix" href="{$data-file-path-uri}"/>
   <p:xslt>
    <p:with-input port="stylesheet" href="../xslt/dracor/apply-fixes-for-dracor.xsl" />
    <p:with-option name="parameters" select="map {'fixes' : $fixes}" />
   </p:xslt>
   <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="31" />
   
-  
+  <p:variable name="fixes" select="/data/dracor/fixes[@match]" href="{$data-file-path-uri}"/>
+   <p:xslt message="      ... applying dracor/apply-fixes-for-dracor.xsl  at {$fixes/@match} with {count($fixes/fix)} fix(es)">
+    <p:with-input port="stylesheet" href="../xslt/dracor/apply-fixes-for-dracor.xsl" />
+    <p:with-option name="parameters" select="map {'fixes' : $fixes/fix, 'match' : $fixes/@match }" />
+   </p:xslt>
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="32" />
   
   <p:xslt>
    <p:with-input port="stylesheet" href="../xslt/dracor/change-latin-numbers-to-arabic.xsl" />

@@ -180,7 +180,11 @@
   <p:variable name="persNames" select="//tei:listPerson/tei:person[tei:persName[. = $personGrps]]"/>
   <p:rename match="tei:listPerson/tei:person[tei:persName[. = {$personGrps}]]" new-name="tei:personGrp" message="   ---- changing tei:person to tei:personGrp: {string-join($personGrps, '; ')}; $persNames: {count($persNames)} "/>
   <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="1" />
+
+  <p:rename match="tei:listPerson/tei:personGrp/tei:persName" new-name="tei:name" message="   ---- changing tei:personGrp/tei:persName to tei:name"/>
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="2" />
   
+
   <!--<p:variable name="females" select="tokenize(/data/persons/females, '[,\s]+')[.]" href="{$data-file-path-uri}"/>-->
   <p:variable name="females" select="'(&#34;' || replace(/data/persons/females, ',\s+', '&#34;, &#34;') || '&#34;)'" href="{$data-file-path-uri}"/>
   <p:variable name="persNames" select="//tei:listPerson/tei:person[tei:persName[. = $females]]"/>
