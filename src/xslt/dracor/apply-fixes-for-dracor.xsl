@@ -18,14 +18,30 @@
  </xd:doc>
  
  <xsl:param name="fixes" as="element(fix)*" required="yes" />
+ <xsl:param name="match" as="xs:string?" select="()" />
+ 
  <xsl:mode on-no-match="shallow-copy"/>
  
  <xsl:variable name="fix-map" select="map:merge(for $fix in $fixes return map {$fix/from/string() : $fix/to/string()})" as="map(*)"/>
  <xsl:variable name="find" select="map:keys($fix-map)"/>
+
  <xsl:template match="text()[. = $find]">
+  <xsl:variable name="ancestors" select="string-join(parent::*/ancestor-or-self::*/local-name(), '/')"/>
   <xsl:variable name="key" select="string(.)"/>
-  <xsl:value-of select="$fix-map($key)"/>
+  
+  <xsl:choose>
+   <xsl:when test="empty($ancestors)">
+    <xsl:value-of select="$fix-map($key)"/>  
+   </xsl:when>
+   <xsl:when test="ends-with($ancestors, $match)">
+    <xsl:value-of select="$fix-map($key)"/>
+   </xsl:when>
+   <xsl:otherwise>
+    <xsl:copy-of select="." />
+   </xsl:otherwise>
+  </xsl:choose>
+  
+    
  </xsl:template>
- 
  
 </xsl:stylesheet>
