@@ -41,7 +41,7 @@
 	
 	<p:directory-list path="../" max-depth="unbounded" />
 -->
-	<xps:download-schemas />
+	<xps:download-schemas version="1.5.1" />
 	<xps:download-morgana version="{$morgana-version}" />
 	<xps:download-saxon version="{$saxon-version}" />
 	<xps:setup-morgana  morgana-version="{$morgana-version}" saxon-version="{$saxon-version}" />
