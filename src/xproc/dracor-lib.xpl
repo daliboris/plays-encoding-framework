@@ -54,7 +54,7 @@
   <p:delete match="tei:fileDesc/tei:notesStmt" />
   <p:delete match="tei:sourceDesc/tei:listWit" />
   <p:delete match="tei:sourceDesc/tei:msDesc" />
-  
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="1" />
   <!-- TODO -->
   <!-- TODO: nahradit -->
   <p:replace match="tei:listBibl" use-when="false()">
@@ -86,6 +86,7 @@
   
   <p:delete match="tei:body/*[following-sibling::tei:div[@type='list-of-persons']]" />
   <p:delete match="tei:body/tei:div[@type='list-of-persons']" />
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="5" />
   
   <p:if test="tei:titlePage/following-sibling::*[1][self::tei:epigraph]">
    <p:insert match="tei:titlePage" position="last-child">
@@ -125,20 +126,27 @@
   </p:xslt>
   <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="15" />
   
+  <p:if test="$text-id = 'dingenauer-tobias-junior'">
+     <p:xslt>
+        <p:with-input port="stylesheet" href="../xslt/dracor/tei-dingenauer-tobias-junior-fix-castItem.xsl" />
+     </p:xslt>
+     <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="16" />     
+  </p:if>
+  
   <p:replace match="tei:teiHeader" message="   ---- replacing teiHeader --- ">
    <p:with-input port="replacement" select="/data/dracor/tei:teiHeader" href="{$data-file-path-uri}" />
   </p:replace>
-  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="16" />
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="17" />
   
   <p:replace match="tei:listPerson" message="   ---- replacing listPerson --- ">
    <p:with-input port="replacement" select="//tei:teiHeader//tei:listPerson[not(@xml:id)][tei:person]" pipe="source@tei-to-dracor"/>
   </p:replace>
-  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="17" />
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="18" />
   
   <p:insert match="tei:listPerson" position="last-child">
    <p:with-input port="insertion" select="//tei:teiHeader//tei:listPerson[@xml:id]/tei:person" pipe="source@tei-to-dracor" />
   </p:insert>
-  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="18" />
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="19" />
 
  <p:group use-when="false()">
   <p:insert match="tei:listPerson" position="last-child">
@@ -160,24 +168,45 @@
   <p:delete match="tei:listPerson/tei:personGrp/tei:name[@type != 'variant']/@type" />
   <p:delete match="tei:listPerson/tei:personGrp/tei:occupation" />
   
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$text-id}.xml" debug="{$debug}" step="23" />
+  
+
+  
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../xslt/tei-postprocessing/tei-keep-speaking-characters-in-particDesc.xsl" />
+  </p:xslt>
+  
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$text-id}.xml" debug="{$debug}" step="24" />
+  
+  
   <p:delete match="tei:sourceDesc/tei:listWit" />
   
-  <p:variable name="castGroups" select="'(&#34;' || replace(/data/persons/castGroup, ',\s+', '&#34;, &#34;') || '&#34;)'" href="{$data-file-path-uri}"/>
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$text-id}.xml" debug="{$debug}" step="25" />
+  
+  <p:variable name="cast-item-role-exceptions" select="/data/persons/castGroup[@type='cast-item-role-exceptions'] => tokenize(';')" href="{$data-file-path-uri}"/>
+  
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../xslt/dracor/change-castItem-to-castGroup.xsl" />
+   <p:with-option name="parameters" select="map {'cast-item-role-exceptions' : $cast-item-role-exceptions }" />
+  </p:xslt>
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$text-id}.xml" debug="{$debug}" step="30" />
+  
+  <p:variable name="castGroups" select="'(&#34;' || replace(/data/persons/castGroup[not(@type)], ',\s+', '&#34;, &#34;') || '&#34;)'" href="{$data-file-path-uri}"/>
   <p:variable name="persNames" select="//tei:castList/tei:castItem[*[. = $castGroups]]"/>
   <p:rename match="tei:castList/tei:castItem[*[. = {$castGroups}]]" new-name="tei:castGroup" message="   ---- renaming castItem to castGroup : {string-join($castGroups, '; ')}; $persNames: {count($persNames)}"></p:rename>
-  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$text-id}.xml" debug="{$debug}" step="21" />
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$text-id}.xml" debug="{$debug}" step="35" />
   
   <p:variable name="roleDescs" select="'(&#34;' || replace(/data/persons/roleDesc[@type='simple'], ',\s+', '&#34;, &#34;') || '&#34;)'" href="{$data-file-path-uri}"/>
   <p:variable name="persNames" select="//tei:castList/tei:*/tei:role[. = $roleDescs]"/>
   <p:rename match="tei:castList/tei:*/tei:role[. = {$roleDescs}]" new-name="tei:roleDesc" message="   ---- renaming role to roleDesc : {string-join($castGroups, '; ')}; $persNames: {count($persNames)}"></p:rename>
-  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$text-id}.xml" debug="{$debug}" step="22" />
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$text-id}.xml" debug="{$debug}" step="40" />
   
   <p:variable name="roleDescs" select="/data/persons/roleDesc[@type='multiple']" href="{$data-file-path-uri}"/>
   <p:xslt>
    <p:with-input port="stylesheet" href="../xslt/dracor/tei-change-role.xsl" />
    <p:with-option name="parameters" select="map {'roleDesc' : $roleDescs }" />
   </p:xslt>
-  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$text-id}.xml" debug="{$debug}" step="23" />
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$text-id}.xml" debug="{$debug}" step="45" />
 
   <p:delete match="tei:TEI/tei:standOff" />
   <p:insert match="tei:teiHeader">
@@ -193,7 +222,7 @@
   <p:delete match="tei:text/@*" />
   <p:delete match="tei:p/@*" />
   <p:delete match="tei:emph/@rendition" />
-  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="25" />
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="50" />
   
   <p:delete match="tei:facsimile" />
   <p:delete match="tei:pb/@xml:id" />
@@ -209,11 +238,11 @@
   
   <p:unwrap match="tei:supplied" />
   <p:unwrap match="tei:hi[@rendition='normal'][. = ' ']" /><!-- whitespace between 2 <tei:app> elements -->
-  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="26" />
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="55" />
   <p:rename match="tei:hi" new-name="tei:emph" />
-  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="27" />
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="60" />
   <p:unwrap match="tei:emph[@xml:space='preserve'][. = ' ']" /><!-- whitespace between 2 <tei:app> elements -->
-  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="28" />
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="65" />
   
   <p:delete match="tei:note[@n]" />
   <p:delete match="tei:note[not(@n)]" />
@@ -224,67 +253,73 @@
   <!--<p:delete match="tei:emph/@rend[. ='italic']" />
   <p:delete match="tei:emph/@rendition[. ='italic']" />-->
   
-  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="30" />
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="70" />
+  
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../xslt/dracor/merge-following-renditions.xsl" />
+  </p:xslt>
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="71" />
   
   <p:variable name="fixes" select="/data/dracor/fixes[not(@match)]/fix" href="{$data-file-path-uri}"/>
   <p:xslt>
    <p:with-input port="stylesheet" href="../xslt/dracor/apply-fixes-for-dracor.xsl" />
    <p:with-option name="parameters" select="map {'fixes' : $fixes}" />
   </p:xslt>
-  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="31" />
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="75" />
   
   <p:variable name="fixes" select="/data/dracor/fixes[@match]" href="{$data-file-path-uri}"/>
    <p:xslt message="      ... applying dracor/apply-fixes-for-dracor.xsl  at {$fixes/@match} with {count($fixes/fix)} fix(es)">
     <p:with-input port="stylesheet" href="../xslt/dracor/apply-fixes-for-dracor.xsl" />
     <p:with-option name="parameters" select="map {'fixes' : $fixes/fix, 'match' : $fixes/@match }" />
    </p:xslt>
-  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="32" />
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="80" />
   
   <p:xslt>
    <p:with-input port="stylesheet" href="../xslt/dracor/change-latin-numbers-to-arabic.xsl" />
   </p:xslt>
   
-  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="35" />
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="85" />
   
   <p:xslt>
    <p:with-input port="stylesheet" href="../xslt/dracor/move-pb-outside.xsl" />
   </p:xslt>
-  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="40" />
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="90" />
   
   <p:xslt>
    <p:with-input port="stylesheet" href="../xslt/dracor/rename-ids.xsl" />
   </p:xslt>
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="95" />
+
   <p:xslt>
    <p:with-input port="stylesheet" href="../xslt/dracor/move-finis-to-stage.xsl" />
   </p:xslt>
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="100" />
+  
+  
   <p:xslt>
    <p:with-input port="stylesheet" href="../xslt/dracor/remove-trailing-spaces.xsl" />
   </p:xslt>
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="106" />
   
+  <p:variable name="min-indent" select="min(//tei:l/tei:space/@quantity)" />
+  <p:if test="$debug">
+     <p:identity message="min-indent: {$min-indent}"/>
+  </p:if>
+  <p:if test="$min-indent gt 0">
+     <p:label-elements match="tei:l[xs:integer(tei:space/@quantity) gt {$min-indent}]" attribute="rend" label="concat('indent', if(xs:integer(tei:space/@quantity) - {$min-indent} eq 1) then '' else xs:integer(tei:space/@quantity) - {$min-indent})" />   
+     <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="107" />
+  </p:if>
+  <!--<p:delete match="tei:l/@rend" />-->
+    
   <!-- ??? -->
   <p:delete match="tei:space" />
-  <p:delete match="tei:*/tei:lb" />
+  <!--<p:delete match="tei:*/tei:lb" />-->
   
-  <!-- SKIP -->
-  <p:delete match="tei:editionStmt" use-when="false()" />
-  <!-- 
- <p:delete match="tei:publicationStmt/tei:pubPlace" />
- <p:delete match="tei:publicationStmt/tei:date" />
-  -->
-  
-  <!-- <p:add-attribute match="tei:availability" attribute-name="status" attribute-value="free" />-->
-  <!-- SKIP -->
-  <p:replace match="tei:availability"  use-when="false()">
-   <p:with-input port="replacement">
-    <tei:availability status="free">
-     <tei:licence>
-      <tei:ab>CC BY-NC-SA 4.0</tei:ab>
-      <tei:ref target="https://creativecommons.org/licenses/by-nc-sa/4.0/">License</tei:ref>
-     </tei:licence>
-    </tei:availability>
-   </p:with-input>
-  </p:replace>
-  
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../xslt/dracor/replace-lb.xsl" />
+  </p:xslt>
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="110" />  
+    
   <!--
   tei:div[@type='scene']/tei:div[tei:div]
  -->
@@ -292,6 +327,9 @@
   
   <p:add-attribute match="tei:TEI" attribute-name="xml:id" attribute-value="{$dracor-id}" />
   <p:add-attribute match="tei:TEI" attribute-name="type" attribute-value="dracor" />
+  
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="115" />
+  
   
   <!-- SKIP -->
   <!-- 
@@ -307,13 +345,13 @@
   <xxml:clean-namespaces p:message="   ---- cleaning namespaces" />
   <xxml:remove-xinclude p:message="   ---- removing XInclude" />
   
-  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="50" />
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="120" />
   
   <p:xslt>
    <p:with-input port="stylesheet" href="../xslt/common/xml-sort-attribute-order.xsl" />
   </p:xslt>
   
-  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="55" />
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="125" />
   
    <p:identity />
  

@@ -22,6 +22,19 @@
   <xsl:mode on-no-match="shallow-copy"/>
   <xsl:output indent="yes" />
   
+  <xsl:template match="tei:castItem[tei:space][count(*) eq 1]" />
+  <xsl:template match="tei:castItem[tei:pb][count(*) eq 1]">
+    <xsl:apply-templates />
+  </xsl:template>
+  
+  <xsl:template match="tei:castItem/tei:role[tei:app[tei:rdg]]">
+    <xsl:copy>
+      <xsl:copy-of select="@*" />
+      <xsl:apply-templates select="tei:app/tei:lem/node()" />
+     <xsl:apply-templates select="tei:app/following-sibling::node()" />
+    </xsl:copy>
+  </xsl:template>
+  
   <xsl:template match="tei:castItem/tei:role[following-sibling::*[1][self::tei:roleDesc[matches(., $punctuation-regex)]]]">
     <xsl:variable name="role-desc-analysis" select="following-sibling::*[1][self::tei:roleDesc]/analyze-string(., $punctuation-regex)"/>
     <xsl:copy>
@@ -38,5 +51,15 @@
       <xsl:value-of select="$role-desc-analysis/fn:match[1]/fn:group[2] ! normalize-space(.)"/>
     </xsl:copy>
   </xsl:template>
+ 
+ <xsl:template match="tei:castItem/tei:role[following-sibling::*[1][self::tei:roleDesc[. = ('.:')]]]">
+  <xsl:copy>
+   <xsl:copy-of select="@*" />
+   <xsl:apply-templates /><xsl:text>.:</xsl:text>
+  </xsl:copy>
+ </xsl:template>
+ <xsl:template match="tei:roleDesc[. = ('.:')]" />
+ 
+ 
   
 </xsl:stylesheet>

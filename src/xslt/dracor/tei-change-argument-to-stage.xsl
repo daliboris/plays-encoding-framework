@@ -19,11 +19,15 @@
   <xsl:strip-space elements="*"/>
   <xsl:mode on-no-match="shallow-copy" />
   
-  <xsl:template match="tei:div/tei:argument">
+ <xsl:template match="tei:div/tei:argument[tei:sp]" priority="2">
+  <xsl:copy-of select="." />
+ </xsl:template>
+  
+  <xsl:template match="tei:div/tei:argument[tei:p and not(tei:p[@rend]|tei:head)]">
     <stage><xsl:apply-templates /></stage>
   </xsl:template>
   
-  <xsl:template match="tei:div/tei:argument/tei:p">
+ <xsl:template match="tei:div/tei:argument[tei:p and not(tei:p[@rend]|tei:head)]/tei:p">
     <xsl:apply-templates />
   </xsl:template>
   

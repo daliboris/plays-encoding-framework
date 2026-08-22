@@ -19,7 +19,7 @@
   <xsl:mode on-no-match="shallow-copy"/>
   <xsl:output indent="yes" />
   
-  <xsl:template match="tei:castItem">
+  <xsl:template match="tei:castItem[not(tei:actor)]">
     <xsl:variable name="root" select="."/>
     <xsl:for-each-group select="*" group-starting-with="tei:role">
       <castItem>
@@ -43,5 +43,36 @@
       </castItem>
     </xsl:for-each-group>
   </xsl:template>
+ 
+ <xsl:template match="tei:castList[tei:castItem/tei:actor]">
+  <xsl:copy>
+   <xsl:copy-of select="@*" />
+   <xsl:for-each-group select="*" group-starting-with="tei:castItem[tei:role][not(tei:actor)] | tei:castItem[tei:role]">
+    <xsl:choose>
+     <xsl:when test="self::tei:castItem[tei:role][not(tei:actor)]">
+      <castGroup>
+       <roleDesc><xsl:apply-templates select="./tei:role/node()" /></roleDesc>
+       <xsl:copy-of select="current-group() except ." />
+      </castGroup>  
+     </xsl:when>
+     <xsl:when test="count(current-group()) eq 1">
+      <xsl:copy-of select="current-group()" />
+     </xsl:when>
+     <xsl:when test="self::tei:castItem[tei:role][tei:actor]">
+      <castItem>
+       <role><xsl:apply-templates select="./tei:role/node()" /></role>
+<!--       <xsl:copy-of select="./tei:acotr" />-->
+<!--       <xsl:copy-of select="current-group()/tei:actor except ." />-->
+       <xsl:copy-of select="current-group()/tei:actor" />
+      </castItem>
+     </xsl:when>
+     <xsl:otherwise>
+      <xsl:copy-of select="current-group()" />
+     </xsl:otherwise>
+    </xsl:choose>
+    
+   </xsl:for-each-group>
+  </xsl:copy>
+ </xsl:template>
   
 </xsl:stylesheet>

@@ -17,19 +17,26 @@
  </xd:doc>
  
  <xsl:mode on-no-match="shallow-copy"/>
- <xsl:param name="id-regex">^(#?\w+\W)([\w_]+)(.*)?$</xsl:param>
+ <xsl:param name="id-regex">^(#)?(\w+\W)([\w_]+)(.*)?$</xsl:param>
  
  <xsl:template match="tei:person/@xml:id[matches(., $id-regex)] | tei:personGrp/@xml:id[matches(., $id-regex)]">
   <xsl:attribute name="id" select="dcf:clean-id(.)" namespace="http://www.w3.org/XML/1998/namespace" />
  </xsl:template>
  
  <xsl:template match="@who[matches(., $id-regex)] | @ref[matches(., $id-regex)]">
-  <xsl:attribute name="{local-name()}" select="'#' || dcf:clean-id(.)" />
+  <xsl:attribute name="{local-name()}" select="dcf:clean-id(.)" />
  </xsl:template>
+ 
+ <!-- per.angelus_1-tj-tnl => #angelus-1 -->
+ <!-- #per.angelus_1-tj-tnl #per.angelus_2-tj-tnl => #angelus-1 #angelus-2 -->
  
  <xsl:function name="dcf:clean-id" as="xs:string">
   <xsl:param name="text" as="xs:string" />
-  <xsl:value-of select="replace($text, $id-regex, '$2') => replace('_', '-')"/>
+  <xsl:value-of select="string-join(
+    for $item in tokenize($text) 
+     return replace($item, $id-regex, '$1$3') 
+     => replace('_', '-'), 
+     ' ')"/>
  </xsl:function>
  
 </xsl:stylesheet>
