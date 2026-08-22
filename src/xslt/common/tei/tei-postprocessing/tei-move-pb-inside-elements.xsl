@@ -20,7 +20,7 @@
  <xsl:output indent="yes" />
  <xsl:mode on-no-match="shallow-copy"/>
  
- <xsl:template match="tei:*[tei:pb][count(text()[normalize-space() != '' ]) eq 0]" />
+ <xsl:template match="tei:*[tei:pb][count(.//text()[normalize-space() != '' ]) eq 0]" />
   
  <xsl:template match="tei:*[preceding-sibling::*[1][self::tei:*[tei:pb][count(text()[normalize-space() != '' ]) eq 0]]]">
   <xsl:variable name="pb" select="preceding-sibling::*[1]/*[self::tei:pb]"/>
@@ -31,14 +31,35 @@
   </xsl:copy>
  </xsl:template>
  
- <xsl:template match="tei:div[preceding::*[1][parent::*[self:: tei:*[tei:pb][count(text()[normalize-space() != '' ]) eq 0]]]]/*[1]">
+ <xsl:template match="tei:div[preceding::*[1][parent::*[self:: tei:*[tei:pb][count(.//text()[normalize-space() != '' ]) eq 0]]]]/*[1]">
   <xsl:variable name="pb" select="preceding::*[1][self::tei:pb]"/>
+  <xsl:choose>
+   <xsl:when test="$pb[@n = 'C5v'] and self::tei:head">
+    <xsl:copy-of select="$pb" />
+   </xsl:when>
+  </xsl:choose>
   <xsl:copy>
    <xsl:copy-of select="@*" />
-   <!-- aquila-tobeus, C1r -->
-   <xsl:if test="(count($pb/ancestor::tei:div) ge count(ancestor::tei:div) )">
-    <xsl:copy-of select="$pb" /> 
-   </xsl:if>
+   <xsl:choose>
+    <!-- aquila-tobeus, A2r  -->
+    <xsl:when test="$pb/ancestor::tei:front and $pb/parent::*/preceding-sibling::*[1][self::tei:div[@type='titlePage']]">
+     <xsl:copy-of select="$pb" /> 
+    </xsl:when>    
+    <!--  aquila-tobeus, C5v  -->
+    <xsl:when test="$pb[@n = 'C5v'] and self::tei:head">
+<!--     <xsl:comment> TODO </xsl:comment>-->
+    </xsl:when>
+    <!--<xsl:when test="self::tei:div and .[1][self::tei:div] and parent::*[self::tei:div][preceding::*[1][parent::*[self:: tei:*[tei:pb][count(.//text()[normalize-space() != '' ]) eq 0]]]]/preceding::*[1][self::tei:pb] is $pb">
+     <xsl:comment> TODO </xsl:comment>
+    </xsl:when>-->
+     <!-- aquila-tobeus, C1r -->
+    <xsl:when test="(count($pb/ancestor::tei:div) ge count(ancestor::tei:div) )">
+     <xsl:copy-of select="$pb" /> 
+    </xsl:when>
+    <xsl:otherwise>
+<!--     <xsl:comment> TODO </xsl:comment>-->
+    </xsl:otherwise>
+   </xsl:choose>
    <xsl:apply-templates />
   </xsl:copy>
  </xsl:template>

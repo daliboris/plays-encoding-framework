@@ -18,8 +18,8 @@
  <xsl:character-map name="normalization">
   <xsl:output-character character="&#xa0;" string=" "/>
  </xsl:character-map>
- 
- <xsl:output use-character-maps="normalization" indent="false"/>
+
+ <xsl:output use-character-maps="normalization" indent="no"/>
  
  <xsl:mode on-no-match="shallow-copy"/>
 <!-- <xsl:variable name="text-errors-regex" select="'[˂]'"/> <!-\- │ -\->
@@ -95,6 +95,8 @@
   '(,\s)(873–5)' : '$1v. $2',
   '\s[ps]-' : ' p.',
   'Hildegardis,\sB3r' : 'Hildegardis, B3r.',
+  'Helvetiogermani\sv\.\s2114–35,\sp\.\s564,\s566' : 'Helvetiogermani v. 2114–35, p. 564–566',
+  'Helvetiogermani\sv\.\s1928–32,\sp\.\s550,\s552' : 'Helvetiogermani v. 1928–32, p. 550–552',
   '\s-\s' : ' – ',
   '\s\.\.' : '.',
   '\s+' : ' '
@@ -278,9 +280,21 @@
   </xsl:call-template>
  </xsl:template>
  
+ <xsl:template match="annotation-text[text[ends-with(., 'Caesar, Commentarii belli Gallici, I,51,2, p. 24.')]]">
+  <xsl:call-template name="split-by-cit">
+   <xsl:with-param name="cit" select="'Caesar, Commentarii belli Gallici, I,51,2, p. 24.'" />
+  </xsl:call-template>
+ </xsl:template>
+ 
  <xsl:template match="annotation-text[text[ends-with(., 'Caesar, Comentarii, I,53,6, p. 25.')]]">
   <xsl:call-template name="split-by-cit">
    <xsl:with-param name="cit" select="'Caesar, Comentarii, I,53,6, p. 25.'" />
+  </xsl:call-template>
+ </xsl:template>
+ 
+ <xsl:template match="annotation-text[text[ends-with(., 'Frischlin, Hildegardis 674–5, p. 102.')]]">
+  <xsl:call-template name="split-by-cit">
+   <xsl:with-param name="cit" select="'Frischlin, Hildegardis 674–5, p. 102.'" />
   </xsl:call-template>
  </xsl:template>
  
@@ -289,7 +303,7 @@
   <xsl:copy>
    <xsl:copy-of select="@*" />
    <text>
-    <xsl:value-of select="substring-before(., ' ' || $cit)" />
+    <xsl:value-of select="xf:replace-items(substring-before(., ' ' || $cit) , $replacements)" />
    </text>
   </xsl:copy>
   <xsl:copy>

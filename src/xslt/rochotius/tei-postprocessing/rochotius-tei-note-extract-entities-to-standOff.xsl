@@ -53,17 +53,17 @@
  
  <xsl:template match="tei:ref[@type='person']">
 <!--  <tei:persName ref="{substring-after(@target, '#')}"><xsl:apply-templates /></tei:persName>-->
-  <tei:persName ref="{@target}"><xsl:apply-templates /></tei:persName>
+  <tei:persName ref="{@target}"><xsl:apply-templates select="@* except (@type, @target)" /><xsl:apply-templates /></tei:persName>
  </xsl:template>
  
  <xsl:template match="tei:ref[@type='place']">
 <!--  <tei:placeName ref="{substring-after(@target, '#')}"><xsl:apply-templates /></tei:placeName>-->
-  <tei:placeName ref="{@target}"><xsl:apply-templates /></tei:placeName>
+  <tei:placeName ref="{@target}"><xsl:apply-templates select="@* except (@type, @target)" /><xsl:apply-templates /></tei:placeName>
  </xsl:template>
  
  <xsl:template match="tei:ref[@type='gloss']">
 <!--  <tei:rs type="gloss" ref="{substring-after(@target, '#')}"><xsl:apply-templates /></tei:rs>-->
-  <tei:rs type="gloss" ref="{@target}"><xsl:apply-templates /></tei:rs>
+  <tei:rs type="gloss" ref="{@target}"><xsl:apply-templates select="@* except (@type, @target)" /><xsl:apply-templates /></tei:rs>
  </xsl:template>
  
 </xsl:stylesheet>

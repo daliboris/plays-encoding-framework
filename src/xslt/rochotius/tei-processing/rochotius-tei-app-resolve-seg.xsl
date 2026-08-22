@@ -16,6 +16,34 @@
  
  <xsl:mode on-no-match="shallow-copy"/>
  
+ <xsl:template match="tei:app/tei:note[not(tei:seg)][tei:bibl[not(@type)]][not(tei:milestone)]">
+  <xsl:copy>
+   <xsl:copy-of select="@*" />
+   <tei:quote type="quotation" />
+   <xsl:apply-templates />
+  </xsl:copy>
+ </xsl:template>
+ 
+
+ <xsl:template match="tei:app/tei:note[not(tei:seg)][tei:bibl[not(@type)]][tei:milestone]/tei:bibl">
+  <tei:quote type="quotation">
+   <xsl:if test="preceding-sibling::*[1][self::tei:milestone]">
+    <xsl:variable name="milestone" select="preceding-sibling::*[1]"/>
+    <xsl:attribute name="subtype" select="if($milestone = '|') then 'equal' else if ($milestone = '&lt;') then 'predecessor' else 'unknown'">
+    </xsl:attribute>
+   </xsl:if>
+   <xsl:if test="following-sibling::*[1][self::tei:milestone]">
+    <xsl:variable name="milestone" select="following-sibling::*[1]"/>
+    <xsl:attribute name="subtype" select="if($milestone = '|') then 'equal' else if ($milestone = '&lt;') then 'successor' else 'unknown'">
+    </xsl:attribute>
+   </xsl:if>
+  </tei:quote>
+  <xsl:copy>
+   <xsl:copy-of select="@*" />
+   <xsl:apply-templates />
+  </xsl:copy>
+ </xsl:template>
+ 
  <xsl:template match="tei:seg[@type=('allusion', 'paraphrase')] | tei:quote">
   <tei:quote>
    <xsl:copy-of select="@*" />

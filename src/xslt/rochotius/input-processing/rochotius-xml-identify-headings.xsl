@@ -1,6 +1,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl"
-	exclude-result-prefixes="xd"
+	xmlns:tnf="https://www.daliboris.cz/ns/theatrum-neolatinum/xslt"
+	exclude-result-prefixes="#all"
 	version="3.0">
 	<xd:doc scope="stylesheet">
 		<xd:desc>
@@ -10,15 +11,18 @@
 		</xd:desc>
 	</xd:doc>
 	
+	<xsl:import href="../../common/_tei-common-functions.xsl"/>
+	
 	<xsl:param name="headings" as="element(heading)*" required="yes" />
 	<xsl:output omit-xml-declaration="no" indent="yes"/>
 	<xsl:mode on-no-match="shallow-copy"/>
 	<xsl:mode name="heading" on-no-match="shallow-copy"/>
+ 
 	
 	<xsl:variable name="headings-regex" select="'^' || for-each($headings, function($heading) {
-		replace($heading, '\s', '\\s') 
-		=> replace('\.', '\\.') 
-		}) => string-join('|^') "/>
+	 tnf:transform-for-regex($heading)}) => string-join('|^') "/> 
+ <!-- replace($heading, '\s', '\\s') 
+		=> replace('\.', '\\.')  -->
 	
 	<xsl:template match="/">
 		<xsl:copy>

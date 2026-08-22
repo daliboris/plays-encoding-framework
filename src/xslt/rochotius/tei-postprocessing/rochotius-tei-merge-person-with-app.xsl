@@ -4,17 +4,28 @@
  xmlns:math="http://www.w3.org/2005/xpath-functions/math"
  xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl"
  xmlns:tei="http://www.tei-c.org/ns/1.0"
- exclude-result-prefixes="xs math xd tei"
+ xmlns="http://www.tei-c.org/ns/1.0"
+ exclude-result-prefixes="#all"
  version="3.0">
+
  <xd:doc scope="stylesheet">
   <xd:desc>
-   <xd:p><xd:b>Created on:</xd:b> Oct 7, 2024</xd:p>
+   <xd:p><xd:b>Created on:</xd:b> 2026-07-31</xd:p>
    <xd:p><xd:b>Author:</xd:b> Boris</xd:p>
    <xd:p></xd:p>
   </xd:desc>
  </xd:doc>
+ 
  <xsl:mode on-no-match="shallow-copy"/>
  
- <xsl:template match="tei:argument/tei:p//tei:space | tei:div[@type='argument']/tei:p//tei:space" />
+ <xsl:template match="tei:ref[let $text := . return following-sibling::*[1][self::tei:app[tei:lem[. = $text]]]]">
+  <xsl:copy>
+   <xsl:copy-of select="@*" />
+   <xsl:copy-of select="following-sibling::*[1][self::tei:app]" />
+  </xsl:copy>
+ </xsl:template>
+ 
+ <xsl:template match="tei:app[let $text := tei:lem return preceding-sibling::*[1][self::tei:ref][. = $text]]" />
+ 
  
 </xsl:stylesheet>

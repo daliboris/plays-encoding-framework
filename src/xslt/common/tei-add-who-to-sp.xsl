@@ -25,9 +25,13 @@
  <xsl:template match="tei:sp[not(@who)]">
   <xsl:variable name="speaker-name" select="let $text := if(tei:speaker[tei:app]) then tei:speaker/tei:app/tei:lem else tei:speaker/text()[1] return translate($text/normalize-space(), '[]:', '')" /> 
   <xsl:variable name="speaker" select="let $text := if(tei:speaker[tei:app]) then tei:speaker/tei:app/tei:lem else tei:speaker/text()[1] return translate($text/normalize-space(), ' .[]:', '-')"/>
-  <xsl:variable name="character-id" select="concat('per.', lower-case($speaker), $full-suffix)"/>
-  <xsl:variable name="id" select="if(key('characters', $character-id)) then '#' || $character-id
-   else if(key('characters', $speaker-name)) then '#' || key('characters', $speaker-name)/@xml:id 
+  <xsl:variable name="character-id" select="concat($person-prefix, lower-case($speaker), $full-suffix)"/>
+  <xsl:variable name="character-by-id" select="key('characters', $character-id)"/>
+  <xsl:variable name="character-by-name" select="key('characters', $speaker-name)"/>
+  <xsl:variable name="id" select="if($character-by-id) then '#' || $character-id
+   else if(count($character-by-name) eq 1) then '#' || $character-by-name/@xml:id
+   else if(count($character-by-name) gt 1) then '#' || $character-id
+   (: else if($character-by-name) then '#' || $character-by-name/@xml:id :) 
    else concat('#', $person-prefix, lower-case($speaker))"/>
   <xsl:copy>
    <xsl:copy-of select="@*" />

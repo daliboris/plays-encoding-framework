@@ -17,7 +17,7 @@
  <xsl:mode on-no-match="shallow-copy"/>
  <xsl:mode on-no-match="shallow-copy" name="front"/>
  <xsl:output indent="true" />
- <xsl:param name="head-text" select="('Dramatis personae', 'Dramatis personae.', 'Personae', 'Comoediae Interlocutores')" />
+ <xsl:param name="head-text" select="('Dramatis personae', 'Dramatis personae.', 'Personae', 'Comoediae interlocutores')" />
  
  <xsl:template match="tei:front" use-when="false()">
   <xsl:copy>

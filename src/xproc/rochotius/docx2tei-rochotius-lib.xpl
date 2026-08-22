@@ -52,7 +52,7 @@
   <p:variable name="debug" select="$debug-path || '' ne ''" />
   <p:variable name="debug-path-uri" select="resolve-uri($debug-path, $base-uri)" />
   
-  <p:variable name="data-file-path-uri" select="resolve-uri($data-file-path, $base-uri)"/>
+  <p:variable name="data-file-uri" select="resolve-uri($data-file-path, $base-uri)"/>
   
 <!--  <p:variable name="file-stem" select="tokenize(tokenize(resolve-uri(base-uri(/), $base-uri), '/')[last()], '\.')[position() lt last()] => string-join('.')" />-->
   <p:variable name="file-stem" select="$text-id" />
@@ -86,6 +86,7 @@
   </p:xslt>   
   <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml" step="15" />
   
+
   <p:xslt>
    <p:with-input port="stylesheet" href="../../xslt/aquila/input-processing/aquila-xml-endnotes-to-footnotes.xsl" />
   </p:xslt>   
@@ -105,8 +106,15 @@
    <p:with-input port="stylesheet" href="../../xslt/rochotius/input-processing/rochotius-xml-move-punctation-after-critical-apparatus.xsl" />
   </p:xslt>   
   <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml" step="30" />
+
+
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../../xslt/rochotius/input-processing/xml-combine-following-texts.xsl" />
+  </p:xslt>   
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml" step="31" />
   
-  <p:variable name="data" select="/data[@id=$text-id]" href="{$data-file-path-uri}" />
+
+  <p:variable name="data" select="/data[@id=$text-id]" href="{$data-file-uri}" />
   <p:variable name="headings" select="$data/headings/heading" />
   <p:xslt>
    <p:with-input port="stylesheet" href="../../xslt/rochotius/input-processing/rochotius-xml-identify-headings.xsl" />
@@ -125,20 +133,28 @@
   </p:xslt>
   <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="1"  />
 
+
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../../xslt/rochotius/input-processing/rochotius-tei-add-header-subtype.xsl" />
+  </p:xslt>
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="5"  />
+  
+  <p:variable name="persons" select="/data/persons/tei:person | /data/persons/tei:personGrp" href="{$data-file-uri}"/>
   <p:xslt>
    <p:with-input port="stylesheet" href="../../xslt/aquila/input-processing/identify-speaker-within-l.xsl" />
-  </p:xslt>
-  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="5" />
-  
-  <p:xslt>
-   <p:with-input port="stylesheet" href="../../xslt/rochotius/input-processing/rochotius-remove-bold-from-head.xsl" />
+   <p:with-option name="parameters" select="map {'persons' : $persons}" />
   </p:xslt>
   <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="10" />
   
   <p:xslt>
-   <p:with-input port="stylesheet" href="../../xslt/rochotius/input-processing/rochotius-comoedia-tei-replace-text-by-critical-apparatus.xsl" />
+   <p:with-input port="stylesheet" href="../../xslt/rochotius/input-processing/rochotius-remove-bold-from-head.xsl" />
   </p:xslt>
   <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="15" />
+  
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../../xslt/rochotius/input-processing/rochotius-comoedia-tei-replace-text-by-critical-apparatus.xsl" />
+  </p:xslt>
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="20" />
   
  
  </p:declare-step>
@@ -195,7 +211,7 @@
   <p:variable name="debug" select="$debug-path || '' ne ''" />
   <p:variable name="debug-path-uri" select="resolve-uri($debug-path, $base-uri)" />
   
-  <p:variable name="data-file-path-uri" select="resolve-uri($data-file-path, $base-uri)"/>
+  <p:variable name="data-file-uri" select="resolve-uri($data-file-path, $base-uri)"/>
   
   <p:variable name="file-stem" select="$text-id" />
  
@@ -242,11 +258,16 @@
   </p:xslt>
   <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="25"/>
   
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../../xslt/rochotius/tei-processing/rochotius-tei-get-text-for-quotation.xsl" />
+  </p:xslt>
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="30"/>
+  
  </p:declare-step>
  
  
  <!-- STEP -->
- <p:declare-step type="xd2t:tei-postprocessing-rochotius" name="tei-postprocessing">
+ <p:declare-step type="xd2t:tei-postprocessing-rochotius" name="tei-postprocessing-rochotius">
   
   <!-- INPUT PORTS -->
   <p:input  port="source" primary="true" />
@@ -267,7 +288,7 @@
   <p:variable name="debug" select="$debug-path || '' ne ''" />
   <p:variable name="debug-path-uri" select="resolve-uri($debug-path, $base-uri)" />
   
-  <p:variable name="data-file-path-uri" select="resolve-uri($data-file-path, $base-uri)"/>
+  <p:variable name="data-file-uri" select="resolve-uri($data-file-path, $base-uri)"/>
   
 <!--  <p:variable name="file-stem" select="tokenize(tokenize(resolve-uri(base-uri(/), $base-uri), '/')[last()], '\.')[position() lt last()] => string-join('.')" />-->
   <p:variable name="file-stem" select="$text-id" />
@@ -289,11 +310,40 @@
   <p:delete match="tei:head[not(node())]" />
   <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="5" />
   
+  <p:variable name="max-head-items" select="/data/divs/div[@type='titlePage']/@max-head-items" as="xs:integer?" href="{$data-file-uri}"  />
+  <p:if test="exists($max-head-items)">
+   <p:xslt>
+    <p:documentation>Seskupí nadpisy do titulní stránky.</p:documentation>
+    <p:with-input port="stylesheet" href="../../xslt/tei-postprocessing/tei-group-head-to-titlePage.xsl" />
+    <p:with-option name="parameters" select="map {'max-head-items' : $max-head-items }" />
+   </p:xslt>
+   <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="6" />   
+  </p:if>
+  
+  <p:xslt>
+   <p:documentation>Přejmenuje argument na stage (Dingenauer, Tobias junior).</p:documentation>
+   <p:with-input port="stylesheet" href="../../xslt/rochotius/tei-postprocessing/rochotius-change-argument-to-stage.xsl" />
+  </p:xslt>
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="7" />
+  
+  <p:xslt>
+   <p:documentation>Sloučí stage a argument s nadpisem do elementu argument kvůli validnímu TEI (Dingenauer, Tobias junior).</p:documentation>
+   <p:with-input port="stylesheet" href="../../xslt/rochotius/tei-postprocessing/tei-fix-stage-and-argument-with-head.xsl" />
+  </p:xslt>
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="8" />
+   
   <p:xslt>
    <p:documentation>Seskupí oddíly podle nadpisů.</p:documentation>
    <p:with-input port="stylesheet" href="../../xslt/rochotius/tei-postprocessing/rochotius-group-head.xsl" />
   </p:xslt>
   <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="10" />
+  
+  <p:xslt>
+   <p:documentation>Podřadí scény, stage a argument s nadpisem (součást samostatného oddílu) k nadpisům pro akty (Dingenauer, Tobias junior).</p:documentation>
+   <p:with-input port="stylesheet" href="../../xslt/rochotius/tei-postprocessing/tei-fix-div-act-followed-wit-stage-and-argument-div.xsl" />
+  </p:xslt>
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="11" />
+  
   
   <p:xslt>
    <p:documentation>V seznamu postav (Dramatis personae) změní verše na odstavce.</p:documentation>
@@ -392,14 +442,14 @@
   </p:xslt>
   <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="71" />
   
-  <p:variable name="divs" select="/data/divs/div" href="{$data-file-path-uri}" />
+  <p:variable name="divs" select="/data/divs/div" href="{$data-file-uri}" />
   <p:xslt>
    <p:with-input port="stylesheet" href="../../xslt/tei/tei-add-div-type.xsl" />
    <p:with-option name="parameters" select="map {'divs' : $divs }" />
   </p:xslt>
   <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="72" />
   
-  <p:variable name="body-start" select="/data/body-start/*[1]" href="{$data-file-path-uri}" />
+  <p:variable name="body-start" select="/data/body-start/*[1]" href="{$data-file-uri}" />
   <p:if test="exists($body-start)">
    <p:xslt>
     <p:documentation>Přesune oddíly před začátkem hry do elementu front.</p:documentation>
@@ -415,58 +465,107 @@
   </p:xslt>
   <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="74" />
   
-  
-  <xpef:identify-first-verses>
-   <p:with-input port="job-ticket" pipe="job-ticket@tei-postprocessing" />
-  </xpef:identify-first-verses>
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../../xslt/tei/tei-fix-false-closer.xsl" />
+  </p:xslt>
   <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="75" />
-
-  <xpef:create-list-of-speakers doc-name="{$file-stem}" data-directory-path="{$data-directory-path}" data-file-path="{$data-file-path}" debug-path="{$debug-path}" base-uri="{$base-uri}">
-   <p:with-input port="job-ticket" pipe="job-ticket@tei-postprocessing" />
-  </xpef:create-list-of-speakers>
+  
+  
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../../xslt/tei/tei-fix-div-hierarchy.xsl" />
+  </p:xslt>
   <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="76" />
   
-  <xd2t:person-list-postprocessing doc-name="{$file-stem}" data-directory-path="{$data-directory-path}" data-file-path="{$data-file-path}" debug-path="{$debug-path}" base-uri="{$base-uri}">
-   <p:with-input port="job-ticket" pipe="job-ticket@tei-postprocessing" />
-  </xd2t:person-list-postprocessing>
+  <p:xslt>
+     <p:with-input port="stylesheet" href="../../xslt/tei/tei-fix-div-epilogue.xsl" />
+  </p:xslt>
   <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="80" />
+    
+<!--  <p:identity name="before-epilogue-moving" />
+  <p:insert match="tei:body/tei:div[@type='act'][last()][tei:div[last()][self::tei:div[@type='epilogue']]]" position="after" name="moving-epilogue">
+   <p:with-input port="insertion" select="//tei:body/tei:div[@type='act'][last()]/tei:div[last()][self::tei:div[@type='epilogue']]" pipe="result@before-epilogue-moving" />
+  </p:insert>
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="80" />
+  
+    <p:variable name="epilogue-exists" select="//tei:body/tei:div[@type='act'][last()]/tei:div[last()][self::tei:div[@type='epilogue']]" />
+    <p:delete match="tei:body/tei:div[@type='act'][last()]/tei:div[last()][self::tei:div[@type='epilogue']]" depends="moving-epilogue" message="epilogue exists: {$epilogue-exists}" />
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="85" />
+    
+    <p:delete match="tei:body/tei:div[@type='act'][last()]/tei:div[last()][self::tei:div[@type='epilogue']]" />
+    <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$text-id}.xml"  step="86" />
+-->  
+  
+  <xpef:identify-first-verses>
+   <p:with-input port="job-ticket" pipe="job-ticket@tei-postprocessing-rochotius" />
+  </xpef:identify-first-verses>
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="90" />
+
+  <xpef:create-list-of-speakers doc-name="{$file-stem}" data-directory-path="{$data-directory-path}" data-file-path="{$data-file-path}" debug-path="{$debug-path}" base-uri="{$base-uri}">
+   <p:with-input port="job-ticket" pipe="job-ticket@tei-postprocessing-rochotius" />
+  </xpef:create-list-of-speakers>
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="95" />
+  
+  <xd2t:person-list-postprocessing doc-name="{$file-stem}" data-directory-path="{$data-directory-path}" data-file-path="{$data-file-path}" debug-path="{$debug-path}" base-uri="{$base-uri}">
+   <p:with-input port="job-ticket" pipe="job-ticket@tei-postprocessing-rochotius" />
+  </xd2t:person-list-postprocessing>
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="100" />
   
   <p:group use-when="false()" message="skipping">
   <p:xslt>
    <p:with-input port="stylesheet" href="../../xslt/rochotius/tei-postprocessing/rochotius-tei-note-identify-ref.xsl" />
   </p:xslt>
-  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="85" />
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="105" />
   </p:group>
   
   <p:xslt>
    <p:with-input port="stylesheet" href="../../xslt/tei/tei-square-brackets-to-supplied.xsl"/>
   </p:xslt>
-  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="90" />
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="110" />
+
+  <p:rename match="tei:div[@type='argument'][tei:head and tei:sp and count(*) eq 2][not(preceding-sibling::tei:div)]" new-name="tei:argument" />
+  <p:delete match="tei:argument/@type" />
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="111" />
 
   <p:xslt>
    <p:with-input port="stylesheet" href="../../xslt/rochotius/tei-postprocessing/rochotius-tei-remove-space-from-argument.xsl" />
   </p:xslt>
-  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="95" />
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="115" />
   
   <p:xslt>
    <p:with-input port="stylesheet" href="../../xslt/rochotius/tei-postprocessing/rochotius-tei-identify-person-in-argument.xsl" />
   </p:xslt>
-  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="100" />
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="120" />
+  
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../../xslt/rochotius/tei-postprocessing/rochotius-tei-merge-person-with-app.xsl" />
+  </p:xslt>
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="125" />
   
   <p:xslt>
    <p:with-input port="stylesheet" href="../../xslt/rochotius/tei-postprocessing/rochotius-tei-note-extract-entities-to-standOff.xsl" />
   </p:xslt>
-  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="105" />
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="130" />
+  
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../../xslt/tei-postprocessing/tei-fix-dingenauer-tobias-junior-speakers.xsl" />
+  </p:xslt>
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="140" />
+  
+  
   
   <p:xslt>
    <p:with-input port="stylesheet" href="../../xslt/rochotius/tei-postprocessing/rochotius-tei-change-note-n.xsl" />
   </p:xslt>
-  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="110" />
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="150" />
   
   <p:xslt>
    <p:with-input port="stylesheet" href="../../xslt/rochotius/tei-postprocessing/rochotius-tei-insert-note-start-anchor.xsl" />
   </p:xslt>
-  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="115" />
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="155" />
+  
+<!--  <xpef:identify-foreign-text element-name="foreign" foreign-text-regex="\p{{P}}?\p{{IsGreek}}(.([\p{{P}}\s]|[^\P{{IsGreek}}\)]))*\s?" language-code="grc" base-uri="{$base-uri}" debug-path="{$debug-path}"/>-->
+    <xpef:identify-foreign-text element-name="foreign" foreign-text-regex="[\p{{IsGreek}}ώᾳόῳὶἐίἑ'ἀῖ][\p{{IsGreek}}\sώᾳόῳὶἐίἑ'ἀῖ]+" language-code="grc" base-uri="{$base-uri}" debug-path="{$debug-path}"/>
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="160" />
   
  </p:declare-step>
  
@@ -498,19 +597,28 @@
   <p:variable name="file-stem" select="$doc-name" />
   
   
-  <p:variable name="persons" select="/data/persons/tei:person" href="{$data-file-uri}"/>
+  <p:variable name="actors" select="/data/actors/actor" href="{$data-file-uri}"/>
+  <p:if test="exists($actors)">
+   <p:xslt>
+    <p:with-input port="stylesheet" href="../../xslt/rochotius/tei-postprocessing/rochotius-tei-identify-actors-in-list-of-persons.xsl" />
+    <p:with-option name="parameters" select="map {'actors' : $actors}" />
+   </p:xslt>
+   <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="1" />   
+  </p:if>
+  
+  <p:variable name="persons" select="/data/persons/tei:person | /data/persons/tei:personGrp" href="{$data-file-uri}"/>
   <p:xslt>
    <p:with-input port="stylesheet" href="../../xslt/rochotius/tei-postprocessing/rochotius-tei-identify-persons-in-list-of-persons.xsl" />
    <p:with-option name="parameters" select="map {'persons' : $persons}" />
   </p:xslt>
-  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="1" />
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="5" />
   
   <p:xslt>
    <p:with-input port="stylesheet" href="../../xslt/rochotius/tei-postprocessing/rochotius-tei-merge-notes-in-list-of-persons.xsl" />
   </p:xslt>
-  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="5" />
-  
-  
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="10" />
+
+ 
  </p:declare-step>
  
 </p:library>

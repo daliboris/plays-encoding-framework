@@ -15,16 +15,41 @@
  </xd:doc>
  
  <xsl:mode on-no-match="shallow-copy"/>
+ <xsl:mode on-no-match="shallow-copy" name="scene"/>
+ <xsl:mode on-no-match="shallow-copy" name="argument"/>
  <xsl:output method="xml" indent="yes" />
  
  <xsl:template match="tei:body">
   <xsl:copy>
    <xsl:copy-of select="@*" />
-   <xsl:for-each-group select="*" group-adjacent="if(self::tei:div[tei:head/@type]) then self::tei:div/tei:head/@type else 0">
+   <xsl:for-each-group select="*" group-adjacent="if(self::tei:div[tei:head/@type]) then
+     if(self::tei:div[@subtype='0']) then 
+      self::tei:div/@subtype else
+     self::tei:div/tei:head/@type else -1">
     <xsl:choose>
      <xsl:when test=".[self::tei:div[tei:head[@type]]]">
       <tei:div type="act" n="{current-grouping-key()}">
-       <xsl:apply-templates select="current-group()" mode="scene" />
+       <xsl:for-each-group select="*" group-adjacent="if(self::tei:div[@subtype='0']) then 
+        self::tei:div/@subtype else if (self::tei:div[@type][@subtype]) then
+        self::tei:div/@type else '-1'">
+        <xsl:choose>
+         <xsl:when test="current-grouping-key() = '-1'">
+            <xsl:apply-templates select="current-group()" mode="scene" />
+         </xsl:when>
+         <xsl:when test="self::tei:div[@subtype='0']">
+            <xsl:apply-templates select="current-group()" mode="argument" />
+         </xsl:when>
+         <xsl:otherwise>
+<!--          <tei:div type="scene" n="{current-group()[1]/tei:head/@subtype}">-->
+           <xsl:apply-templates select="current-group()" mode="scene" /> 
+          <!--</tei:div>-->
+          
+         </xsl:otherwise>
+        </xsl:choose>
+        
+       </xsl:for-each-group>
+       
+       
       </tei:div>
      </xsl:when>
      <xsl:otherwise>
@@ -35,15 +60,23 @@
   </xsl:copy>
  </xsl:template>
  
+ <xsl:template match="tei:div[@subtype='0']" mode="argument">
+    <xsl:copy>
+       <xsl:copy-of select="@*" />
+       <xsl:apply-templates mode="scene" />
+    </xsl:copy>
+ </xsl:template>
+ <xsl:template match="tei:div[@subtype='0']" mode="scene" />
+ 
  <xsl:template match="tei:div[tei:head/@type]" mode="scene">
   <xsl:copy>
    <xsl:attribute name="type" select="'scene'" />
    <xsl:attribute name="n" select="tei:head/@subtype" />
-   <xsl:apply-templates />
+   <xsl:apply-templates mode="#current" />
   </xsl:copy>
 </xsl:template>
  
- <xsl:template match="tei:head">
+ <xsl:template match="tei:head" mode="scene">
   <xsl:copy>
    <xsl:copy-of select="@* except (@type, @subtype)" />
    <xsl:apply-templates />
