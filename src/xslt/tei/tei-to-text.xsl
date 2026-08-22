@@ -41,7 +41,7 @@
   </xsl:choose>
  </xsl:template>
  
- <xsl:template match="tei:div | tei:l | tei:p | tei:head | tei:speaker | tei:stage | tei:castItem | tei:titlePart | tei:docImprint | tei:salute |  tei:epigraph">
+ <xsl:template match="tei:div | tei:l | tei:p | tei:head | tei:speaker | tei:stage | tei:castItem | tei:front | tei:titlePart | tei:titlePage/tei:docImprint/tei:docDate | tei:docImprint | tei:salute |  tei:epigraph | tei:byline | tei:closer | tei:opener">
   <xsl:apply-templates />
   <xsl:value-of select="$new-line"/>
  </xsl:template>
@@ -66,8 +66,18 @@
  
  <xsl:template match="tei:titlePart/text()"><xsl:value-of select="xtei:clean-text(.)"/></xsl:template>
  <xsl:template match="tei:docImprint/text()"><xsl:value-of select="xtei:clean-text(.)"/></xsl:template>
+ <xsl:template match="tei:docAuthor/text()"><xsl:value-of select="xtei:clean-text(.)"/></xsl:template>
+ <xsl:template match="tei:pubPlace/text()"><xsl:value-of select="xtei:clean-text(.)"/></xsl:template>
+ <xsl:template match="tei:publisher/text()"><xsl:value-of select="xtei:clean-text(.)"/></xsl:template>
+ <xsl:template match="tei:docDate/text()"><xsl:value-of select="xtei:clean-text(.)"/></xsl:template>
+ <xsl:template match="tei:date/text()"><xsl:value-of select="xtei:clean-text(.)"/></xsl:template>
  <xsl:template match="tei:salute/text()"><xsl:value-of select="xtei:clean-text(.)"/></xsl:template>
+ <xsl:template match="tei:closer/text()"><xsl:value-of select="xtei:clean-text(.)"/></xsl:template>
+ <xsl:template match="tei:opener/text()"><xsl:value-of select="xtei:clean-text(.)"/></xsl:template>
+ <xsl:template match="tei:byline/text()"><xsl:value-of select="xtei:clean-text(.)"/></xsl:template>
  <xsl:template match="tei:cit/tei:bibl/text()"><xsl:value-of select="xtei:clean-text(.)"/></xsl:template>
+ <xsl:template match="tei:ref/text()"><xsl:value-of select="xtei:clean-text(.)"/></xsl:template>
+ <xsl:template match="tei:lb"><xsl:value-of select="$new-line"/></xsl:template>
  
  <xsl:template match="tei:pb">
   <xsl:choose>
