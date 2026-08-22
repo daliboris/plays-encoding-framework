@@ -153,7 +153,9 @@
   output-file-name="{$output-file-name}" target="DraCor">
   <p:with-input port="source" pipe="result@tei" />
  </xtei:convert>
- <xlog:store output-directory="{$output-directory-path}/{$text-id}/dracor" base-uri="{$base-uri}" debug="true" file-name="{$dracor-file-stem}.xml" />
+ <xlog:store output-directory="{$output-directory-path}/{$text-id}/dracor" base-uri="{$base-uri}" debug="true" file-name="{$dracor-file-stem}.xml"  p:use-when="false()"/>
+   <p:store href="{p:urify($output-directory-path, $base-uri)}/{$text-id}/dracor/{$dracor-file-stem}.xml"
+         serialization="map { 'encoding' : 'utf-8', 'indent' : true(), 'undeclare-prefixes' : true()}" />
 
  <xtei:convert 
   output-directory-path="{$output-directory-path}" 
