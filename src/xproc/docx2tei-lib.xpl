@@ -195,8 +195,23 @@
   <p:variable name="persNames" select="//tei:listPerson/tei:person[tei:persName[. = $deletes]]"/>
   <p:delete match="tei:listPerson/tei:person[tei:persName[. = {$deletes}]]" message="   ---- deleting false persons : {string-join($deletes, '; ')}; $persNames: {count($persNames)}"></p:delete>
   <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="10" />
-    
 
+
+  <p:variable name="replace-ids" select="/data/persons/replace-ids/replace" href="{$data-file-path-uri}" />
+  <p:if test="$replace-ids">
+   <p:xslt message="replacing-ids: {string-join($replace-ids/@from, '; ')}">
+    <p:with-input port="stylesheet" href="../xslt/common/tei/tei-postprocessing/tei-replace-ids.xsl" />
+    <p:with-option name="parameters" select="map {'replace-ids' : $replace-ids }" />
+   </p:xslt>
+   <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="15" />
+  </p:if>
+
+  
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../xslt/common/tei/tei-postprocessing/tei-sort-listPerson.xsl" />
+  </p:xslt>
+  <xlog:store output-directory="{$log-output-directory}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="20" />
+  
   <p:documentation>
    <p>Přiřazení obrázků ke stranám.</p>
    <p>Vytvoří se element <b>facsimile</b> se seznamem souborů s obrázky jednotlivých stran.</p>
