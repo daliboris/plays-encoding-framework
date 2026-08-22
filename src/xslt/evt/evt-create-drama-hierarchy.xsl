@@ -24,6 +24,7 @@
   <data  xmlns="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/evt/data">
   <lang xml:lang="la">
    <part head="Argumentum" level="1" type="argumentum"  n=" " />
+   <part head="Anagramma" level="1" type="argumentum"  n=" " />
    <part head="Prolusio" level="1" type="act" subtype="prol"/> <!-- prolusio -->
    <part head="Prologus" level="1" type="act" subtype="prol"/> <!-- prolusio --> <!-- TODO -->
    <part head="Angelus Prologus" level="1" type="act" subtype="prol"/> <!-- prolusio --> <!-- TODO -->
@@ -43,6 +44,15 @@
    <part head="Inductio XII." level="2" type="scene" n="12"/>
    
    <part head="Scena I." level="2" type="scene" n="1"/>
+   <part head="Scena II." level="2" type="scene" n="2"/>
+   <part head="Scena III." level="2" type="scene" n="3"/>
+   <part head="Scena IV." level="2" type="scene" n="4"/>
+   <part head="Scena V." level="2" type="scene" n="5"/>
+   <part head="Scena VI." level="2" type="scene" n="6"/>
+   <part head="Scena VII." level="2" type="scene" n="7"/>
+   <part head="Scena VIII." level="2" type="scene" n="8"/>
+   <part head="Scena IX." level="2" type="scene" n="9"/>
+   
    <part head="Numerus II." level="2" type="scene" n="2"/>
    <part head="Numerus III." level="2" type="scene" n="3"/>
    <part head="Numerus IV." level="2" type="scene"  n="4"/>
@@ -53,11 +63,44 @@
    <part head="Numerus IX." level="2" type="scene"  n="9"/>
    <part head="Numerus X." level="2" type="scene"  n="10"/>
    
+   <part head="Actus I." level="1" type="act" n="1"/>
+   <part head="Actus I. Scena I." level="2" type="scene" n="1"/>
+   <part head="Actus I. Scena II." level="2" type="scene" n="2"/>
+   <part head="Actus I. Scena III." level="2" type="scene" n="3"/>
+   <part head="Actus I. Scena IV." level="2" type="scene" n="4"/>
+
+   <part head="Actus II." level="1" type="act" n="1"/>
+   <part head="Actus II. Scena I." level="2" type="scene" n="1"/>
+   <part head="Actus II. Scena II." level="2" type="scene" n="2"/>
+   <part head="Actus II. Scena III." level="2" type="scene" n="3"/>
+   <part head="Actus II. Scena IV." level="2" type="scene" n="4"/>
+
+   <part head="Actus III." level="1" type="act" n="1"/>
+   <part head="Actus III. Scena I." level="2" type="scene" n="1"/>
+   <part head="Actus III. Scena II." level="2" type="scene" n="2"/>
+   <part head="Actus III. Scena III." level="2" type="scene" n="3"/>
+   <part head="Actus III. Scena IV." level="2" type="scene" n="4"/>
+   <part head="Actus III. Scena V." level="2" type="scene" n="5"/>
+   <part head="Actus III. Scena VI." level="2" type="scene" n="6"/>
+
+   <part head="Actus IV." level="1" type="act" n="1"/>
+   <part head="Actus IV. Scena I." level="2" type="scene" n="1"/>
+   <part head="Actus IV. Scena II." level="2" type="scene" n="2"/>
+   <part head="Actus IV. Scena III." level="2" type="scene" n="3"/>
+   <part head="Actus IV. Scena IV." level="2" type="scene" n="4"/>
+
+   <part head="Actus V." level="1" type="act" n="1"/>
+   <part head="Actus V. Scena I." level="2" type="scene" n="1"/>
+   <part head="Actus V. Scena II." level="2" type="scene" n="2"/>
+   <part head="Actus V. Scena III." level="2" type="scene" n="3"/>
+   <part head="Actus V. Scena IV." level="2" type="scene" n="4"/>
+   <part head="Actus V. Scena V." level="2" type="scene" n="5"/>
    
    <part head="Cantus" level="3" type="num" subtype="cant"/>
    <part head="Epilogus" level="1" type="act" subtype="epil"/>
    <part head="Clausula Eucharistica." level="1" type="act" subtype="epil"/> <!-- TODO -->
    <part head="Finis. Deo Gloria." level="1" type="act" subtype="epil"/> <!-- TODO -->
+   <part head="Epilogus in corona" level="1" type="act" subtype="epil"/>
   </lang>
   <lang xml:lang="cs">
    <part head="Námět" level="1" type="argumentum" n=" "/>
@@ -86,8 +129,8 @@
  
  <xsl:template match="tei:body/tei:div[tei:head]">
   <xsl:variable name="head" select="
-   if (tei:head[1]/*) then
-   tei:head[1]/*[1]/normalize-space(.)
+   if (tei:head[1]/*[text()]) then
+   tei:head[1]/*[text()][1]/normalize-space(.)
    else
    normalize-space(tei:head[1])"/>
   <xsl:variable name="part" select="$parts//d:part[@head = $head]"/>

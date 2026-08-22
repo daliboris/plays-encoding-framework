@@ -307,6 +307,10 @@
    <p:with-input port="stylesheet" href="../xslt/evt/evt-change-rendition-to-style.xsl" />
   </p:xslt>
   <xlog:store output-directory="{$debug-path}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="41" />
+
+  <!-- TODO: převést na něco jiného? -->
+  <p:unwrap match="tei:ref[@type='actor']" />
+  <xlog:store output-directory="{$debug-path}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="41" />
   
   <p:delete match="tei:listPerson[not(tei:person|tei:personGrp)]" />
   <p:delete match="tei:listPlace[not(tei:place)]" />

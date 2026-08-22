@@ -21,7 +21,9 @@
   <xsl:variable name="style" as="xs:string">
    <xsl:choose>
     <xsl:when test="@rendition = 'italic'">font-style: italic;</xsl:when>
+    <xsl:when test="@rendition = 'italic strike'">font-style: italic; text-decoration: line-through;</xsl:when>
     <xsl:when test="@rendition = 'bold'">font-weight: bold;</xsl:when>
+    <xsl:when test="@rendition = 'bold italic'">font-weight: bold; font-style: italic;</xsl:when>
     <xsl:when test="@rendition = 'normal'">font-weight: normal; font-style: normal;</xsl:when>
    </xsl:choose>    
   </xsl:variable>

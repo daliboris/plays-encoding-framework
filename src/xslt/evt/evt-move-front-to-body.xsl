@@ -71,6 +71,10 @@
   <xsl:apply-templates mode="#current" />
  </xsl:template>
  
+ <xsl:template match="tei:docDate" mode="body">
+  <date><xsl:apply-templates mode="#current" /></date>
+ </xsl:template>
+ 
  <xsl:template match="tei:titlePart" mode="body">
   <head>
    <xsl:copy-of select="@*" />
