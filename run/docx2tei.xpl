@@ -4,6 +4,7 @@
  xmlns:xpef="https://www.daliboris.cz/ns/xproc/plays-encoding-framework"
  xmlns:xtei="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/tei"
  xmlns:xpefjt="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/job-ticket"
+ xmlns:xevt="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/evt"
  xmlns:xpl="https://www.daliboris.cz/ns/xproc/pipeline"
  xmlns:xlog="https://www.daliboris.cz/ns/xproc/logging/1.0"
  xmlns:c="http://www.w3.org/ns/xproc-step"
@@ -15,6 +16,7 @@
  <p:import href="../src/xproc/docx2tei-lib.xpl" />
  <p:import href="../src/xproc/rochotius/docx2tei-rochotius-lib.xpl" />
  <p:import href="../src/xproc/tei-play-lib.xpl" />
+ <p:import href="../src/xproc/evt-play-lib.xpl" />
  
  <p:documentation>
   <xhtml:section>
@@ -133,7 +135,14 @@
   output-file-name="{$output-file-name}" target="EVT">
   <p:with-input port="source" pipe="result@tei" />
  </xtei:convert>
+ <p:identity name="evt" />
  <xlog:store p:use-when="false()" output-directory="{$output-directory-path}/{$text-id}/evt" base-uri="{$base-uri}" debug="true" file-name="{$dracor-file-stem}.xml" />
+ 
+ <xevt:validate-hierarchies output-directory-path="{$output-directory-path}/{$text-id}/evt" 
+  data-file-path="{$data-file-path}"
+  debug-path="{if($debug) then $debug-path || '/' || $text-id || '/convert/evt' else ()}" 
+  base-uri="{$base-uri}" 
+  output-file-name="{$text-id}-hierarchies.html" />
  
  <xtei:convert 
   output-directory-path="{$output-directory-path}" 
@@ -144,7 +153,9 @@
   output-file-name="{$output-file-name}" target="DraCor">
   <p:with-input port="source" pipe="result@tei" />
  </xtei:convert>
- <xlog:store output-directory="{$output-directory-path}/{$text-id}/dracor" base-uri="{$base-uri}" debug="true" file-name="{$dracor-file-stem}.xml" />
+ <xlog:store output-directory="{$output-directory-path}/{$text-id}/dracor" base-uri="{$base-uri}" debug="true" file-name="{$dracor-file-stem}.xml"  p:use-when="false()"/>
+   <p:store href="{p:urify($output-directory-path, $base-uri)}/{$text-id}/dracor/{$dracor-file-stem}.xml"
+         serialization="map { 'encoding' : 'utf-8', 'indent' : true(), 'undeclare-prefixes' : true()}" />
 
  <xtei:convert 
   output-directory-path="{$output-directory-path}" 

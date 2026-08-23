@@ -20,14 +20,14 @@
  <xsl:output method="xml" indent="yes" />
  <xsl:mode on-no-match="shallow-copy" />
 
- <xsl:param name="editor" select="/tei:TEI/tei:teiHeader/tei:fileDesc/tei:editionStmt/tei:respStmt[tei:resp[. = 'Editor:']]/tei:name"/>
+ <xsl:param name="editor" select="/tei:TEI/tei:teiHeader/tei:fileDesc/tei:editionStmt/tei:respStmt[tei:resp[. = 'Editor:']]/(tei:name|tei:persName)"/>
  
  <xsl:variable name="regex" select="'\[.[^\]]*\]'"/>
  
  <xsl:template match="tei:front//text()[matches(., $regex)] | tei:body//text()[matches(., $regex)]">
   <xsl:analyze-string select="." regex="{$regex}">
    <xsl:matching-substring>
-    <tei:supplied resp="#{$editor/@xml:id}">
+    <tei:supplied resp="{'#' || string-join($editor/@xml:id, ' #')}">
      <xsl:value-of select=". => translate('[]', '')"/> 
     </tei:supplied>
    </xsl:matching-substring>

@@ -29,17 +29,23 @@
   <xsl:strip-space elements="*"/>
   <xsl:output indent="yes" />
   
-  <xsl:variable name="div-heads" select="$divs/*[1]"/>
+ <xsl:variable name="div-heads" select="$divs[not(self::div[@type='titlePage'])]/*[1]/normalize-space(string-join(text()))"/>
+<!-- <xsl:variable name="div-heads" select="$divs/*[1]/normalize-space(string-join(text()))"/>-->
+  
+  <xsl:template match="tei:div[@type='titlePage' and $divs[self::div[@type='titlePage']]]" priority="2">
+    <xsl:variable name="div" select="$divs[self::div[@type='titlePage']]" />
+    <xsl:copy-of select="$div/tei:titlePage" />
+  </xsl:template>
   
   <xsl:template match="tei:div[*[1]/normalize-space(string-join(text(), ' ')) = $div-heads]">
     <xsl:variable name="head" select="*[1]" />
     <xsl:variable name="head-text" select="$head/normalize-space(string-join(text(), ' '))" />
-    <xsl:variable name="div" select="$divs[*[1] = $head-text]" />
-    <xsl:variable name="element-name" select="if($div/@type= ('titlePage', 'epigraph', 'closer')) then $div/@type else name()" />
+   <xsl:variable name="div" select="$divs[*[1]/normalize-space(string-join(text())) = $head-text]" />
+   <xsl:variable name="element-name" select="if(exists($div/@element)) then $div/@element else if($div/@type= ('titlePage', 'epigraph', 'closer')) then $div/@type else name()" />
 <!--    <xsl:variable name="element-name" select="name()"/>-->
     
     <xsl:element name="{$element-name}">
-      <xsl:copy-of select="@*" />
+      <xsl:copy-of select="@* except @subtype" />
       <xsl:if test="$element-name = 'tei:div'">
         <xsl:copy-of select="$div/@*" />        
       </xsl:if>
@@ -108,7 +114,7 @@
   </xsl:template>
   
   <xsl:template match="tei:argument[count(tei:p) eq 1]" mode="closer">
-    <xsl:apply-templates select="tei:p/text()" />
+    <xsl:apply-templates select="tei:p/node()" />
   </xsl:template>
 
   

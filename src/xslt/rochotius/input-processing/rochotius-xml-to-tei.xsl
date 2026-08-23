@@ -24,17 +24,21 @@
  <xsl:param name="text-filename" select="concat($text-id, '.text.xml')"/>
  <xsl:param name="id-format" select="'000000'"/>
  <xsl:param name="sigla-regex" select="'\[([A-Z]+[a-z]*\d+[rv])\]'"/>
- <xsl:param name="pagina-regex" select="'^/?p\.\s(\d+)/?$'"/>
+ <xsl:param name="pagina-regex" select="'^[\[/]?p\.\s(\d+)[/\[]?$'"/>
  <xsl:param name="scena-regex" select="'Actus ([IVX]+)\.\s+Scena ([IVX]+)'"/>
+ <xsl:param name="actus-only-regex" select="'Actus ([IVX]+)'"/>
+ <xsl:param name="scena-only-regex" select="'Scena ([IVX]+)'"/>
  <!-- <xsl:variable name="speaker-regex" select="'^\p{Lu}[\p{Ll}\[\]]+(\s+\p{Lu}[\p{Ll}\[\]]+)?:$'"/>-->
 <!-- <xsl:param name="speaker-regex" select="'^\[?\p{Lu}[\p{Ll}\[\]]+(\s+\p{Lu}[\p{Ll}\[\]]+)?:\]?$'"/>-->
 <!-- <xsl:variable name="speaker-name-regex" select="'\p{Lu}[\p{Ll}\[\]]+(\s+\p{Lu}[\p{Ll}\[\]]+)?:'"/>-->
- <xsl:variable name="speaker-name-regex" select="'\p{Lu}[\p{Ll}\[\]]+((\.|\s+\d|\p{Lu}[\p{Ll}\[\]]+))?:'"/>
+<!-- <xsl:variable name="speaker-name-regex" select="'\p{Lu}[\p{Ll}\[\]]+((\.|\s+\d|\p{Lu}[\p{Ll}\[\]]+))?:'"/>-->
+ <xsl:variable name="speaker-name-regex" select="'\p{Lu}[\p{Ll}\[\]]+((\set\s)?(\.|\s+\d|\p{Lu}[\p{Ll}\[\]]+))?:'"/>
  <xsl:variable name="speaker-regex" select="'^' || $speaker-name-regex || '$'"/>
  <xsl:variable name="speaker-supplied-regex" select="'^\[' || $speaker-name-regex || '?\]:?$'"/>
  
  <xsl:key name="comment" match="comment" use="@id" />
  <xsl:key name="footnote" match="footnote" use="@id" />
+ <xsl:key name="endnote" match="endnote" use="@id" />
 
  
  
@@ -110,13 +114,31 @@
 
  <xsl:template match="Normální[@jc-val='center']" priority="2">
   <tei:head>
-   <xsl:if test="fn:matches(fn:normalize-space(.), $scena-regex)">
+   <xsl:call-template name="analyze-header-content">
+    <xsl:with-param name="header" select="." />
+   </xsl:call-template>
+   <xsl:if test="fn:matches(fn:normalize-space(.), $scena-regex)" use-when="false()">
     <xsl:variable name="analysis" select="analyze-string(., $scena-regex)/*/fn:group"/>
     <xsl:attribute name="type" select="$analysis[1] => replace('IIII', 'IV') " />
     <xsl:attribute name="subtype" select="$analysis[2]" />
    </xsl:if>
    <xsl:apply-templates />
   </tei:head>  
+ </xsl:template>
+ 
+ <xsl:template name="analyze-header-content">
+  <xsl:param name="header" as="element()?" />
+  <xsl:variable name="text" select="normalize-space($header)"/>
+  <xsl:variable name="scena-analysis" select="analyze-string($text, $scena-only-regex)/*/fn:group"/>
+  <xsl:variable name="actus-analysis" select="analyze-string($text, $actus-only-regex)/*/fn:group"/>
+  
+  <xsl:if test="exists($actus-analysis)">
+   <xsl:attribute name="type" select="$actus-analysis[1] => replace('IIII', 'IV') " />
+  </xsl:if>
+  <xsl:if test="exists($scena-analysis)">
+   <xsl:attribute name="subtype" select="$scena-analysis[1] => replace('IIII', 'IV') " />
+  </xsl:if>
+  
  </xsl:template>
  
  <xsl:template match="Normální[text[@italic]]" priority="2">
@@ -144,10 +166,11 @@
   </tei:l>
  </xsl:template>
  
+ <!-- TODO: další případy chybějícího odsazení //tei:l[not(@rend)], např. pokud řádek obsahuje <pb /> -->
  <xsl:template name="get-indentation">
-  <xsl:variable name="root" select="text[not(@* except (@xml:*, @highlight-val))][1]/text()[matches(., '^\p{L}+')][1]"/>
+  <xsl:variable name="root" select="(text[not(@* except (@xml:*, @highlight-val))][1]/text()[matches(., '^\d+$')][1], text[not(@* except (@xml:*, @highlight-val))][1]/text()[matches(., '^\p{L}+')][1])[1]"/>
   <xsl:variable name="tabs-only" select="text[not(@* except (@xml:*, @highlight-val))][1][tab and not(normalize-space() != '')]"/>
-  <xsl:variable name="tabs" select="if(exists($root)) then $root/count(preceding-sibling::tab) else $tabs-only/count(tab)"/>
+  <xsl:variable name="tabs" select="if(exists($root)) then if(matches($root, '^\d+$')) then $root/count(following-sibling::tab) else $root/count(preceding-sibling::tab) else $tabs-only/count(tab)"/>
   <xsl:variable name="indent" select="
    if (empty($tabs)) then
       ()
@@ -350,6 +373,10 @@
  
  <xsl:template match="foreign">
   <tei:foreign><xsl:copy-of select="@xml:space" /><xsl:apply-templates /></tei:foreign>
+ </xsl:template>
+ 
+ <xsl:template match="lb">
+  <tei:lb />
  </xsl:template>
  
 </xsl:stylesheet>

@@ -317,31 +317,106 @@
   </p:xslt>
   <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="5" />
   
+  <p:variable name="roles" select="/data/roles/role" href="{$data-file-path-uri}"/>
+  <p:if test="exists($roles)">
+   <p:xslt>
+    <p:with-input port="stylesheet" href="../xslt/tei/tei-identify-roles-in-list-of-persons.xsl" />
+    <p:with-option name="parameters" select="map {'roles' : $roles}" />
+   </p:xslt>
+   <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml"  step="10" />   
+  </p:if>
+  
+  
   <p:xslt>
    <p:with-input port="stylesheet" href="../xslt/common/tei-add-who-to-sp.xsl" />
   </p:xslt>
-  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml" step="10" />
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml" step="15" />
 
   <p:variable name="ids" select="distinct-values(//tei:sp/@who ! tokenize(., '[\s#]')[.])" />
   <p:identity message="   ---- $ids: {string-join($ids, '; ')} persons: {count($persons[not(@xml:id = $ids)])}" />
   <p:insert match="tei:listPerson[tei:person]" position="last-child">
    <p:with-input port="insertion" select="/data/persons/tei:person[not(@xml:id = $ids)] | /data/persons/tei:personGrp[not(@xml:id = $ids)]" href="{$data-file-path-uri}" />
   </p:insert>
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml" step="20" />
   
   <p:xslt>
    <p:with-input port="stylesheet" href="../xslt/tei/tei-add-external-person.xsl" />
    <p:with-option name="parameters" select="map {'persons' : $persons }" />
   </p:xslt>
-  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml" step="15" />
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml" step="25" />
   
 
   <xpefc:add-persName-to-speaker p:message="Adding persName to speaker" name="corpus" />
-  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml" step="20" />
+  <xlog:store output-directory="{$output-temp-directory}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$file-stem}.xml" step="30" />
 
 
  </p:declare-step>
 
- 
+
+ <!-- 
+  ×××××××××××××××××××××××××××
+  ×××××  PIPELINE STEP  ×××××
+  ×××××××××××××××××××××××××××
+ -->
+ <p:declare-step type="xpef:identify-foreign-text" name="identifying-foreign-text">
+  
+  <p:documentation>
+   <xhtml:section>
+    <xhtml:h2></xhtml:h2>
+    <xhtml:p></xhtml:p>
+   </xhtml:section>
+  </p:documentation>
+  
+  <!--
+   >>>>>>>>>>>>>>>>>
+   >> INPUT PORTS >>
+   >>>>>>>>>>>>>>>>>
+  -->
+  <p:input port="source" primary="true" />
+  
+  <!--
+   <<<<<<<<<<<<<<<<<<
+   << OUTPUT PORTS <<
+   <<<<<<<<<<<<<<<<<<
+  -->
+  <p:output port="result" primary="true"  />
+  
+  <!--
+   +++++++++++++
+   ++ OPTIONS ++
+   +++++++++++++
+  -->
+  <p:option name="debug-path" select="()" as="xs:string?" />
+  <p:option name="base-uri" as="xs:anyURI" select="static-base-uri()"/>
+  
+  <p:option name="foreign-text-regex" as="xs:string" required="true" />
+  <p:option name="language-code" as="xs:string" required="true" />
+  <p:option name="element-name" as="xs:string" select="'foreign'"  />
+  
+  <!--
+   ÷÷÷÷÷÷÷÷÷÷÷÷÷÷÷
+   ÷÷ VARIABLES ÷÷
+   ÷÷÷÷÷÷÷÷÷÷÷÷÷÷÷
+  -->
+  <p:variable name="debug" select="$debug-path || '' ne ''" />
+  <p:variable name="debug-path-uri" select="if(exists($debug-path)) then p:urify($debug-path, $base-uri) else ()" />
+  
+  <!--
+   *******************
+   ** PIPELINE BODY **
+   *******************
+  -->
+  
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../xslt/common/identify-foreign-text.xsl"/>
+   <p:with-option name="parameters" select="map {
+    'foreign-text-regex' : $foreign-text-regex, 
+    'language-code' : $language-code,
+    'element-name' : $element-name
+    }" />
+  </p:xslt>
+  
+ </p:declare-step>
 
 
 </p:library>

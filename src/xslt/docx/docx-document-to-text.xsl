@@ -26,9 +26,15 @@
  <xsl:template match="w:r/w:t">
   <xsl:value-of select="." />
  </xsl:template>
+ 
+ <xsl:template match="w:r/w:br">
+  <xsl:value-of select="'&#xa;'" />
+ </xsl:template>
+ 
  <xsl:template match="w:r/w:tab">
   <xsl:value-of select="'&#x9;'"/>
  </xsl:template>
+ 
  
  
 </xsl:stylesheet>

@@ -20,7 +20,7 @@ declare function local:clean-name($name as xs:string?) as xs:string?
 
  declare function local:get-valid-id ($item as xs:string?) as xs:string 
 {
- translate($item,  " ,.:", "---") => replace("--", "-") => lower-case()
+ translate($item,  " ,.:", "---") => replace("-+", "-") => replace("-", "_") => replace('[_-]+', '_') =>  replace('[\W^_]+$', '') => lower-case()
 };
 
 declare function local:get-valid-xml-id ($item as xs:string?, $play-name-suffix as xs:string?) as xs:string 

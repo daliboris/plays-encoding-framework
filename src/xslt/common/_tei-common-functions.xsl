@@ -13,7 +13,7 @@
  
  <xsl:function name="tnf:get-valid-id" as="xs:string?">
   <xsl:param name="text" as="xs:string?" />
-  <xsl:value-of select="fn:normalize-space($text) => translate(' &#xa0;,.:–', '__--') => replace('-+', '-') => replace('\P{L}$', '') => lower-case() => tnf:remove-diacritics()"/>
+  <xsl:value-of select="fn:normalize-space($text) => translate(' &#xa0;,.:–', '__--') => replace('-+', '-') => replace('[_-]+', '_') =>  replace('[\W^_]+$', '') => lower-case() => tnf:remove-diacritics()"/>
  </xsl:function>
  
  <xsl:function name="tnf:remove-diacritics" as="xs:string?">
@@ -58,6 +58,33 @@
    return $map(string($m))
    )
    "/>
+ </xsl:function>
+ 
+ <xsl:function name="tnf:sort-elements-by-string-length" as="element()*">
+  <xsl:param name="items" as="element()*" />
+  <xsl:perform-sort select="$items">
+   <xsl:sort select="string-length(normalize-space())" data-type="number" order="descending" />
+  </xsl:perform-sort>
+ </xsl:function>
+ 
+ <xsl:function name="tnf:sort-items-by-string-length" as="item()*">
+  <xsl:param name="items" as="item()*" />
+  <xsl:perform-sort select="$items">
+   <xsl:sort select="string-length(normalize-space())" data-type="number" order="descending" />
+  </xsl:perform-sort>
+ </xsl:function>
+ 
+ <xsl:function name="tnf:transform-for-regex" as="xs:string">
+  <xsl:param name="text" as="item()?" />
+  <xsl:choose>
+   <xsl:when test="empty($text)">
+    <xsl:value-of select="''"/>    
+   </xsl:when>
+   <xsl:otherwise>
+    <xsl:value-of select="replace($text, '\s', '\\s') 
+     => replace('\.', '\\.')"/>
+   </xsl:otherwise>
+  </xsl:choose>
  </xsl:function>
  
 </xsl:stylesheet>

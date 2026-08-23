@@ -180,7 +180,7 @@
 
   <p:choose>
    <p:when test="$target='text'">
-    <xtei:tei-to-text debug-path="{$debug-path}" base-uri="{$base-uri}" output-file-name="{$output-file-name}"/>
+    <xtei:tei-to-text debug-path="{$debug-path}" base-uri="{$base-uri}" data-file-path="{$data-file-path}" output-file-name="{$output-file-name}"/>
    </p:when>
   </p:choose>
   
@@ -199,19 +199,30 @@
   <p:option name="debug-path" select="()" as="xs:string?" />
   <p:option name="base-uri" as="xs:anyURI" select="static-base-uri()"/>
   
+  <p:option name="data-file-path" as="xs:string?" />
   <p:option name="output-file-name" as="xs:string?" />
   
   <!-- VARIABLES -->
   <p:variable name="debug" select="$debug-path || '' ne ''" />
   <p:variable name="debug-path-uri" select="if(empty($debug-path)) then () else p:urify($debug-path, $base-uri)" />
+  <p:variable name="data-file-uri" select="if(empty($data-file-path)) then () else p:urify($data-file-path, $base-uri)" />
 
   <p:variable name="active-debug-path" select="if(empty($debug-path)) then () else $debug-path ||  '/' || $output-file-name" />
+  <p:variable name="speaker-inline" select="/data/docx/persons/@inline = 'true'" href="{$data-file-uri}" />
   
   <!-- PIPELINE BODY -->
+  
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../xslt/dracor/move-pb-outside.xsl" />
+  </p:xslt>
+  <xlog:store output-directory="{$active-debug-path}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$output-file-name}.xml"  step="1" />
+  
+  
   <p:xslt name="tei-to-text">
    <p:with-input port="stylesheet" href="../xslt/tei/tei-to-text.xsl" />
+   <p:with-option name="parameters" select="map {'speaker-inline' : $speaker-inline }" />
   </p:xslt>
-  <xlog:store output-directory="{$active-debug-path}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$output-file-name}.txt" step="1" />
+  <xlog:store output-directory="{$active-debug-path}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$output-file-name}.txt" step="5" />
   
   <p:file-create-tempfile delete-on-exit="true" suffix=".txt"/>
   <p:variable name="href-tempfile-uri" select="xs:anyURI(.)"/>
@@ -219,12 +230,13 @@
   <p:store href="{$href-tempfile-uri}">
    <p:with-input pipe="result@tei-to-text"/>
   </p:store>
+  <xlog:store output-directory="{$active-debug-path}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$output-file-name}.txt" step="10" />
   
   <p:xslt template-name="xsl:initial-template">
    <p:with-input port="stylesheet" href="../xslt/docx/text-clean-lines.xsl" />
    <p:with-option name="parameters" select="map {'href' : $href-tempfile-uri }" />
   </p:xslt>
-  <xlog:store output-directory="{$active-debug-path}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$output-file-name}.xml" step="5" />
+  <xlog:store output-directory="{$active-debug-path}" base-uri="{$base-uri}" debug="{$debug}" file-name="{$output-file-name}.xml" step="15" />
   
   
 

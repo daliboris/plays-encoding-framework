@@ -17,7 +17,7 @@
  <xsl:mode on-no-match="shallow-copy"/>
  <xsl:mode on-no-match="shallow-copy" name="front"/>
  <xsl:output indent="true" />
- <xsl:param name="head-text" select="('Dramatis personae', 'Dramatis personae.')" />
+ <xsl:param name="head-text" select="('Dramatis personae', 'Dramatis personae.', 'Personae', 'Comoediae interlocutores')" />
  
  <xsl:template match="tei:front" use-when="false()">
   <xsl:copy>
@@ -30,7 +30,7 @@
  <xsl:template match="tei:div[tei:head[. = $head-text]]" mode="front">
   <xsl:copy>
    <xsl:copy-of select="@*" />
-   <xsl:attribute name="type" select="'list-of-persons'"></xsl:attribute>
+   <xsl:attribute name="type" select="'list-of-persons'" />
    <xsl:apply-templates mode="#current" />
   </xsl:copy>
  </xsl:template>

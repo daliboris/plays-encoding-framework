@@ -21,6 +21,9 @@
   <xsl:copy>
    <xsl:for-each-group select="*" group-adjacent="if(self::tei:l or self::tei:p[@rend='right']) then 1 else 0">
     <xsl:choose>
+     <xsl:when test="current-group()[self::tei:div[@type='titlePage']]">
+      <xsl:copy-of select="current-group()" />
+     </xsl:when>
      <xsl:when test=".[self::tei:l]">
       <tei:div>
       <!--<xsl:apply-templates select="." mode="group" />-->

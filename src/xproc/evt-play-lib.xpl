@@ -5,7 +5,8 @@
  xmlns:xpefc="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/common" 
  xmlns:xxml="https://www.daliboris.cz/ns/xproc/xml" 
  xmlns:tei="http://www.tei-c.org/ns/1.0" 
- xmlns:xlog="https://www.daliboris.cz/ns/xproc/logging/1.0" 
+ xmlns:xlog="https://www.daliboris.cz/ns/xproc/logging/1.0"
+ xmlns:c="http://www.w3.org/ns/xproc-step" 
  xmlns:xhtml="http://www.w3.org/1999/xhtml" 
  version="3.0">
 
@@ -23,8 +24,68 @@
   </xhtml:section>
  </p:documentation>
 
-
-
+ 
+<!-- 
+  ×××××××××××××××××××××××××××
+  ×××××  PIPELINE STEP  ×××××
+  ×××××××××××××××××××××××××××
+ -->
+ <p:declare-step type="xevt:move-allusions">
+  
+  <p:documentation>
+   <xhtml:section>
+    <xhtml:h2>Move allusions</xhtml:h2>
+    <xhtml:p>Repleace allusions by <xhtml:b>&lt;seg&gt;</xhtml:b> elements and move them to the <xhtml:b>&lt;back&gt;</xhtml:b> element.</xhtml:p>
+   </xhtml:section>
+  </p:documentation>
+  
+  <!--
+   >>>>>>>>>>>>>>>>>
+   >> INPUT PORTS >>
+   >>>>>>>>>>>>>>>>>
+  -->
+  <p:input port="source" primary="true" />
+  
+  <!--
+   <<<<<<<<<<<<<<<<<<
+   << OUTPUT PORTS <<
+   <<<<<<<<<<<<<<<<<<
+  -->
+  <p:output port="result" primary="true"  />
+  
+  <!--
+   +++++++++++++
+   ++ OPTIONS ++
+   +++++++++++++
+  -->
+  <p:option name="debug-path" select="()" as="xs:string?" />
+  <p:option name="base-uri" as="xs:anyURI" select="static-base-uri()"/>
+  
+  <!--
+   ÷÷÷÷÷÷÷÷÷÷÷÷÷÷÷
+   ÷÷ VARIABLES ÷÷
+   ÷÷÷÷÷÷÷÷÷÷÷÷÷÷÷
+  -->
+  <p:variable name="debug" select="$debug-path || '' ne ''" />
+  <p:variable name="debug-path-uri" select="if(exists($debug-path)) then p:urify($debug-path, $base-uri) else ()" />
+  
+  <!--
+   *******************
+   ** PIPELINE BODY **
+   *******************
+  -->
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../xslt/evt/evt-move-allusions.xsl" />
+  </p:xslt>
+  <p:identity />
+  
+ </p:declare-step>
+ 
+ <!-- 
+  ×××××××××××××××××××××××××××
+  ×××××  PIPELINE STEP  ×××××
+  ×××××××××××××××××××××××××××
+ -->
  <p:declare-step type="xevt:move-front">
   <p:documentation>
    <xhtml:section>
@@ -57,6 +118,11 @@
 
  </p:declare-step>
 
+ <!-- 
+  ×××××××××××××××××××××××××××
+  ×××××  PIPELINE STEP  ×××××
+  ×××××××××××××××××××××××××××
+ -->
  <p:declare-step type="xevt:divide-texts" name="dividing-texts">
   <p:documentation>
    <xhtml:section>
@@ -97,6 +163,11 @@
 
  </p:declare-step>
 
+ <!-- 
+  ×××××××××××××××××××××××××××
+  ×××××  PIPELINE STEP  ×××××
+  ×××××××××××××××××××××××××××
+ -->
  <p:declare-step type="xevt:include-texts" name="including-texts">
   <p:documentation>
    <xhtml:section>
@@ -135,6 +206,11 @@
 
  </p:declare-step>
 
+ <!-- 
+  ×××××××××××××××××××××××××××
+  ×××××  PIPELINE STEP  ×××××
+  ×××××××××××××××××××××××××××
+ -->
  <p:declare-step type="xevt:tei-to-evt" name="tei-to-evt">
   <p:documentation>
    <xhtml:section>
@@ -147,8 +223,9 @@
   <p:input port="source" primary="true" />
 
   <!-- OUTPUT PORTS -->
-  <p:output port="result" primary="true" />
-
+  <p:output port="result" primary="true" pipe="result@result" />
+  <p:output port="result-uri" primary="false" pipe="result@result-uri" />
+  
   <!-- OPTIONS -->
   <p:option name="debug-path" select="()" as="xs:string?" />
   <p:option name="base-uri" as="xs:anyURI" select="static-base-uri()" />
@@ -181,6 +258,7 @@
    <p:identity message="   ::  variable  $output-file-path-uri = {$output-file-path-uri}  :: "/>
    <p:identity message="========================"/>
   </p:group>
+  
   <xpefc:add-persName-to-speaker debug-path="{$debug-path}" base-uri="{$base-uri}" />
 
   <xlog:store output-directory="{$debug-path}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="1" />
@@ -188,6 +266,11 @@
   <p:delete match="//*[@source='#dracor']" />
   <xlog:store output-directory="{$debug-path}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="5" />
 
+  <p:if test="/tei:TEI/tei:text[not(@n)]">
+   <p:add-attribute match="tei:TEI/tei:text[not(@n)]" attribute-name="n" attribute-value="Text edice" />
+  </p:if>
+  <xlog:store output-directory="{$debug-path}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="6" />
+  
   <p:viewport match="tei:TEI[tei:text[@n=('Text edice', 'Překlad', 'Synopse')]]">
    <xevt:move-front />
   </p:viewport>
@@ -199,6 +282,48 @@
 
   <xevt:include-texts data-file-path="{$data-file-path}" debug-path="{$debug-path}" base-uri="{$base-uri}" />
   <xlog:store output-directory="{$debug-path}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="20" />
+  
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../xslt/evt/evt-create-drama-hierarchy.xsl" />
+  </p:xslt>
+  <xlog:store output-directory="{$debug-path}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="25" />
+
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../xslt/evt/evt-lb-to-p.xsl" />
+  </p:xslt>
+  <xlog:store output-directory="{$debug-path}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="30" />
+  
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../xslt/evt/evt-unwrap-body-div-cit.xsl" />
+  </p:xslt>
+  <xlog:store output-directory="{$debug-path}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="35" />
+  
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../xslt/evt/evt-fix-div-n.xsl" />
+  </p:xslt>
+  <xlog:store output-directory="{$debug-path}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="40" />
+  
+  <p:xslt>
+   <p:with-input port="stylesheet" href="../xslt/evt/evt-change-rendition-to-style.xsl" />
+  </p:xslt>
+  <xlog:store output-directory="{$debug-path}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="41" />
+
+  <!-- TODO: převést na něco jiného? -->
+  <p:unwrap match="tei:ref[@type='actor']" />
+  <xlog:store output-directory="{$debug-path}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="41" />
+  
+  <p:delete match="tei:listPerson[not(tei:person|tei:personGrp)]" />
+  <p:delete match="tei:listPlace[not(tei:place)]" />
+  <p:delete match="tei:list[not(node())]" />
+  <p:delete match="tei:standOff[not(*)]" />
+  <p:delete match="tei:div/@level" />
+  <xlog:store output-directory="{$debug-path}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="45" />
+
+  <p:delete match="tei:front/tei:*[not(self::tei:titlePage)]" />
+  <xlog:store output-directory="{$debug-path}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="50" />
+  
+  <xevt:move-allusions />
+  <xlog:store output-directory="{$debug-path}" base-uri="{$base-uri}" file-name="{$log-file-name}" debug="{$debug}" step="55" />
 
   <p:choose>
    <p:when test="not(empty($output-directory-path) or empty($output-file-name))">
@@ -206,9 +331,18 @@
     <xlog:store p:use-when="$enable-logging" output-directory="{$output-directory-path}" base-uri="{$base-uri}" file-name="{$output-file-name}" debug="true" />
    </p:when>
   </p:choose>
+  <p:identity name="result" />
+  <p:identity name="result-uri">
+   <p:with-input><c:result>{$output-file-path-uri}</c:result></p:with-input>
+  </p:identity>
 
  </p:declare-step>
 
+ <!-- 
+  ×××××××××××××××××××××××××××
+  ×××××  PIPELINE STEP  ×××××
+  ×××××××××××××××××××××××××××
+ -->
  <p:declare-step type="xevt:validate-hierarchies" name="validating-hierarchies">
   <p:documentation>
    <xhtml:section>
@@ -249,6 +383,11 @@
 
  </p:declare-step>
 
+ <!-- 
+  ×××××××××××××××××××××××××××
+  ×××××  PIPELINE STEP  ×××××
+  ×××××××××××××××××××××××××××
+ -->
  <p:declare-step type="xevt:zip" name="zipping">
   <p:documentation>
    <xhtml:section>
@@ -279,8 +418,5 @@
   <p:identity />
 
  </p:declare-step>
-
-
-
 
 </p:library>

@@ -84,4 +84,26 @@
   
   <xsl:template match="tei:sp/*[1][self::tei:speaker]/*[1][self::tei:pb]" />
   
+
+  <!--
+    <sp who="#per.tubal-jc_a-tnl">
+     <speaker>
+       <persName ref="#per.tubal-jc_a-tnl">Tubal</persName>
+     </speaker>
+     <l n="304">
+       <pb n="B3r" />
+         <space unit="tab" quantity="1" />Scires, crepant cui jam dudum viscera.
+     </l>
+   </sp>
+  -->
+  <xsl:template match="tei:sp[*[1][self::tei:speaker][following-sibling::*[1][self::tei:l][*[1][self::tei:pb]]]]">
+    <xsl:copy-of select="*[2]/*[1][self::tei:pb]" />
+    <xsl:copy>
+      <xsl:copy-of select="@*" />
+      <xsl:apply-templates />
+    </xsl:copy>
+  </xsl:template>
+  
+  <xsl:template match="tei:sp[*[1][self::tei:speaker][following-sibling::*[1][self::tei:l][*[1][self::tei:pb]]]]/*[2]/*[1][self::tei:pb]" />
+  
 </xsl:stylesheet>

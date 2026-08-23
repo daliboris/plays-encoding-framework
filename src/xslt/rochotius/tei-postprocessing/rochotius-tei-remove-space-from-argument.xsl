@@ -15,6 +15,6 @@
  </xd:doc>
  <xsl:mode on-no-match="shallow-copy"/>
  
- <xsl:template match="tei:argument/tei:p//tei:space" />
+ <xsl:template match="tei:argument/tei:p//tei:space | tei:div[@type='argument']/tei:p//tei:space" />
  
 </xsl:stylesheet>

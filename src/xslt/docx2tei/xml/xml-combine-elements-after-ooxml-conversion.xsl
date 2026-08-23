@@ -19,7 +19,7 @@
  <xsl:mode on-no-match="shallow-copy"/>
  <xsl:output method="xml" indent="yes"/>
 
- <xsl:template match="/*/*[not(self::comment)]">
+ <xsl:template match="/*/*[not(self::comment or self::footnote or self::endnote)]">
   <xsl:copy>
    <xsl:copy-of select="@*"/>
     <xsl:choose>
@@ -47,7 +47,7 @@
  </xsl:template>
   
 
- <xsl:template match="comment/* | footnote/*">
+ <xsl:template match="comment/* | footnote/* | endnote/* | comment/*/* | footnote/*/* | endnote/*/*">
   <xsl:copy>
    <xsl:copy-of select="@*"/>
    <xsl:choose>

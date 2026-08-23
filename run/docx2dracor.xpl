@@ -4,6 +4,7 @@
  xmlns:xpef="https://www.daliboris.cz/ns/xproc/plays-encoding-framework"
  xmlns:xtei="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/tei"
  xmlns:xpefjt="https://www.daliboris.cz/ns/xproc/plays-encoding-framework/job-ticket"
+ xmlns:xxml="https://www.daliboris.cz/ns/xproc/xml"
  xmlns:xpl="https://www.daliboris.cz/ns/xproc/pipeline"
  xmlns:xlog="https://www.daliboris.cz/ns/xproc/logging/1.0"
  xmlns:c="http://www.w3.org/ns/xproc-step"
@@ -16,6 +17,7 @@
  <p:import href="../src/includes/log-xpc-lib/src/xproc/log-xpc-lib.xpl" />
  <p:import href="../src/xproc/docx2dracor-lib.xpl" />
  <p:import href="../src/xproc/tei-play-lib.xpl" />
+ <p:import href="../src/xproc/common-lib.xpl" />
  
  <p:documentation>
   <xhtml:section>
@@ -59,7 +61,7 @@
 
  <p:variable name="output-file-name" select="if(empty($output-file-name)) then $file-stem else $output-file-name" />
  
- <p:variable name="text-id" select="/data/@id" href="{$data-file-path}" />
+ <p:variable name="text-id" select="if(/data/@id) then /data/@id else $file-stem" href="{$data-file-path}" />
  
  <p:variable name="source-debug-path" select="if(empty($debug-path)) then () else $debug-path ||  '/' || $text-id" />
  
@@ -95,9 +97,9 @@
   </p:when> 
  </p:choose>
  
- <xpef:remove-xinclude debug-path="{$source-debug-path}" base-uri="{$base-uri}">
+ <xxml:remove-xinclude debug-path="{$source-debug-path}" base-uri="{$base-uri}">
   <p:with-input port="ticket-in" pipe="job-ticket@docx2dracor" />
- </xpef:remove-xinclude>
+ </xxml:remove-xinclude>
  <p:identity name="tei" />
  
  <xlog:store output-directory="{$output-directory-path}/{$text-id}/tei" base-uri="{$base-uri}" debug="true" file-name="{$output-file-name}.xml" />
@@ -107,6 +109,7 @@
   data-file-path="{$data-file-path}" 
   debug-path="{$debug-path}" 
   base-uri="{$base-uri}" 
+  text-id="{$text-id}"
   output-file-name="{$output-file-name}" target="text">
   <p:with-input port="source" pipe="result@tei" />
  </xtei:convert>

@@ -44,8 +44,16 @@
  <xsl:template match="footnote-text/text[contains(., $rigth-square-bracket)]" mode="critical-apparatus" priority="2">
   <xsl:variable name="prev" select="substring-before(., $rigth-square-bracket)"/>
   <xsl:variable name="next" select="substring-after(., $rigth-square-bracket || ' ')"/>
-  <xsl:variable name="var" select="if($next = $reading) then $reading else if(contains($next, $dot)) then substring-before($next, $dot) else $next"/>
-  <xsl:variable name="comment" select="if($next = $reading) then () else if(contains($next, $dot)) then substring-after($next, $dot || ' ') else ()"/>
+  <xsl:variable name="prev-tokens" select="tokenize($prev)[.]"/>
+  <xsl:variable name="next-tokens" select="tokenize($next)[.]"/>
+  <xsl:variable name="var" select="if($next = $reading) then $reading else
+    if(count($prev-tokens) ge count($next-tokens)) then $next
+    else
+    if(contains($next, $dot)) then substring-before($next, $dot) else $next"/>
+  <xsl:variable name="comment" select="if($next = $reading) then () else
+   if(count($prev-tokens) ge count($next-tokens)) then ()
+   else
+   if(contains($next, $dot)) then substring-after($next, $dot || ' ') else ()"/>
   
   <xsl:if test="$prev != ''">
    <text tei-data="lem"><xsl:copy-of select="@*" /><xsl:value-of select="$prev"/></text> 
@@ -76,7 +84,7 @@
  </xsl:template>
  
  <xsl:template match="text[@italic='true']" mode="critical-apparatus">
-  <xsl:variable name="wit-exists" select="preceding-sibling::*[contains(., $dot)] and preceding-sibling::text[@italic='true']"/>
+  <xsl:variable name="wit-exists" select="(preceding-sibling::*[contains(., $dot)] or preceding-sibling::*[contains(., $comma)]) and preceding-sibling::text[@italic='true']"/>
   <xsl:copy>
    <xsl:choose>
     <xsl:when test="$wit-exists">
@@ -86,6 +94,15 @@
       <text xml:space="preserve">. </text>
       <text xml:space="preserve" italic="true">Nuncius </text>
       <text>připsáno v tisku rukou.</text>
+     -->
+     <!--
+      <text xml:space="preserve"> Chremius] Chremi </text>
+         <text italic="true">TC</text>
+         <text xml:space="preserve">, v oddílu </text>
+         <text xml:space="preserve" italic="true">Comoediae interlocutores </text>
+         <text xml:space="preserve">se uvádí forma jména </text>
+         <text italic="true">Chremius</text>
+         <text>.</text>
      -->
      <xsl:attribute name="tei-data" select="'note'" />
     </xsl:when>

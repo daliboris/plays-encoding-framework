@@ -21,14 +21,15 @@
  <xsl:mode on-no-match="shallow-copy"/>
 
 
- <xsl:param name="persons" as="element(tei:person)*" required="yes" />
+ <xsl:param name="persons" as="element()*" required="yes" />
  <xsl:param name="project-suffix" select="'tnl'"/>
 <!-- <xsl:variable name="name-suffix" select="/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[1]/translate(., '[]', '') ! tokenize(normalize-space()) ! substring(., 1, 1) ! lower-case(.) => string-join()"/>-->
  <xsl:variable name="full-suffix" select="concat('-',  $name-suffix, '-', $project-suffix)"/>
 
  <xsl:key name="person" match="tei:person" use="@xml:id" />
  <xsl:variable name="all-person-names" select="( $persons/tei:persName, //tei:listPerson/tei:person/tei:persName)"/>
- <xsl:variable name="person-names" select="string-join($all-person-names ! replace(., ' ', '\\s'), '|')"/>
+ <xsl:variable name="all-person-names-sorted" select="tnf:sort-elements-by-string-length($all-person-names)"/>
+ <xsl:variable name="person-names" select="string-join($all-person-names-sorted ! replace(., ' ', '\\s') ! replace(., '\.', '\\.'), '|')"/>
  <xsl:variable name="person-regex" select="'^(' || $person-names || '|\p{Lu}\w+)(?:[,\.]?)'"/>
  
  <xsl:template match="tei:div[@type='list-of-persons']/tei:p/text()
@@ -48,6 +49,9 @@
     <xsl:comment> TODO: odlišné jméno osoby v textu a v seznamu &lt;listPerson&gt; </xsl:comment>
     <tei:persName ref="#{$xml-id}"><xsl:value-of select="$text"/></tei:persName><xsl:value-of select="$text-after"/>
    </xsl:when>
+   <xsl:when test="$persons[tei:persName = $text]">
+    <tei:persName ref="#{$persons[tei:persName = $text]/@xml:id}"><xsl:value-of select="$text"/></tei:persName><xsl:value-of select="$text-after"/>
+   </xsl:when>
    <xsl:otherwise>
     <tei:ref target="#{$xml-id}" type="person"><xsl:value-of select="$text"/></tei:ref>
     <tei:note>
@@ -58,6 +62,26 @@
      </tei:person>
     </tei:note>
     <xsl:value-of select="$text-after"/>
+   </xsl:otherwise>
+  </xsl:choose>
+ </xsl:template>
+ 
+ <xsl:template match="tei:div[@type='list-of-persons']/tei:p/tei:app[matches(tei:lem, $person-regex)]">
+  <xsl:variable name="text" select="tei:lem/data()"/>
+  <xsl:variable name="xml-id" select="tnf:get-valid-xml-id($text, 'per') || $full-suffix"/>
+  <xsl:variable name="person" select="key('person', $xml-id)"/>
+  
+  <xsl:choose>
+   <xsl:when test="$persons[tei:persName = $text]">
+    <tei:persName ref="#{$persons[tei:persName = $text]/@xml:id}">
+     <xsl:copy-of select="." />
+    </tei:persName>
+   </xsl:when>
+   <xsl:when test="$person[tei:persName[@xml:lang='la'] = $text]">
+    <tei:persName ref="#{$xml-id}"><xsl:copy-of select="."/></tei:persName>
+   </xsl:when>
+   <xsl:otherwise>
+    <xsl:copy-of select="." />
    </xsl:otherwise>
   </xsl:choose>
  </xsl:template>

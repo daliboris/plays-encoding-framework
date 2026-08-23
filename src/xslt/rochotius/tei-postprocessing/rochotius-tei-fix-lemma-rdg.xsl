@@ -15,13 +15,16 @@
  </xd:doc>
  
  <xsl:param name="editor-id" select="'mj'" />
+ 
  <xsl:variable name="all-withnesses" select="//tei:listWit/tei:witness/@xml:id"/>
+ <xsl:variable name="editor" select="/tei:TEI/tei:teiHeader/tei:fileDesc/tei:editionStmt/tei:respStmt[tei:resp[. = 'Editor:']]/(tei:name|tei:persName)"/>
+ 
  <xsl:mode on-no-match="shallow-copy"/>
  
  <xsl:template match="tei:app/tei:lem[not(@wit)]">
   <xsl:copy>
    <xsl:copy-of select="@*" />
-   <xsl:attribute name="resp" select="$editor-id" />
+   <xsl:attribute name="resp" select="'#' || string-join($editor/@xml:id, ' #')" />
    <xsl:apply-templates />
   </xsl:copy>
  </xsl:template>

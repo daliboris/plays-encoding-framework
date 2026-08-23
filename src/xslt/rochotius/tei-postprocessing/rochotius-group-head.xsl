@@ -20,6 +20,9 @@
  <xsl:template match="tei:head[not(@n)]" mode="group">
   <tei:div>
    <xsl:copy-of select="@type | @subtype" />
+   <!--<xsl:if test="preceding-sibling::*[1][self::tei:p[tei:pb]] and preceding-sibling::*[2][self::tei:div[@type='titlePage']]">
+    <xsl:copy-of select="preceding-sibling::*[1][self::tei:p]" />
+   </xsl:if>-->
    <tei:head>
     <xsl:copy-of select="@type | @subtype" />
     <xsl:copy-of select="node()" />
@@ -54,5 +57,6 @@
    </xsl:for-each-group>
   </xsl:copy>
  </xsl:template>
+ 
  
 </xsl:stylesheet>

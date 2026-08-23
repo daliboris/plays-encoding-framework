@@ -29,7 +29,11 @@
    </xsl:when>
    <xsl:when test="contains($text, ' ')">
     <xsl:variable name="parts" select="let $spaces := index-of(string-to-codepoints($text), 32) return
-     if(empty($spaces)) then $text else if($spaces[last()] = string-length($text)) then (substring($text, 1, $spaces[last() - 1]), substring($text, $spaces[last() - 1]  + 1)) else (substring($text, 1, $spaces[last()]), substring($text, $spaces[last()]  + 1))"/>
+     if(empty($spaces)) then $text else 
+     if($spaces[last()] = string-length($text)) then
+       if(count($spaces) eq 1) then $text 
+       else (substring($text, 1, $spaces[last() - 1]), substring($text, $spaces[last() - 1]  + 1)) 
+     else (substring($text, 1, $spaces[last()]), substring($text, $spaces[last()]  + 1))"/>
     <xsl:for-each select="$parts">
      <xsl:choose>
       <xsl:when test="position() = 1 and . = ' '">

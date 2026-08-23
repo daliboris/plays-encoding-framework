@@ -20,10 +20,13 @@
  <xsl:output method="xml" indent="yes" />
  
  <xsl:variable name="variant-delimiters-regex" select="'([\|&lt;=])'"/>
- <xsl:variable name="biblio-regex" select="'(\p{Lu}\p{Ll}*),\s(\p{Lu}\p{Ll}.[^\s]*(\s[A-Za-z]+)*,?),?\s?(([A-Z]*\s?[-\d–,^\s]+([vp]\.)?\s[-\d–]*)|([A-Z]+[a-z]*\d+[rv])|(\p{Lu},\d)|(([vp]\.)?\s[-\d–]*[\s,]*)+|([-,\d–])+|(\sel\.\s[VI]+)|(\(fragm\.\s[\d,p\.\s]+\)))\.'"/>
+ <xsl:variable name="biblio-regex">((Schonaeus:)|VULG(\sS-Cl)?|N?Vulg|LXX|\p{Lu}\p{Ll}*),?\s(\p{Lu}\p{Ll}.[^\s]*(\s[A-Za-z]+)*,?),?\s?(([A-Z][A-Za-z]*\s[A-Za-z\-]*\p{Lu}\p{Ll}*\s[-\d–,^\sab]+)|([A-Z]*\s?[-\d–,^\s]+([vp]\.)?\s[-\d–ab]*(\(\d+\))?)|([A-Z]+[a-z]*\d+[rv])|(\p{Lu},\d)|v\.[-\d–,\s]*\sp\.[-\d–,\s]*|(([vp]\.)?\s[-\d–]*[\s,]*)+|([-,\d–ab])+|(\sel\.\s[VI]+)|(\(fragm\.\s[\d,p\.\s]+\))|(Praefatio\s\d+))\.?</xsl:variable>
+<!-- <xsl:variable name="biblio-regex" select="'(\p{Lu}\p{Ll}*)[,]\s(\p{Lu}\p{Ll}.[^\s]*(\s[A-Za-z]+)*,?),?\s?(([A-Z]*\s?[-\d–,^\s]+([vp]\.)?\s[-\d–]*(\(\d+\))?)|([A-Z]+[a-z]*\d+[rv])|(\p{Lu},\d)|v\.[-\d–,\s]*\sp\.[-\d–,\s]*|(([vp]\.)?\s[-\d–]*[\s,]*)+|([-,\d–])+|(\sel\.\s[VI]+)|(\(fragm\.\s[\d,p\.\s]+\)))\.?'"/>-->
 <!-- <xsl:variable name="biblio-regex" select="'(\p{Lu}\p{Ll}*),\s(\p{Lu}\p{Ll}.[^\s]*(\s[A-Za-z]+)*,?),?\s?(([A-Z]*\s?[-\d–,^\s]+([vp]\.)?\s[-\d–]*)|([A-Z]+[a-z]*\d+[rv])|(\p{Lu},\d)|(([vp]\.)?\s[-\d–]*[\s,]*)+)\.'"/>-->
 <!-- <xsl:variable name="bibl-regex" select="'(Allusion:\s)(Cf\.\s)(Vulg\s)(\p{Lu}\p{Ll}*)\s(\d+,[-\d–]*)\.'"/>-->
  <xsl:variable name="bibl-regex" select="'(Allusion:\s)(Cf\.\s)(Vulg\s)(\p{Lu}\p{Ll}*)\s(\d+?,?\s?[-,\d–]*)\.'"/>
+ <xsl:variable name="allusion-start-regex" select="'(^(Allusion:\s)?Cf\.\s)'"/>
+ <xsl:variable name="vulg-regex" select="'(Vulg\s)(\p{Lu}\p{Ll}*)\s(\d+?,?\s?[-,\d–]*)\.'"/>
  
 <!-- <xsl:variable name="biblio-regex" select="'(\p{Lu}\p{Ll}*),\s(\p{Lu}\p{Ll}.[^\s]*(\s[A-Za-z]+)?,?),\s(([A-Z]+[a-z]*\d+[rv])|(\p{Lu},\d)|(([vp]\.)?\s[-\d–]*[\s,]*)+)\.'"/>-->
 <!-- <xsl:variable name="biblio-regex" select="'(\p{Lu}\p{Ll}*),\s(\p{Lu}\p{Ll}.[^\s]*(\s[A-Z]+)?,?),\s(([A-Z]+[a-z]*\d+[rv])|(([vp]\.)?\s[-\d–]*[\s,]*)+)\.'"/>-->
@@ -38,6 +41,7 @@
    <xsl:for-each select="tei:p">
     <xsl:variable name="position" select="position()"/>
     <xsl:variable name="start" select="tokenize(normalize-space())[1]"/>
+    <xsl:variable name="p-text" select="string(.)"/>
     
     <xsl:choose>
      <xsl:when test="$position = 1 and not(node())">
@@ -47,10 +51,63 @@
        </xsl:call-template>
       </tei:quote>
      </xsl:when>
+     <!-- N = Nota
+      N: Tento verš se obsahově shoduje s v. 162...
+     -->
+     <xsl:when test="$start = 'N:' and $position = last()">
+      <tei:note><xsl:apply-templates /></tei:note>
+     </xsl:when>
      <xsl:otherwise>
       <xsl:choose>
        <xsl:when test=".[tei:ref]">
         <xsl:copy-of select="tei:ref" />
+       </xsl:when>
+       <xsl:when test="matches($p-text, $allusion-start-regex)">
+        <xsl:variable name="label" select="analyze-string($p-text, $allusion-start-regex)/fn:match[1]/string()"/>
+        <xsl:variable name="rest" select="substring-after($p-text, $label)"/>
+        <xsl:variable name="analyse" select="fn:analyze-string($rest, $bibl-regex)"/>
+        <xsl:variable name="bibl-type" select="if(starts-with($label, 'Allusion:')) then 'allusion' 
+         else if(starts-with($label, 'Cf:')) then 'paraphrase' 
+         else if(($start = 'Cf.') and $position eq 1) then 'paraphrase' 
+          else () "/>
+        <tei:label><xsl:value-of select="$label"/></tei:label>
+        
+        <xsl:choose>
+         <xsl:when test="matches($rest, $vulg-regex)">
+          <xsl:variable name="analyse" select="fn:analyze-string($rest, $vulg-regex)"/>
+          <tei:bibl type="{$bibl-type}"><tei:title><xsl:value-of select="$analyse//fn:group[@nr='1']"/></tei:title><tei:pc>, </tei:pc><tei:biblScope unit="book"><xsl:value-of select="$analyse//fn:group[@nr='2'] => replace(',$', '')"/></tei:biblScope><tei:biblScope unit="chapter"><xsl:value-of select="$analyse//fn:group[@nr='3']"/></tei:biblScope><tei:pc>.</tei:pc></tei:bibl>
+         </xsl:when>
+         <xsl:when test="matches($rest, $biblio-regex)">
+          <!--<xsl:if test="$position = 1">
+         <tei:seg type="quotation" />
+        </xsl:if>-->
+          <xsl:analyze-string select="$rest" regex="{$biblio-regex}">
+           <xsl:matching-substring>
+            <xsl:variable name="analyse" select="fn:analyze-string(., $biblio-regex)"/>
+            <tei:bibl type="{$bibl-type}"><tei:author><xsl:value-of select="$analyse//fn:group[@nr='1']"/></tei:author><tei:pc>, </tei:pc><tei:title><xsl:value-of select="$analyse//fn:group[@nr='4'] => replace(',$', '')"/></tei:title><tei:pc>, </tei:pc><tei:biblScope><xsl:value-of select="$analyse//fn:group[@nr='6']"/></tei:biblScope><tei:pc>.</tei:pc></tei:bibl>
+<!--            <tei:bibl type="{$bibl-type}"><tei:author><xsl:value-of select="$analyse//fn:group[@nr='1']"/></tei:author><tei:pc>, </tei:pc><tei:title><xsl:value-of select="$analyse//fn:group[@nr='2'] => replace(',$', '')"/></tei:title><tei:pc>, </tei:pc><tei:biblScope><xsl:value-of select="$analyse//fn:group[@nr='4']"/></tei:biblScope><tei:pc>.</tei:pc></tei:bibl>-->
+           </xsl:matching-substring>
+           <xsl:non-matching-substring>
+            <xsl:call-template name="analyze-quotation">
+             <xsl:with-param name="text" select="." />
+            </xsl:call-template>
+           </xsl:non-matching-substring>
+          </xsl:analyze-string>
+         </xsl:when>
+         <xsl:when test="matches($rest, $bibl-regex)">
+          <xsl:variable name="analyse" select="fn:analyze-string(., $bibl-regex)"/>
+          <tei:bibl>
+           <xsl:attribute name="type" select="$bibl-type" />
+           <tei:title><xsl:value-of select="$analyse//fn:group[@nr='3']"/></tei:title>, <tei:biblScope><xsl:value-of select="$analyse//fn:group[@nr='4'] || ' ' || $analyse//fn:group[@nr='5']"/></tei:biblScope>.</tei:bibl>
+         </xsl:when>
+         <xsl:otherwise>
+          <xsl:comment> TODO </xsl:comment>
+          <tei:seg type="{$bibl-type}"><xsl:value-of select="$rest" /></tei:seg>
+         </xsl:otherwise>
+        </xsl:choose>
+        
+        
+        
        </xsl:when>
        <xsl:when test="matches(., $bibl-regex)">
         
@@ -69,11 +126,15 @@
          </xsl:non-matching-substring>
         </xsl:analyze-string>
        </xsl:when>
-       <xsl:when test="matches(., $biblio-regex)">
+       <xsl:when test="matches(., $biblio-regex) and matches(., '\d')">
+        <!--<xsl:if test="$position = 1">
+         <tei:seg type="quotation" />
+        </xsl:if>-->
         <xsl:analyze-string select="." regex="{$biblio-regex}">
          <xsl:matching-substring>
           <xsl:variable name="analyse" select="fn:analyze-string(., $biblio-regex)"/>
-          <tei:bibl><tei:author><xsl:value-of select="$analyse//fn:group[@nr='1']"/></tei:author><tei:pc>, </tei:pc><tei:title><xsl:value-of select="$analyse//fn:group[@nr='2'] => replace(',$', '')"/></tei:title><tei:pc>, </tei:pc><tei:biblScope><xsl:value-of select="$analyse//fn:group[@nr='4']"/></tei:biblScope><tei:pc>.</tei:pc></tei:bibl>
+          <tei:bibl><tei:author><xsl:value-of select="$analyse//fn:group[@nr='1']"/></tei:author><tei:pc>, </tei:pc><tei:title><xsl:value-of select="$analyse//fn:group[@nr='4'] => replace(',$', '')"/></tei:title><tei:pc>, </tei:pc><tei:biblScope><xsl:value-of select="$analyse//fn:group[@nr='6']"/></tei:biblScope><tei:pc>.</tei:pc></tei:bibl>
+<!--          <tei:bibl><tei:author><xsl:value-of select="$analyse//fn:group[@nr='1']"/></tei:author><tei:pc>, </tei:pc><tei:title><xsl:value-of select="$analyse//fn:group[@nr='2'] => replace(',$', '')"/></tei:title><tei:pc>, </tei:pc><tei:biblScope><xsl:value-of select="$analyse//fn:group[@nr='4']"/></tei:biblScope><tei:pc>.</tei:pc></tei:bibl>-->
          </xsl:matching-substring>
          <xsl:non-matching-substring>
           <xsl:call-template name="analyze-quotation">
@@ -215,8 +276,18 @@
     </xsl:analyze-string>
    </xsl:when>
    <xsl:otherwise>
-    <xsl:variable name="type" select="if(fn:starts-with($text, 'Cf.')) then 'allusion' else 'paraphrase'"/>
-    <tei:seg type="{$type}"><xsl:value-of select="$text"/></tei:seg>  
+    <xsl:choose>
+     <xsl:when test="normalize-space($text) = 'Allusion: Cf.'">
+      <tei:seg type="allusion"><xsl:value-of select="substring-after($text, 'Cf.')"/></tei:seg>
+     </xsl:when>
+     <xsl:when test="starts-with(normalize-space($text), 'Cf. ')">
+      <tei:label>Cf.</tei:label>
+      <tei:seg type="allusion"><xsl:value-of select="substring-after($text, 'Cf. ')"/></tei:seg>
+     </xsl:when>
+     <xsl:otherwise>
+      <tei:seg type="paraphrase"><xsl:value-of select="$text"/></tei:seg>
+     </xsl:otherwise>
+    </xsl:choose>  
    </xsl:otherwise>
   </xsl:choose>
  </xsl:template>

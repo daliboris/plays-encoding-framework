@@ -4,7 +4,6 @@
  xmlns:math="http://www.w3.org/2005/xpath-functions/math"
  xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl"
  xmlns:tei="http://www.tei-c.org/ns/1.0"
- xmlns="http://www.tei-c.org/ns/1.0"
  exclude-result-prefixes="xs math xd tei"
  version="3.0">
 
@@ -22,11 +21,12 @@
  <xsl:strip-space elements="*"/>
  <xsl:output indent="yes" />
  
- <xsl:variable name="person-names" select="string-join($persons/tei:persName ! replace(., ' ', '\\s'), '|')"/>
+ <xsl:variable name="person-names" select="string-join($persons/tei:persName ! replace(., ' ', '\\s') ! replace(., '\.', '\\.'), '|')"/>
  <xsl:variable name="person-regex" select="'^(' || $person-names || ')$'"/>
  <xsl:variable name="person-ids" select="$persons/@xml:id"/>
  
  <xsl:key name="person-by-id" match="tei:person" use="@xml:id" />
+ <xsl:key name="person-by-id" match="tei:personGrp" use="@xml:id" />
  
 <!-- <xsl:template match="tei:person">
   <xsl:comment> <xsl:value-of select="$person-regex"/> </xsl:comment>
@@ -34,15 +34,16 @@
  
  <xsl:template match="tei:person[not(matches(tei:persName, $person-regex))]">
   <xsl:variable name="id" select="@xml:id"/>
-  <xsl:variable name="existing-external" select="$persons[@xml:id = $id]"/>
+  <xsl:variable name="existing-external" select="$persons[@xml:id = $id]" as="element()?"/>
   <xsl:choose>
    <xsl:when test="exists($existing-external)">
     <xsl:copy>
      <xsl:copy-of select="@*" />
-     <xsl:copy-of select="$existing-external/@* except @xml:id" />
+     <xsl:copy-of select="$existing-external/@*" />
      <xsl:copy-of select="tei:persName" />
      <xsl:copy-of select="$existing-external/tei:persName" />
      <xsl:apply-templates select="* except tei:persName" />
+     <xsl:apply-templates select="$existing-external/tei:idno" />
     </xsl:copy>  
    </xsl:when>
    <xsl:otherwise>
@@ -56,15 +57,21 @@
   <xsl:variable name="id" select="@xml:id"/>
   <xsl:variable name="existing-external" select="$persons[@xml:id = $id]"/>
   <xsl:variable name="person-name" select="tei:persName"/>
-  <xsl:variable name="person" select="$persons[tei:persName = $person-name]"/>
-  <xsl:variable name="existing-internal" select="key('person-by-id', $person/@xml:id) except ."/>
-  <xsl:if test="empty($existing-internal)">
-   <xsl:copy>
-    <xsl:copy-of select="@*" />
-    <xsl:copy-of select="$person/@* except @xml:id" />
-    <xsl:apply-templates />
-   </xsl:copy>   
-  </xsl:if>
+  <xsl:variable name="person-by-name" select="$persons[tei:persName = $person-name]"/>
+  <xsl:variable name="existing-internal" select="key('person-by-id', $person-by-name/@xml:id) except ."/>
+  <xsl:choose>
+   <xsl:when test="empty($existing-internal)">
+    <xsl:copy>
+     <xsl:copy-of select="@*" />
+     <xsl:copy-of select="$person-by-name/@*" />
+     <xsl:apply-templates select="$person-name" />
+     <xsl:apply-templates select="$existing-external/tei:persName[ . != $person-name]" />
+     <xsl:apply-templates select="$person-by-name/tei:persName[ . != $person-name] except $existing-external/tei:persName[ . != $person-name]" />
+     <xsl:apply-templates select="$existing-external/tei:idno except $existing-external/tei:idno" />
+     <xsl:apply-templates select="* except $person-name" />
+    </xsl:copy>   
+   </xsl:when>
+  </xsl:choose>
  </xsl:template>
  
  

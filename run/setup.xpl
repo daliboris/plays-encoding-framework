@@ -24,8 +24,9 @@
 	<p:option name="debug-path" select="()" as="xs:string?" />
 	<p:option name="base-uri" as="xs:anyURI" select="static-base-uri()"/>
 	
-	<p:option name="saxon-version" as="xs:string" select="'12.9'" />
-	<p:option name="morgana-version" as="xs:string" select="'1.8'" />
+	<p:option name="saxon-version" as="xs:string" select="'12.10'" />
+	<p:option name="morgana-version" as="xs:string" select="'1.8.16'" />
+	<p:option name="dracor-schema-version" as="xs:string" select="'1.6.0'" />
 
 	<!-- VARIABLES -->
 	<p:variable name="debug" select="$debug-path || '' ne ''" />
@@ -41,7 +42,7 @@
 	
 	<p:directory-list path="../" max-depth="unbounded" />
 -->
-	<xps:download-schemas />
+ <xps:download-schemas version="{$dracor-schema-version}" />
 	<xps:download-morgana version="{$morgana-version}" />
 	<xps:download-saxon version="{$saxon-version}" />
 	<xps:setup-morgana  morgana-version="{$morgana-version}" saxon-version="{$saxon-version}" />
